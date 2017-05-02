@@ -1,7 +1,9 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import{ VcPlatformService } from './services/vc-platform.service';
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'project', loadChildren: 'app/project/project.module#ProjectModule', canLoad: [VcPlatformService] },
 ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

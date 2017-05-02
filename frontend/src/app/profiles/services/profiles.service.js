@@ -13,16 +13,26 @@ var vc_http_service_1 = require("../../services/vc-http.service");
 var ProfilesService = (function () {
     function ProfilesService(http) {
         this.http = http;
-        this.userInfo = {};
+        this.userInfo = null;
     }
-    ProfilesService.prototype.login = function () {
-        this.http.post('http://localhost:8000/login')
-            .subscribe(function (data) {
-            if (data) {
-            }
-            else {
-            }
-        });
+    ProfilesService.prototype.login = function (userInfo) {
+        var params = userInfo;
+        return this.http.post('http://localhost:8000/login', params);
+        // .subscribe(function (data) {
+        //     if (data) {
+        //         console.log('login successful');
+        //         userInfo = data;
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // })
+    };
+    ProfilesService.prototype.setUserInfo = function (userInfo) {
+        this.userInfo = userInfo;
+    };
+    ProfilesService.prototype.getUserInfo = function () {
+        return this.userInfo;
     };
     return ProfilesService;
 }());

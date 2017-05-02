@@ -12,6 +12,7 @@ var app_component_1 = require("./app.component");
 var profiles_module_1 = require("./profiles/profiles.module");
 var vc_http_service_1 = require("./services/vc-http.service");
 var http_1 = require("@angular/http");
+var vc_platform_service_1 = require("./services/vc-platform.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -21,7 +22,7 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, profiles_module_1.ProfilesModule, http_1.HttpModule],
         declarations: [app_component_1.AppComponent],
-        providers: [vc_http_service_1.VcHttpService],
+        providers: [vc_http_service_1.VcHttpService, vc_platform_service_1.VcPlatformService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

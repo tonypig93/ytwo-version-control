@@ -5,9 +5,10 @@ import { ProfilesRoutingModule } from './profiles-routing.module';
 import { LoginComponent } from './components/login.component';
 import { AboutComponent } from './components/about.component';
 import { ProfilesService } from './services/profiles.service';
+import { WidgetModule } from '../widgets/widget.module';
 
 @NgModule({
-    imports:      [ CommonModule, FormsModule, ProfilesRoutingModule ],
+    imports:      [ CommonModule, FormsModule, ProfilesRoutingModule, WidgetModule ],
     declarations: [ LoginComponent, AboutComponent ],
     providers: [ ProfilesService ]
 })

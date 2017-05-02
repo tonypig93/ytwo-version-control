@@ -1,17 +1,30 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProfilesService } from '../services/profiles.service';
+import { Router } from '@angular/router';
+
 @Component({
-  selector: 'vc-login',
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class LoginComponent  {
-    constructor(private profilesService: ProfilesService) {}
     @Input() userInfo: any = {
         userName: '',
         password: ''
     };
-    public login():void {
-        this.profilesService.login();
+    public showModal = false;
+    public modalBody = 'Invalid user name or password.';
+    constructor(private profilesService: ProfilesService, private router: Router) { }
+    public login(): void {
+        let self = this;
+        this.profilesService.login(this.userInfo)
+        .subscribe(data => {
+            if (data) {
+                this.profilesService.setUserInfo(data);
+                console.log('login successful');
+                this.router.navigate(['/project/control', {outlets: {'detail': ['detail']}}]);
+            } else {
+                this.showModal = true;
+            }
+        });
     }
  }

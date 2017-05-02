@@ -7,8 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var vc_platform_service_1 = require("./services/vc-platform.service");
 var routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' }
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'project', loadChildren: 'app/project/project.module#ProjectModule', canLoad: [vc_platform_service_1.VcPlatformService] },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

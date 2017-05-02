@@ -14,12 +14,16 @@ require("rxjs/add/operator/map");
 var VcHttpService = (function () {
     function VcHttpService(http) {
         this.http = http;
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        this.options = new http_1.RequestOptions({ headers: this.headers });
     }
-    VcHttpService.prototype.get = function (url, reqOpts) {
-        return this.http.get(url);
+    VcHttpService.prototype.get = function (url) {
+        return this.http.get(url)
+            .map(function (res) { return res.json(); });
     };
-    VcHttpService.prototype.post = function (url, reqOpts) {
-        return this.http.post(url, {})
+    VcHttpService.prototype.post = function (url, body) {
+        if (body === void 0) { body = {}; }
+        return this.http.post(url, body, this.options)
             .map(function (res) { return res.json(); });
     };
     return VcHttpService;

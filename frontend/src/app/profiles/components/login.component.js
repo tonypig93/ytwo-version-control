@@ -10,16 +10,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var profiles_service_1 = require("../services/profiles.service");
+var router_1 = require("@angular/router");
 var LoginComponent = (function () {
-    function LoginComponent(profilesService) {
+    function LoginComponent(profilesService, router) {
         this.profilesService = profilesService;
+        this.router = router;
         this.userInfo = {
             userName: '',
             password: ''
         };
+        this.showModal = false;
+        this.modalBody = 'Invalid user name or password.';
     }
     LoginComponent.prototype.login = function () {
-        this.profilesService.login();
+        var _this = this;
+        var self = this;
+        this.profilesService.login(this.userInfo)
+            .subscribe(function (data) {
+            if (data) {
+                _this.profilesService.setUserInfo(data);
+                console.log('login successful');
+                _this.router.navigate(['/project/control', { outlets: { 'detail': ['detail'] } }]);
+            }
+            else {
+                _this.showModal = true;
+            }
+        });
     };
     return LoginComponent;
 }());
@@ -29,11 +45,10 @@ __decorate([
 ], LoginComponent.prototype, "userInfo", void 0);
 LoginComponent = __decorate([
     core_1.Component({
-        selector: 'vc-login',
         templateUrl: './login.html',
         styleUrls: ['./login.css']
     }),
-    __metadata("design:paramtypes", [profiles_service_1.ProfilesService])
+    __metadata("design:paramtypes", [profiles_service_1.ProfilesService, router_1.Router])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

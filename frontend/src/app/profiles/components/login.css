@@ -2,3 +2,8 @@
     padding-top: 250px;
     width: 350px;
 }
+.login-main{
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
