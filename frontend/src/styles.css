@@ -37,3 +37,12 @@ body{
 .fa-6x{
   font-size: 6em;
 }
+.nopadding{
+  padding: 0!important;
+}
+.nomargin{
+  margin: 0!important;
+}
+hr{
+  margin: 5px 0;
+}
