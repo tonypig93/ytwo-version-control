@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: vcdb
+-- Host: localhost    Database: vcdb
 -- ------------------------------------------------------
--- Server version	5.7.18
+-- Server version	5.7.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `GROUPS`
+-- Table structure for table `groups`
 --
 
-DROP TABLE IF EXISTS `GROUPS`;
+DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `GROUPS` (
+CREATE TABLE `groups` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `GROUP_NAME` varchar(45) NOT NULL,
   `DESCRIPTION` varchar(1000) DEFAULT NULL,
@@ -34,23 +34,23 @@ CREATE TABLE `GROUPS` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `GROUPS`
+-- Dumping data for table `groups`
 --
 
-LOCK TABLES `GROUPS` WRITE;
-/*!40000 ALTER TABLE `GROUPS` DISABLE KEYS */;
-INSERT INTO `GROUPS` VALUES (1000,'YTWO','a company',0),(1001,'ZTWO','hehe',0),(1002,'XTWO','destroy the world with codes',0);
-/*!40000 ALTER TABLE `GROUPS` ENABLE KEYS */;
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (1000,'YTWO','a company',0),(1001,'ZTWO','hehe',0),(1002,'XTWO','destroy the world with codes',0);
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `PRJ_MEMBER`
+-- Table structure for table `prj_member`
 --
 
-DROP TABLE IF EXISTS `PRJ_MEMBER`;
+DROP TABLE IF EXISTS `prj_member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PRJ_MEMBER` (
+CREATE TABLE `prj_member` (
   `ID` int(11) NOT NULL DEFAULT '1000',
   `USER_FK` int(11) NOT NULL,
   `PRJ_FK` int(11) NOT NULL,
@@ -61,22 +61,50 @@ CREATE TABLE `PRJ_MEMBER` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PRJ_MEMBER`
+-- Dumping data for table `prj_member`
 --
 
-LOCK TABLES `PRJ_MEMBER` WRITE;
-/*!40000 ALTER TABLE `PRJ_MEMBER` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PRJ_MEMBER` ENABLE KEYS */;
+LOCK TABLES `prj_member` WRITE;
+/*!40000 ALTER TABLE `prj_member` DISABLE KEYS */;
+/*!40000 ALTER TABLE `prj_member` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `PRJ_VERSION`
+-- Table structure for table `prj_task`
 --
 
-DROP TABLE IF EXISTS `PRJ_VERSION`;
+DROP TABLE IF EXISTS `prj_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PRJ_VERSION` (
+CREATE TABLE `prj_task` (
+  `ID` int(11) NOT NULL DEFAULT '1000',
+  `PRJ_FK` int(11) NOT NULL,
+  `TASK_TITLE` varchar(45) NOT NULL,
+  `TASK_DESCRIPTION` varchar(2000) DEFAULT NULL,
+  `INPUT_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
+  `IS_DONE` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `prj_task`
+--
+
+LOCK TABLES `prj_task` WRITE;
+/*!40000 ALTER TABLE `prj_task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `prj_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `prj_version`
+--
+
+DROP TABLE IF EXISTS `prj_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prj_version` (
   `ID` int(11) NOT NULL DEFAULT '1000',
   `PRJ_FK` int(11) NOT NULL,
   `V_MAJOR` int(11) NOT NULL,
@@ -94,50 +122,53 @@ CREATE TABLE `PRJ_VERSION` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PRJ_VERSION`
+-- Dumping data for table `prj_version`
 --
 
-LOCK TABLES `PRJ_VERSION` WRITE;
-/*!40000 ALTER TABLE `PRJ_VERSION` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PRJ_VERSION` ENABLE KEYS */;
+LOCK TABLES `prj_version` WRITE;
+/*!40000 ALTER TABLE `prj_version` DISABLE KEYS */;
+/*!40000 ALTER TABLE `prj_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `PROJECT`
+-- Table structure for table `project`
 --
 
-DROP TABLE IF EXISTS `PROJECT`;
+DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PROJECT` (
+CREATE TABLE `project` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `PRJ_NAME` varchar(45) NOT NULL,
   `GROUP_FK` int(11) NOT NULL DEFAULT '0',
   `IS_PUBLIC` tinyint(4) NOT NULL DEFAULT '1',
+  `CURRENT_VERSION` varchar(45) DEFAULT NULL,
+  `PROGRESS` int(11) NOT NULL DEFAULT '0',
+  `MEM_NUMBER` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `PRJ_NAME_UNIQUE` (`PRJ_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1006 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `PROJECT`
+-- Dumping data for table `project`
 --
 
-LOCK TABLES `PROJECT` WRITE;
-/*!40000 ALTER TABLE `PROJECT` DISABLE KEYS */;
-INSERT INTO `PROJECT` VALUES (1000,'YTWO App',1000,1),(1003,'YTWO desktop',1000,1);
-/*!40000 ALTER TABLE `PROJECT` ENABLE KEYS */;
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1000,'YTWO App',1000,1,'0.0.1',10,0),(1003,'YTWO desktop',1000,1,'0.0.2',50,0),(1004,'Version Control',1000,1,'0.1.1',30,0),(1005,'Fusion',1001,1,'1.3.1',80,0);
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `USER`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `USER`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER` (
+CREATE TABLE `user` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `USER_NAME` varchar(45) NOT NULL,
   `PASSWORD` varchar(45) NOT NULL,
@@ -150,13 +181,13 @@ CREATE TABLE `USER` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `USER`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `USER` WRITE;
-/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
-INSERT INTO `USER` VALUES (1000,'hay','202cb962ac59075b964b07152d234b70','2017-05-03 09:59:23',1000),(1001,'tony','123','2017-05-03 10:00:18',1000);
-/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1000,'hay','202cb962ac59075b964b07152d234b70','2017-05-03 09:59:23',1000),(1001,'tony','123','2017-05-03 10:00:18',1000);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -168,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 17:06:31
+-- Dump completed on 2017-05-04 22:53:59
