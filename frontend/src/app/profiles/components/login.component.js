@@ -27,13 +27,14 @@ var LoginComponent = (function () {
         var self = this;
         this.profilesService.login(this.userInfo)
             .subscribe(function (data) {
-            if (data) {
-                _this.profilesService.setUserInfo(data);
+            if (!data.error) {
+                _this.profilesService.setUserInfo(data.data);
                 console.log('login successful');
                 _this.router.navigate(['/project/control', { outlets: { 'detail': ['detail'] } }]);
             }
             else {
                 _this.showModal = true;
+                _this.userInfo.password = '';
             }
         });
     };

@@ -11,6 +11,7 @@ var vc_platform_service_1 = require("./services/vc-platform.service");
 var routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'project', loadChildren: 'app/project/project.module#ProjectModule', canLoad: [vc_platform_service_1.VcPlatformService] },
+    { path: 'group', loadChildren: 'app/group/group.module#GroupModule', canLoad: [vc_platform_service_1.VcPlatformService] },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

@@ -10,13 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var vc_http_service_1 = require("../../services/vc-http.service");
+var encrypt = window['CryptoJS'].MD5;
+;
 var ProfilesService = (function () {
     function ProfilesService(http) {
         this.http = http;
         this.userInfo = null;
     }
-    ProfilesService.prototype.login = function (userInfo) {
-        var params = userInfo;
+    ProfilesService.prototype.login = function (account) {
+        var params = account;
+        params.password = encrypt(params.password).toString();
         return this.http.post('http://localhost:8000/login', params);
         // .subscribe(function (data) {
         //     if (data) {
@@ -30,9 +33,25 @@ var ProfilesService = (function () {
     };
     ProfilesService.prototype.setUserInfo = function (userInfo) {
         this.userInfo = userInfo;
+        this.saveUserInfo();
     };
     ProfilesService.prototype.getUserInfo = function () {
-        return this.userInfo;
+        return this.userInfo ? this.userInfo : this.getUserInfoFromStorage();
+    };
+    ProfilesService.prototype.saveUserInfo = function () {
+        localStorage.setItem('userInfo', JSON.stringify({
+            userName: this.userInfo.userName,
+            $hash: this.userInfo.$hash,
+            expireTime: this.userInfo.expireTime
+        }));
+    };
+    ProfilesService.prototype.getUserInfoFromStorage = function () {
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        return userInfo ? userInfo : null;
+    };
+    ProfilesService.prototype.clearUserInfo = function () {
+        this.userInfo = null;
+        localStorage.clear();
     };
     return ProfilesService;
 }());

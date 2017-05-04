@@ -13,6 +13,7 @@ var login_component_1 = require("./components/login.component");
 var about_component_1 = require("./components/about.component");
 var profiles_service_1 = require("./services/profiles.service");
 var widget_module_1 = require("../widgets/widget.module");
+var profiles_guard_1 = require("./services/profiles.guard");
 var ProfilesModule = (function () {
     function ProfilesModule() {
     }
@@ -22,7 +23,7 @@ ProfilesModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule, forms_1.FormsModule, profiles_routing_module_1.ProfilesRoutingModule, widget_module_1.WidgetModule],
         declarations: [login_component_1.LoginComponent, about_component_1.AboutComponent],
-        providers: [profiles_service_1.ProfilesService]
+        providers: [profiles_service_1.ProfilesService, profiles_guard_1.CheckLoginGuard]
     })
 ], ProfilesModule);
 exports.ProfilesModule = ProfilesModule;

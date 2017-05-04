@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var vc_http_service_1 = require("./vc-http.service");
 var profiles_service_1 = require("../profiles/services/profiles.service");
 var router_1 = require("@angular/router");
+var Rx_1 = require("rxjs/Rx");
 var VcPlatformService = (function () {
     function VcPlatformService(ProfilesService, http, router) {
         this.ProfilesService = ProfilesService;
@@ -21,12 +22,21 @@ var VcPlatformService = (function () {
     VcPlatformService.prototype.canLoad = function () {
         var _this = this;
         var userInfo = this.ProfilesService.getUserInfo();
-        return this.http.post('http://localhost:8000/checkIdentity', userInfo)
+        if (!userInfo) {
+            return Rx_1.Observable.create(function (observer) {
+                _this.router.navigate(['/login']);
+                observer.next(false);
+                observer.complete();
+            });
+        }
+        var userName = userInfo.userName, $hash = userInfo.$hash;
+        return this.http.post('http://localhost:8000/checkIdentity', { userName: userName, $hash: $hash })
             .map(function (res) {
-            if (res) {
+            if (!res.error) {
                 return true;
             }
             else {
+                _this.ProfilesService.clearUserInfo();
                 _this.router.navigate(['/login']);
                 return false;
             }

@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'vc-project-list',
   templateUrl: './project.list.html'
 })
-export class ProjectListComponent implements OnInit { 
+export class ProjectListComponent implements OnInit {
+    public projectList: any[] = [];
     constructor(private ActivatedRoute: ActivatedRoute) { }
     ngOnInit() {
         this.ActivatedRoute.data.subscribe(data => {
-            console.log(data.projectList);
+            this.projectList = data['projectList'];
         })
     }
 }

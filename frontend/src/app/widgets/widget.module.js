@@ -9,6 +9,9 @@ var core_1 = require("@angular/core");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var modal_component_1 = require("./modal/modal.component");
 var common_1 = require("@angular/common");
+var nav_bar_component_1 = require("./nav-bar/nav-bar.component");
+var router_1 = require("@angular/router");
+var dropdown_component_1 = require("./dropdown/dropdown.component");
 var WidgetModule = (function () {
     function WidgetModule() {
     }
@@ -16,9 +19,9 @@ var WidgetModule = (function () {
 }());
 WidgetModule = __decorate([
     core_1.NgModule({
-        imports: [ngx_bootstrap_1.ModalModule.forRoot(), common_1.CommonModule],
-        declarations: [modal_component_1.ModalComponent],
-        exports: [modal_component_1.ModalComponent]
+        imports: [ngx_bootstrap_1.ModalModule.forRoot(), ngx_bootstrap_1.BsDropdownModule.forRoot(), common_1.CommonModule, router_1.RouterModule],
+        declarations: [modal_component_1.ModalComponent, nav_bar_component_1.NavBarComponent, dropdown_component_1.DropdownComponent],
+        exports: [modal_component_1.ModalComponent, nav_bar_component_1.NavBarComponent, dropdown_component_1.DropdownComponent]
     })
 ], WidgetModule);
 exports.WidgetModule = WidgetModule;

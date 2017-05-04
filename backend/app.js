@@ -1,8 +1,10 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var bodyParser = require('body-parser');
-var userController = require('./controllers/user-controller');
-var projectController = require('./controllers/project-controller');
+let app = require('express')();
+let http = require('http').Server(app);
+let bodyParser = require('body-parser');
+let UserController = require('./controllers/user-controller');
+let ProjectController = require('./controllers/project-controller');
+let DbController = require('./controllers/db-controller');
+let GroupController = require('./controllers/group-controller');
 
 app.use(bodyParser());
 app.all('*', function(req, res, next) {
@@ -19,27 +21,69 @@ app.all('*', function(req, res, next) {
 app.get('/', function(req, res){
 	res.sendFile( __dirname + "../frontend/src/index.html" );
 });
-
+function dataJson(obj, error = 0, msg = '') {
+    return JSON.stringify({
+        error: error,
+        data: obj,
+        msg: msg
+    });
+}
 app.post('/login', function (req, res) {
     let userInfo = req.body;
-    let __user = userController.checkLogin(userInfo);
-    if(__user) {
-        res.end(JSON.stringify(__user));
-    } else {
-        res.end('false');
-    }
+    userInfo.IP = req.ip;
+    UserController.login(userInfo).then(function (user) {
+        if(user) {
+            res.end(dataJson(user));
+        } else {
+            res.end(dataJson(null, 1, 'error'));
+        }
+    }, function (err) {
+        res.end(dataJson(null, 1, err));
+    });
 });
 app.post('/checkIdentity', function (req, res) {
     let userInfo = req.body;
-    let __user = userController.findByName(userInfo.userName);
-    if(__user && __user.isAlive) {
-        res.end(JSON.stringify(userController.basicInfo(__user)));
-    } else {
-        res.end('false');
-    }
+    userInfo.IP = req.ip;
+    UserController.checkLogin(userInfo).then(function (user) {
+        // console.log(user);
+        if(user) {
+            res.end(dataJson(user));
+        } else {
+            res.end(dataJson(null, 1, 'check result: false'));
+        }
+    }, function () {
+        console.log('user check fail')
+        res.end(dataJson(null, 1, 'check result: false'));
+    });
+});
+app.get('/group/list', function (req, res) {
+    GroupController.getList().then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('get group list fail')
+        res.end(dataJson(null, 1, 'info: ' + err));ß
+    })
+});
+app.post('/group/add', function (req, res) {
+    let params = req.body;
+    GroupController.add(params).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('add group fail')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.get('/group/manage', function (req, res) {
+    let groudId = req.query.id;
+    GroupController.getManage(groudId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('get manage fail')
+        res.end(dataJson(null, 1, 'info: ' + err));ß
+    })
 });
 app.get('/getprojectlist', function (req, res) {
-    res.end(JSON.stringify(projectController.list));
+    res.end(JSON.stringify(ProjectController.list));
 });
 http.listen(8000, function(){
 	console.log('listening on *:8000');

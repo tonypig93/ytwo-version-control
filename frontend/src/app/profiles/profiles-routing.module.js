@@ -9,8 +9,9 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_component_1 = require("./components/login.component");
 var about_component_1 = require("./components/about.component");
+var profiles_guard_1 = require("./services/profiles.guard");
 var routes = [
-    { path: 'login', component: login_component_1.LoginComponent },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [profiles_guard_1.CheckLoginGuard] },
     { path: 'about', component: about_component_1.AboutComponent }
 ];
 var ProfilesRoutingModule = (function () {

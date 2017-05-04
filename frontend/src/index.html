@@ -14,7 +14,7 @@
 
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-
+    <script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
     <script src="systemjs.config.js"></script>
     <script>
       System.import('main.js').catch(function(err){ console.error(err); });
@@ -22,8 +22,6 @@
   </head>
 
   <body>
-    <div class="container">
-      <vc-app>Loading Version Control...</vc-app>
-    </div>
+    <vc-app><p class="text-center">Loading Version Control...</p></vc-app>
   </body>
 </html>

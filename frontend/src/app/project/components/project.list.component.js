@@ -13,10 +13,12 @@ var router_1 = require("@angular/router");
 var ProjectListComponent = (function () {
     function ProjectListComponent(ActivatedRoute) {
         this.ActivatedRoute = ActivatedRoute;
+        this.projectList = [];
     }
     ProjectListComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.ActivatedRoute.data.subscribe(function (data) {
-            console.log(data.projectList);
+            _this.projectList = data['projectList'];
         });
     };
     return ProjectListComponent;

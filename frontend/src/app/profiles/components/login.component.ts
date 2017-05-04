@@ -18,12 +18,13 @@ export class LoginComponent  {
         let self = this;
         this.profilesService.login(this.userInfo)
         .subscribe(data => {
-            if (data) {
-                this.profilesService.setUserInfo(data);
+            if (!data.error) {
+                this.profilesService.setUserInfo(data.data);
                 console.log('login successful');
                 this.router.navigate(['/project/control', {outlets: {'detail': ['detail']}}]);
             } else {
                 this.showModal = true;
+                this.userInfo.password = '';
             }
         });
     }
