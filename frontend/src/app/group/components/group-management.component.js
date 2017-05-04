@@ -25,7 +25,8 @@ var GroupManagementComponent = (function () {
 GroupManagementComponent = __decorate([
     core_1.Component({
         selector: 'vc-group-management',
-        templateUrl: './group.management.html'
+        templateUrl: './group.management.html',
+        styleUrls: ['./group.css']
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute])
 ], GroupManagementComponent);
