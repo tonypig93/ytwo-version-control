@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: localhost    Database: vcdb
+-- Host: 127.0.0.1    Database: vcdb
 -- ------------------------------------------------------
--- Server version	5.7.18-log
+-- Server version	5.7.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,6 +27,7 @@ CREATE TABLE `groups` (
   `GROUP_NAME` varchar(45) NOT NULL,
   `DESCRIPTION` varchar(1000) DEFAULT NULL,
   `PARENT_ID` int(11) NOT NULL DEFAULT '0',
+  `MEM_NUMBER` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `GroupName_UNIQUE` (`GROUP_NAME`)
@@ -39,7 +40,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1000,'YTWO','a company',0),(1001,'ZTWO','hehe',0),(1002,'XTWO','destroy the world with codes',0);
+INSERT INTO `groups` VALUES (1000,'YTWO','a company',0,2),(1001,'ZTWO','hehe',0,0),(1002,'XTWO','destroy the world with codes',0,0);
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +78,7 @@ DROP TABLE IF EXISTS `prj_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prj_task` (
-  `ID` int(11) NOT NULL DEFAULT '1000',
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `PRJ_FK` int(11) NOT NULL,
   `TASK_TITLE` varchar(45) NOT NULL,
   `TASK_DESCRIPTION` varchar(2000) DEFAULT NULL,
@@ -85,7 +86,7 @@ CREATE TABLE `prj_task` (
   `IS_DONE` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +95,7 @@ CREATE TABLE `prj_task` (
 
 LOCK TABLES `prj_task` WRITE;
 /*!40000 ALTER TABLE `prj_task` DISABLE KEYS */;
+INSERT INTO `prj_task` VALUES (1000,1000,'Framework','basic codes of everything','2017-05-05 13:40:21',1),(1001,1000,'Invoice Dashboard','as you can see','2017-05-05 13:41:39',0);
 /*!40000 ALTER TABLE `prj_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +159,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1000,'YTWO App',1000,1,'0.0.1',10,0),(1003,'YTWO desktop',1000,1,'0.0.2',50,0),(1004,'Version Control',1000,1,'0.1.1',30,0),(1005,'Fusion',1001,1,'1.3.1',80,0);
+INSERT INTO `project` VALUES (1000,'YTWO App',1000,1,'0.0.1',10,0),(1003,'YTWO desktop',1000,1,'0.0.2',50,0),(1004,'Version Control',1000,0,'0.1.1',30,0),(1005,'Fusion',1001,1,'1.3.1',80,0);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 22:53:59
+-- Dump completed on 2017-05-05 17:15:49
