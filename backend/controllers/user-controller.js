@@ -65,7 +65,8 @@ UserController.include({
                     ID: user.ID,
                     userName: user.USER_NAME,
                     expireTime: user.expireTime,
-                    $hash: user.$hash
+                    $hash: user.$hash,
+                    GroupID: user.GROUP_FK
                 })
             }
         return isArray ? tmp : tmp[0];

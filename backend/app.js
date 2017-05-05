@@ -76,7 +76,11 @@ app.post('/group/add', function (req, res) {
 app.get('/group/manage', function (req, res) {
     let groudId = req.query.id;
     GroupController.getManage(groudId).then(function (data) {
-        res.end(dataJson(data));
+        res.end(dataJson({
+            users: data[0],
+            projects: data[1],
+            tasks: data[2]
+        }));
     }, function (err) {
         console.log('get manage fail')
         res.end(dataJson(null, 1, 'info: ' + err));ß

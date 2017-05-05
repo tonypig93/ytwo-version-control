@@ -32,7 +32,6 @@ body{
     -moz-transition: all 0.2s ease-out 0s;
     -webkit-transition: all 0.2s ease-out 0s;
     transition: all 0.2s ease-out 0s;
-    padding: 9px 15px;
 }
 .fa-6x{
   font-size: 6em;
@@ -45,4 +44,8 @@ body{
 }
 hr{
   margin: 5px 0;
+}
+.pull-side{
+  display: flex;
+  justify-content: space-between;
 }

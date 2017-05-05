@@ -11,14 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var GroupMainComponent = (function () {
-    function GroupMainComponent(ActivatedRoute) {
+    function GroupMainComponent(ActivatedRoute, router) {
         this.ActivatedRoute = ActivatedRoute;
+        this.router = router;
     }
     GroupMainComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.ActivatedRoute.data.subscribe(function (data) {
             _this.groupList = data['groupList'];
         });
+    };
+    GroupMainComponent.prototype.isCurrent = function (id) {
+        return Number(this.router.url.split('/')[2]) === id;
     };
     return GroupMainComponent;
 }());
@@ -28,7 +32,7 @@ GroupMainComponent = __decorate([
         templateUrl: './group.main.html',
         styleUrls: ['./group.css']
     }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute])
+    __metadata("design:paramtypes", [router_1.ActivatedRoute, router_1.Router])
 ], GroupMainComponent);
 exports.GroupMainComponent = GroupMainComponent;
 //# sourceMappingURL=group.main.component.js.map

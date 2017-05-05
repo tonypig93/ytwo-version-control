@@ -3,11 +3,10 @@ let Controller = require('./base');
 let DBController = require('./db-controller');
 let UserController = require('./user-controller');
 let GroupController = new Controller(function() {
-    this.groupList = DBController.query('select * from GROUPS');
 });
 GroupController.include({
     getList: function () {
-        return this.groupList;
+        return this.groupList = DBController.query('select * from GROUPS');
     },
     add: function ({groupName: groupName, description: description, pid: pid}) {
         let defer = q.defer();
@@ -34,7 +33,14 @@ GroupController.include({
         }, function (err) {
             defer2.reject(err);
         });
-        let all = q.all([defer1.promise, defer2.promise]);
+        let defer3 = q.defer();
+        DBController.query('select * from PRJ_TASK where PRJ_FK=?', [id])
+        .then(function (res) {
+            defer3.resolve(res);
+        }, function (err) {
+            defer3.reject(err);
+        });
+        let all = q.all([defer1.promise, defer2.promise, defer3.promise]);
         return all;
     }
 });
