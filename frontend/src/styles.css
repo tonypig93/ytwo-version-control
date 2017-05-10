@@ -24,6 +24,15 @@ body{
     box-shadow: none;
     font-size: 13px;
 }
+.form-control:focus {
+   border-color: #999;
+   -moz-box-shadow: none;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+   -moz-box-shadow: 3px 3px 0 rgba(12,12,12,0.05);
+   -webkit-box-shadow: 3px 3px 0 rgba(12,12,12,0.05);
+   box-shadow: 3px 3px 0 rgba(12,12,12,0.05);
+}
 .btn{
       -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -33,6 +42,23 @@ body{
     -webkit-transition: all 0.2s ease-out 0s;
     transition: all 0.2s ease-out 0s;
 }
+.btn:focus {
+	outline: none;
+}
+.navbar-inverse{
+  background-color: #24292e;
+}
+.input-group-btn:first-child .btn, .input-group-btn:first-child .btn-group {
+    margin-right: -1px;
+}
+.input-group-btn .btn {
+    position: relative;
+}
+.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child .btn, .input-group-btn:first-child .btn-group .btn, .input-group-btn:first-child .dropdown-toggle, .input-group-btn:last-child .btn-group:not(:last-child) .btn, .input-group-btn:last-child .btn:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+/**/
 .fa-6x{
   font-size: 6em;
 }
@@ -48,4 +74,15 @@ hr{
 .pull-side{
   display: flex;
   justify-content: space-between;
+}
+.btn-normal {
+  width: 100px;
+}
+.page-loading {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 18px;
 }

@@ -1,19 +1,22 @@
 import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 import { ProjectMainComponent } from './components/project.main.component';
-import { ProjectListComponent } from './components/project.list.component';
-import { ProjectDetailComponent } from './components/project.detail.component';
-import { ProjectDataService } from './services/project-data.service';
+import { ProjectDataService, ProjectMangementDataService } from './services/project-data.service';
+import { ProjectCreateComponent } from './components/project-create.component';
+import { ProjectDetailComponent } from './components/project-detail.component';
 
 const routes: Routes = [
     {
-        path: 'control', component: ProjectMainComponent, resolve: {
+        path: '', component: ProjectMainComponent, resolve: {
             projectList: ProjectDataService
         },
-        children: [
-            {path: '', component: ProjectListComponent},
-            {path: 'detail', component: ProjectDetailComponent, outlet: 'detail'}
-        ]
+        children: [{
+            path: 'create', component: ProjectCreateComponent
+        }, {
+            path: ':id', component: ProjectDetailComponent, resolve: {
+                management: ProjectMangementDataService
+            }
+        }]
     }
 ];
 
@@ -21,4 +24,10 @@ const routes: Routes = [
   imports: [ RouterModule.forChild(routes) ],
   exports: [ RouterModule ]
 })
-export class ProjectRoutingModule { }
+export class ProjectRoutingModule {
+    constructor(private ActivatedRoute: ActivatedRoute) {
+        this.ActivatedRoute.params.subscribe(data => {
+            // console.log(data)
+        })
+    }
+ }

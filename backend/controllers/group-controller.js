@@ -19,13 +19,6 @@ GroupController.include({
         return defer.promise;
     },
     getManage: function (id) {
-        let defer1 = q.defer();
-        DBController.query('select * from USER where GROUP_FK=?', [id])
-        .then(function (res) {
-            defer1.resolve(UserController.basicInfo(res));
-        }, function (err) {
-            defer1.reject(err);
-        });
         let defer2 = q.defer();
         DBController.query('select * from PROJECT where GROUP_FK=?', [id])
         .then(function (res) {
@@ -33,14 +26,8 @@ GroupController.include({
         }, function (err) {
             defer2.reject(err);
         });
-        let defer3 = q.defer();
-        DBController.query('select * from PRJ_TASK where PRJ_FK=?', [id])
-        .then(function (res) {
-            defer3.resolve(res);
-        }, function (err) {
-            defer3.reject(err);
-        });
-        let all = q.all([defer1.promise, defer2.promise, defer3.promise]);
+
+        let all = q.all([defer2.promise]);
         return all;
     }
 });

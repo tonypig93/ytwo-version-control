@@ -9,7 +9,7 @@ export class CheckLoginGuard implements CanActivate {
         if (!userInfo || userInfo.expireTime < (new Date()).getTime()) {
             return true;
         } else {
-            this.router.navigate(['/project/control', {outlets: {'detail': ['detail']}}]);
+            this.router.navigate(['/group']);
             return false;
         }
     }

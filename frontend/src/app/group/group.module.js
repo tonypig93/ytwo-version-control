@@ -13,6 +13,7 @@ var group_routing_module_1 = require("./group-routing.module");
 var group_main_component_1 = require("./components/group.main.component");
 var group_data_service_1 = require("./services/group-data.service");
 var group_management_component_1 = require("./components/group-management.component");
+var directives_1 = require("./directives/directives");
 var GroupModule = (function () {
     function GroupModule() {
     }
@@ -21,8 +22,8 @@ var GroupModule = (function () {
 GroupModule = __decorate([
     core_1.NgModule({
         imports: [common_1.CommonModule, forms_1.FormsModule, group_routing_module_1.GroupRoutingModule, widget_module_1.WidgetModule],
-        declarations: [group_main_component_1.GroupMainComponent, group_management_component_1.GroupManagementComponent],
-        providers: [group_data_service_1.GroupDataService, group_data_service_1.GroupMangementDataService]
+        declarations: [group_main_component_1.GroupMainComponent, group_management_component_1.GroupManagementComponent, directives_1.MarkClickedDirective],
+        providers: [group_data_service_1.GroupDataService, group_data_service_1.GroupMangementDataService, group_data_service_1.GroupUserDataService, group_data_service_1.ParamsService]
     })
 ], GroupModule);
 exports.GroupModule = GroupModule;

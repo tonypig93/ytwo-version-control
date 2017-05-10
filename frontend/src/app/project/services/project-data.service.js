@@ -11,13 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var vc_http_service_1 = require("../../services/vc-http.service");
 var router_1 = require("@angular/router");
+var group_data_service_1 = require("../../group/services/group-data.service");
 var ProjectDataService = (function () {
     function ProjectDataService(http, router) {
         this.http = http;
         this.router = router;
     }
     ProjectDataService.prototype.resolve = function () {
-        return this.http.get('http://localhost:8000/getprojectlist');
+        return this.getList();
+    };
+    ProjectDataService.prototype.getList = function () {
+        var _this = this;
+        return this.http.get('http://localhost:8000/project/list')
+            .map(function (res) {
+            _this.masterData = res.data;
+            return _this.masterData;
+        });
+    };
+    ProjectDataService.prototype.addProject = function (data) {
+        return this.http.post('http://localhost:8000/project/add', data)
+            .map(function (res) { return res.data; });
     };
     return ProjectDataService;
 }());
@@ -26,4 +39,30 @@ ProjectDataService = __decorate([
     __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, router_1.Router])
 ], ProjectDataService);
 exports.ProjectDataService = ProjectDataService;
+var ProjectUserDataService = (function () {
+    function ProjectUserDataService() {
+    }
+    return ProjectUserDataService;
+}());
+ProjectUserDataService = __decorate([
+    core_1.Injectable()
+], ProjectUserDataService);
+exports.ProjectUserDataService = ProjectUserDataService;
+var ProjectMangementDataService = (function () {
+    function ProjectMangementDataService(http, ParamsService) {
+        this.http = http;
+        this.ParamsService = ParamsService;
+    }
+    ProjectMangementDataService.prototype.resolve = function (route) {
+        this.ParamsService.projectId = route.params['id'];
+        return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
+            .map(function (res) { return res.data; });
+    };
+    return ProjectMangementDataService;
+}());
+ProjectMangementDataService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, group_data_service_1.ParamsService])
+], ProjectMangementDataService);
+exports.ProjectMangementDataService = ProjectMangementDataService;
 //# sourceMappingURL=project-data.service.js.map

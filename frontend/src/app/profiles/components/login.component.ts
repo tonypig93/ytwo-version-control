@@ -21,7 +21,7 @@ export class LoginComponent  {
             if (!data.error) {
                 this.profilesService.setUserInfo(data.data);
                 console.log('login successful');
-                this.router.navigate(['/project/control', {outlets: {'detail': ['detail']}}]);
+                this.router.navigate(['/group']);
             } else {
                 this.showModal = true;
                 this.userInfo.password = '';

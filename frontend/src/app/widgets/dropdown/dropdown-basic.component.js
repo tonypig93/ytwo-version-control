@@ -9,26 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var ProjectListComponent = (function () {
-    function ProjectListComponent(ActivatedRoute) {
-        this.ActivatedRoute = ActivatedRoute;
-        this.projectList = [];
+var DropdownBasicComponent = (function () {
+    function DropdownBasicComponent() {
+        this.title = '';
     }
-    ProjectListComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.ActivatedRoute.data.subscribe(function (data) {
-            _this.projectList = data['projectList'];
-        });
+    DropdownBasicComponent.prototype.execute = function (item) {
+        item.fn.apply(null, item.params);
     };
-    return ProjectListComponent;
+    return DropdownBasicComponent;
 }());
-ProjectListComponent = __decorate([
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], DropdownBasicComponent.prototype, "title", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], DropdownBasicComponent.prototype, "actions", void 0);
+DropdownBasicComponent = __decorate([
     core_1.Component({
-        selector: 'vc-project-list',
-        templateUrl: './project.list.html'
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute])
-], ProjectListComponent);
-exports.ProjectListComponent = ProjectListComponent;
-//# sourceMappingURL=project.list.component.js.map
+        selector: 'dropdown-basic',
+        templateUrl: './dropdown-basic.html',
+        styleUrls: ['./dropdown-basic.css']
+    })
+], DropdownBasicComponent);
+exports.DropdownBasicComponent = DropdownBasicComponent;
+//# sourceMappingURL=dropdown-basic.component.js.map

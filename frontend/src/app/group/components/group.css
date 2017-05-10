@@ -27,8 +27,9 @@
     margin: 0;
 }
 .manage-content .text-content{
-    display: inline-block;
     width: 100%;
+    margin-bottom: 8px;
+    justify-content: space-between;
 }
 .manage-content .progress {
     margin-bottom: 0;
@@ -51,4 +52,16 @@ button.list-group-item.activated {
   color: #555;
   text-decoration: none;
   background-color: #f5f5f5;
+}
+div.project-card {
+    cursor: pointer;
+    transition: all linear .2s;
+}
+div.project-card:hover {
+    background-color: rgba(245,245,245,.35);
+}
+p.text-center {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }

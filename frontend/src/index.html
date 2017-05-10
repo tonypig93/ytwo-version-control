@@ -5,8 +5,9 @@
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
     <link href="asserts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="asserts/css/ng2-select.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
     <!-- Polyfill(s) for older browsers -->
@@ -22,6 +23,11 @@
   </head>
 
   <body>
-    <vc-app><p class="text-center">Loading Version Control...</p></vc-app>
+    <vc-app>
+      <div class="page-loading">
+        <p><i class="fa fa-spinner fa-spin fa-2x"></i></p>
+        <p class="text-center">Loading Version Control</p>
+      </div>
+      </vc-app>
   </body>
 </html>

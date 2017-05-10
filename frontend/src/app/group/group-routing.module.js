@@ -17,9 +17,13 @@ var routes = [
         },
         children: [
             { path: ':id', component: group_management_component_1.GroupManagementComponent, resolve: {
-                    management: group_data_service_1.GroupMangementDataService
+                    management: group_data_service_1.GroupMangementDataService,
+                    userList: group_data_service_1.GroupUserDataService
                 } }
         ]
+    },
+    {
+        path: ':id/project', loadChildren: 'app/project/project.module#ProjectModule'
     }
 ];
 var GroupRoutingModule = (function () {

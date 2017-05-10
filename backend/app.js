@@ -62,7 +62,7 @@ app.get('/group/list', function (req, res) {
     }, function (err) {
         console.log('get group list fail')
         res.end(dataJson(null, 1, 'info: ' + err));ß
-    })
+    });
 });
 app.post('/group/add', function (req, res) {
     let params = req.body;
@@ -77,17 +77,73 @@ app.get('/group/manage', function (req, res) {
     let groudId = req.query.id;
     GroupController.getManage(groudId).then(function (data) {
         res.end(dataJson({
-            users: data[0],
-            projects: data[1],
-            tasks: data[2]
+            projects: data[0]
         }));
     }, function (err) {
-        console.log('get manage fail')
+        console.log('get group manage failed')
         res.end(dataJson(null, 1, 'info: ' + err));ß
     })
 });
-app.get('/getprojectlist', function (req, res) {
-    res.end(JSON.stringify(ProjectController.list));
+app.get('/user/list', function (req, res) {
+    let groudId = req.query.groupId;
+    let params = {
+        groupId: groudId
+    };
+    UserController.getList(params).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('get user list failed');
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/user/add', function (req, res) {
+    let userInfo = req.body;
+    UserController.add(userInfo).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('add user failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/user/delete', function (req, res) {
+    let userId = req.body.id;
+    UserController.deleteUser(userId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('delete user failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.get('/project/list', function (req, res) {
+    ProjectController.getList().then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('get project list fail')
+        res.end(dataJson(null, 1, 'info: ' + err));ß
+    })
+});
+app.post('/project/add', function (req, res) {
+    let project = req.body;
+    ProjectController.add(project).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('add project failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.get('/project/manage', function (req, res) {
+    let projectId = req.query.id;
+    ProjectController.getManage(projectId).then(function (data) {
+        res.end(dataJson({
+            project: data[0],
+            members: data[1],
+            tasks: data[2],
+            versions: data[3]
+        }));
+    }, function (err) {
+        console.log('get project manage failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
 });
 http.listen(8000, function(){
 	console.log('listening on *:8000');

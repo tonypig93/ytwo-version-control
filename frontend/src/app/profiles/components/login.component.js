@@ -30,7 +30,7 @@ var LoginComponent = (function () {
             if (!data.error) {
                 _this.profilesService.setUserInfo(data.data);
                 console.log('login successful');
-                _this.router.navigate(['/project/control', { outlets: { 'detail': ['detail'] } }]);
+                _this.router.navigate(['/group']);
             }
             else {
                 _this.showModal = true;

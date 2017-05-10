@@ -17,8 +17,15 @@ var GroupDataService = (function () {
         this.router = router;
     }
     GroupDataService.prototype.resolve = function () {
+        return this.getList();
+    };
+    GroupDataService.prototype.getList = function () {
+        var _this = this;
         return this.http.get('http://localhost:8000/group/list')
-            .map(function (res) { return res.data; });
+            .map(function (res) {
+            _this.masterData = res.data;
+            return _this.masterData;
+        });
     };
     return GroupDataService;
 }());
@@ -27,6 +34,33 @@ GroupDataService = __decorate([
     __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, router_1.Router])
 ], GroupDataService);
 exports.GroupDataService = GroupDataService;
+var GroupUserDataService = (function () {
+    function GroupUserDataService(http, router) {
+        this.http = http;
+        this.router = router;
+    }
+    GroupUserDataService.prototype.resolve = function (route) {
+        return this.getList(route.params['id']);
+    };
+    GroupUserDataService.prototype.getList = function (groupId) {
+        return this.http.get('http://localhost:8000/user/list?groupId=' + groupId)
+            .map(function (res) { return res.data; });
+    };
+    GroupUserDataService.prototype.addUser = function (data) {
+        return this.http.post('http://localhost:8000/user/add', data)
+            .map(function (res) { return res.data; });
+    };
+    GroupUserDataService.prototype.deleteUser = function (userId) {
+        return this.http.post('http://localhost:8000/user/delete', { id: userId })
+            .map(function (res) { return res.data; });
+    };
+    return GroupUserDataService;
+}());
+GroupUserDataService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, router_1.Router])
+], GroupUserDataService);
+exports.GroupUserDataService = GroupUserDataService;
 var GroupMangementDataService = (function () {
     function GroupMangementDataService(http, router) {
         this.http = http;
@@ -43,4 +77,41 @@ GroupMangementDataService = __decorate([
     __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, router_1.Router])
 ], GroupMangementDataService);
 exports.GroupMangementDataService = GroupMangementDataService;
+var ParamsService = (function () {
+    function ParamsService(router) {
+        this.router = router;
+    }
+    Object.defineProperty(ParamsService.prototype, "groupId", {
+        get: function () {
+            if (!this._groupId) {
+                this._groupId = Number(this.router.url.split('/')[2]);
+            }
+            return this._groupId;
+        },
+        set: function (value) {
+            this._groupId = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ParamsService.prototype, "projectId", {
+        get: function () {
+            if (!this._projectId) {
+                this._projectId = Number(this.router.url.split('/')[4]);
+            }
+            return this._projectId;
+        },
+        set: function (value) {
+            this._projectId = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return ParamsService;
+}());
+ParamsService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], ParamsService);
+exports.ParamsService = ParamsService;
 //# sourceMappingURL=group-data.service.js.map

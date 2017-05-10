@@ -22,7 +22,7 @@ var CheckLoginGuard = (function () {
             return true;
         }
         else {
-            this.router.navigate(['/project/control', { outlets: { 'detail': ['detail'] } }]);
+            this.router.navigate(['/group']);
             return false;
         }
     };

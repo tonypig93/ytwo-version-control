@@ -10,16 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var group_data_service_1 = require("../services/group-data.service");
 var GroupMainComponent = (function () {
-    function GroupMainComponent(ActivatedRoute, router) {
+    function GroupMainComponent(ActivatedRoute, router, GroupDataService) {
         this.ActivatedRoute = ActivatedRoute;
         this.router = router;
+        this.GroupDataService = GroupDataService;
     }
     GroupMainComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.ActivatedRoute.data.subscribe(function (data) {
-            _this.groupList = data['groupList'];
-        });
+        this.groupList = this.GroupDataService.masterData;
     };
     GroupMainComponent.prototype.isCurrent = function (id) {
         return Number(this.router.url.split('/')[2]) === id;
@@ -32,7 +31,7 @@ GroupMainComponent = __decorate([
         templateUrl: './group.main.html',
         styleUrls: ['./group.css']
     }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute, router_1.Router])
+    __metadata("design:paramtypes", [router_1.ActivatedRoute, router_1.Router, group_data_service_1.GroupDataService])
 ], GroupMainComponent);
 exports.GroupMainComponent = GroupMainComponent;
 //# sourceMappingURL=group.main.component.js.map

@@ -7,6 +7,36 @@ let UserController = new Controller(function() {
     this.loginUser = [];
 });
 UserController.include({
+    getList: function ({groupId: groupId}) {
+        let defer = q.defer();
+        DBController.query('select * from USER where GROUP_FK=?', [groupId]).then((data) => {
+            defer.resolve(this.basicInfo(data));
+        }, err => {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
+    add: function ({userName: userName, email: email, password: password, groupId: groupId}) {
+        let defer = q.defer();
+        console.log(userName,password,email,groupId)
+        DBController.query('CALL add_user(?,?,?,?)', [userName, password, email, groupId])
+        .then(function (res) {
+            defer.resolve(true);
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
+    deleteUser: function (id) {
+        let defer = q.defer();
+        DBController.query('CALL delete_user(?)', [id])
+        .then(function (res) {
+            defer.resolve(true);
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
     findByName: function(name) {
         let defer = q.defer();
         this.userList.then(function (data) {
@@ -66,13 +96,17 @@ UserController.include({
                     userName: user.USER_NAME,
                     expireTime: user.expireTime,
                     $hash: user.$hash,
-                    GroupID: user.GROUP_FK
+                    GroupID: user.GROUP_FK,
+                    email: user.EMAIL
                 })
             }
         return isArray ? tmp : tmp[0];
     },
     getMD5: function (str) {
         return encrypt(str).toString();
+    },
+    onChange: function () {
+        this.userList = DBController.query('select * from USER');
     }
 });
 module.exports = UserController.create();

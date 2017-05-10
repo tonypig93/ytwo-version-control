@@ -1,7 +1,7 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GroupMainComponent } from './components/group.main.component';
-import { GroupDataService, GroupMangementDataService } from './services/group-data.service';
+import { GroupDataService, GroupMangementDataService, GroupUserDataService } from './services/group-data.service';
 import { GroupManagementComponent } from './components/group-management.component';
 
 const routes: Routes = [
@@ -11,9 +11,13 @@ const routes: Routes = [
         },
         children: [
             {path: ':id', component: GroupManagementComponent, resolve: {
-                management: GroupMangementDataService
+                management: GroupMangementDataService,
+                userList: GroupUserDataService
             }}
         ]
+    },
+    {
+        path: ':id/project', loadChildren: 'app/project/project.module#ProjectModule'
     }
 ];
 
