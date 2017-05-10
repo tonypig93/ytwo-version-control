@@ -86,3 +86,70 @@ hr{
   flex-direction: column;
   font-size: 18px;
 }
+/* animate */
+.animated{
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.fadeIn{
+    animation-name: fadeIn;
+}
+@keyframes slideInUp {
+    from{
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to{
+        transform: translate3d(0,0,0);
+    }
+}
+.slideInUp{
+    animation-name: slideInUp;
+}
+@keyframes fadeInUp {
+    from{
+        opacity: 0;
+        transform: translate3d(0, 20%, 0);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes fadeInUp2 {
+    from{
+        opacity: 0;
+        transform: translate3d(0, 35%, 0);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes fadeInUp3 {
+    from{
+        opacity: 0;
+        transform: translate3d(0, 60%, 0);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+.fadeInUp{
+    animation-name: fadeInUp;
+}
+.fadeInUp2{
+    animation-name: fadeInUp2;
+}
+.fadeInUp3{
+    animation-name: fadeInUp3;
+}
