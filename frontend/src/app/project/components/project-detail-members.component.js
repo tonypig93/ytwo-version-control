@@ -9,23 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var AppComponent = (function () {
-    function AppComponent(router) {
-        this.router = router;
+var ProjectDetailMembersComponent = (function () {
+    function ProjectDetailMembersComponent() {
     }
-    AppComponent.prototype.isLoginPage = function () {
-        return (this.router.url !== '/login') && (this.router.url !== '/');
+    ProjectDetailMembersComponent.prototype.ngOnInit = function () {
     };
-    AppComponent.prototype.ngOnInit = function () { };
-    return AppComponent;
+    return ProjectDetailMembersComponent;
 }());
-AppComponent = __decorate([
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ProjectDetailMembersComponent.prototype, "members", void 0);
+ProjectDetailMembersComponent = __decorate([
     core_1.Component({
-        selector: 'vc-app',
-        template: "<nav-bar *ngIf=\"isLoginPage()\"></nav-bar>\n  <router-outlet></router-outlet>",
-    }),
-    __metadata("design:paramtypes", [router_1.Router])
-], AppComponent);
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+        selector: 'vc-project-detail-members',
+        templateUrl: './project-detail-members.html',
+        styleUrls: ['./project.css']
+    })
+], ProjectDetailMembersComponent);
+exports.ProjectDetailMembersComponent = ProjectDetailMembersComponent;
+//# sourceMappingURL=project-detail-members.component.js.map

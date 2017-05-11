@@ -58,6 +58,16 @@ body{
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+.form-control.input-sm {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.navbar {
+    margin-bottom: 0;
+}
 /**/
 .fa-6x{
   font-size: 6em;
@@ -152,4 +162,46 @@ hr{
 }
 .fadeInUp3{
     animation-name: fadeInUp3;
+}
+.btn-filter {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    display: inline-block;
+    padding: 5px 5px 6px;
+    margin-right: 5px;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+}
+.btn-filter:hover {
+    border-bottom-color: #d1d5da;
+    text-decoration: none;
+}
+.btn-filter.activated {
+    border-bottom-color: #e36209;
+    text-decoration: none;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 0;
+}
+#project .tab-content {
+    background-color: #fff;
+}
+#project .nav-tabs {
+    display: flex;
+    justify-content: center;
+}
+#project .nav-tabs>li>a {
+    color: #586069;
+}
+#project .nav-tabs>li>a.active, #project .nav-tabs>li>a:hover {
+    color: #24292e;
+}
+.container {
+    width: 980px;
 }

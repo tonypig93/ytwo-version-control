@@ -1,8 +1,12 @@
 export class VcDataService {
     public data: any [];
+    public viewData: any[];
     private currentSortAttr = 'ID';
+    private filters: any [] = [];
+    private searchFilter: any;
     constructor(source: any[]) {
         this.data = source;
+        this.viewData = source;
     }
     public sort(attr: string) {
         this.currentSortAttr = attr;
@@ -60,5 +64,29 @@ export class VcDataService {
             }
         }
         return res.length > 0 ? (res.length > 1 ? res : res[0]) : null;
+    }
+    public setFilter(fn: any) {
+        this.filters.push(fn);
+    }
+    public setSearchFilter(fn: any) {
+        this.searchFilter = fn;
+    }
+    public setViewData() {
+        let res = [];
+        for (let i = 0, item; (item = this.data[i]); i ++) {
+            let pass = true;
+            for (let j = 0, filter; (filter = this.filters[j]); j ++) {
+                if (typeof filter === 'function') {
+                    pass = (pass && filter(item));
+                }
+            }
+            if (typeof this.searchFilter === 'function') {
+                pass = (pass && this.searchFilter(item));
+            }
+            if (pass) {
+                res.push(item);
+            }
+        }
+        return this.viewData = res;
     }
 }

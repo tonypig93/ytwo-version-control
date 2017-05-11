@@ -1,0 +1,8 @@
+<div class="tabs-header">
+  <tabset #staticTabs>
+    <tab class="container" heading="General"><vc-project-detail-general [project]="management.project[0]"></vc-project-detail-general></tab>
+    <tab class="container" heading="Versions"></tab>
+    <tab class="container" heading="Tasks"><vc-project-detail-tasks [tasks]="management.tasks" [project]="management.project[0]"></vc-project-detail-tasks></tab>
+    <tab class="container" heading="Members"><vc-project-detail-members [members]="management.members"></vc-project-detail-members></tab>
+  </tabset>
+</div>

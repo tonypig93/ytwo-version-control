@@ -54,9 +54,13 @@ var ProjectMangementDataService = (function () {
         this.ParamsService = ParamsService;
     }
     ProjectMangementDataService.prototype.resolve = function (route) {
+        var _this = this;
         this.ParamsService.projectId = route.params['id'];
         return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
-            .map(function (res) { return res.data; });
+            .map(function (res) {
+            _this.management = res.data;
+            return res.data;
+        });
     };
     return ProjectMangementDataService;
 }());

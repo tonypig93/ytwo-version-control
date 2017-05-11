@@ -5,7 +5,7 @@
     font-size: 18px;
 }
 .manage-content{
-    margin-top: 10px
+    margin-top: 0
 }
 .manage-content p{
     margin: 0;
@@ -52,6 +52,7 @@ button.list-group-item.activated {
   color: #555;
   text-decoration: none;
   background-color: #f5f5f5;
+  border-left: 2px solid #e36209;
 }
 div.project-card {
     cursor: pointer;
@@ -64,4 +65,17 @@ p.text-center {
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+}
+.filter-row {
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-top: 5px;
+}
+.filter-body {
+    padding-top: 0;
+}
+
+ul.list-inline {
+    margin: 0;
 }

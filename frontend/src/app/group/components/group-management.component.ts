@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { VcDataService } from '../../services/vc-data.service';
 import { GroupDataService, GroupUserDataService, ParamsService } from '../services/group-data.service';
+import { FormControl } from '@angular/forms';
 interface IManagement {
     users: VcDataService,
     projects: VcDataService
@@ -16,6 +17,30 @@ export class GroupManagementComponent implements OnInit  {
     public showModal = false;
     public groupId: number;
     private selected: number;
+    public filterGroup = {
+        project: {
+            list: [{
+                name: 'All',
+                type: 0
+            }, {
+                name: 'Public',
+                type: 1
+            }, {
+                name: 'Private',
+                type: 2
+            }],
+            current: 0,
+            searchText: new FormControl()
+        },
+        user: {
+            list: [{
+                name: 'All',
+                type: 0
+            }],
+            current: 0,
+            searchText: new FormControl()
+        }
+    };
     constructor(
         private ActivatedRoute: ActivatedRoute,
         private GroupDataService: GroupDataService,
@@ -29,13 +54,33 @@ export class GroupManagementComponent implements OnInit  {
             this.management = {
                 projects: new VcDataService(projectData['projects']),
                 users: new VcDataService(userList)
-            }
+            };
+            this.management.projects.setFilter((item: any) => {
+                let __current = this.filterGroup.project.current;
+                return (__current === 0) || (item.VISIBILITY === __current);
+            });
             this.calculateProgress();
         });
         this.ActivatedRoute.params.subscribe(params => {
             this.groupId = params['id'];
             this.ParamsService.groupId = this.groupId;
-        })
+        });
+        this.filterGroup.project.searchText.valueChanges
+        .debounceTime(500)
+        .subscribe((search) => {
+            this.management.projects.setSearchFilter((item: any) => {
+                return item.PRJ_NAME.indexOf(search) > -1;
+            });
+            this.management.projects.setViewData();
+        });
+        this.filterGroup.user.searchText.valueChanges
+        .debounceTime(500)
+        .subscribe((search) => {
+            this.management.users.setSearchFilter((item: any) => {
+                return item.userName.indexOf(search) > -1;
+            });
+            this.management.users.setViewData();
+        });
     }
     private calculateProgress() {
         if (this.management && this.management.projects) {
@@ -67,5 +112,19 @@ export class GroupManagementComponent implements OnInit  {
     }
     trackByID(index: number, item: any) {
         return item.ID;
+    }
+    selectProjectFilter (type: number) {
+        let __current = this.filterGroup.project.current;
+        if (__current !== type) {
+            this.filterGroup.project.current = type;
+            this.management.projects.setViewData();
+        }
+    }
+    selectUserFilter (type: number) {
+        let __current = this.filterGroup.user.current;
+        if (__current !== type) {
+            this.filterGroup.user.current = type;
+            this.management.users.setViewData();
+        }
     }
 }

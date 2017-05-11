@@ -1,6 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { CommonModule }       from '@angular/common';
-import { FormsModule }        from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgetModule } from '../widgets/widget.module';
 import { GroupRoutingModule } from './group-routing.module';
 import { GroupMainComponent } from './components/group.main.component';
@@ -9,7 +9,7 @@ import { GroupManagementComponent } from './components/group-management.componen
 import { MarkClickedDirective } from './directives/directives';
 
 @NgModule({
-    imports:      [ CommonModule, FormsModule, GroupRoutingModule, WidgetModule ],
+    imports:      [ CommonModule, FormsModule, GroupRoutingModule, WidgetModule, ReactiveFormsModule ],
     declarations: [ GroupMainComponent, GroupManagementComponent, MarkClickedDirective ],
     providers: [ GroupDataService, GroupMangementDataService, GroupUserDataService, ParamsService ]
 })

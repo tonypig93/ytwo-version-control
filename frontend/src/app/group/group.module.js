@@ -21,7 +21,7 @@ var GroupModule = (function () {
 }());
 GroupModule = __decorate([
     core_1.NgModule({
-        imports: [common_1.CommonModule, forms_1.FormsModule, group_routing_module_1.GroupRoutingModule, widget_module_1.WidgetModule],
+        imports: [common_1.CommonModule, forms_1.FormsModule, group_routing_module_1.GroupRoutingModule, widget_module_1.WidgetModule, forms_1.ReactiveFormsModule],
         declarations: [group_main_component_1.GroupMainComponent, group_management_component_1.GroupManagementComponent, directives_1.MarkClickedDirective],
         providers: [group_data_service_1.GroupDataService, group_data_service_1.GroupMangementDataService, group_data_service_1.GroupUserDataService, group_data_service_1.ParamsService]
     })

@@ -7,11 +7,16 @@ import { ProjectMainComponent } from './components/project.main.component';
 import { ProjectDataService, ProjectUserDataService, ProjectMangementDataService } from './services/project-data.service';
 import { ProjectCreateComponent } from './components/project-create.component';
 import { ProjectDetailComponent } from './components/project-detail.component';
+import { ProjectTabsBasicComponent } from './components/project-tabs-basic.component';
+import { ProjectDetailGeneralComponent } from './components/project-detail-general.component';
+import { ProjectDetailTasksComponent } from './components/project-detail-tasks.component';
+import { ProjectDetailMembersComponent } from './components/project-detail-members.component';
 import { SelectModule } from 'ng2-select';
 
 @NgModule({
     imports:      [ CommonModule, FormsModule, ProjectRoutingModule, WidgetModule, ReactiveFormsModule, SelectModule ],
-    declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent ],
+    declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent, ProjectTabsBasicComponent,
+                    ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent ],
     providers: [ ProjectDataService, ProjectUserDataService, ProjectMangementDataService ]
 })
 export class ProjectModule { }

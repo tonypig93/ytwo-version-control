@@ -2,7 +2,9 @@
 var VcDataService = (function () {
     function VcDataService(source) {
         this.currentSortAttr = 'ID';
+        this.filters = [];
         this.data = source;
+        this.viewData = source;
     }
     VcDataService.prototype.sort = function (attr) {
         this.currentSortAttr = attr;
@@ -59,6 +61,30 @@ var VcDataService = (function () {
             }
         }
         return res.length > 0 ? (res.length > 1 ? res : res[0]) : null;
+    };
+    VcDataService.prototype.setFilter = function (fn) {
+        this.filters.push(fn);
+    };
+    VcDataService.prototype.setSearchFilter = function (fn) {
+        this.searchFilter = fn;
+    };
+    VcDataService.prototype.setViewData = function () {
+        var res = [];
+        for (var i = 0, item = void 0; (item = this.data[i]); i++) {
+            var pass = true;
+            for (var j = 0, filter = void 0; (filter = this.filters[j]); j++) {
+                if (typeof filter === 'function') {
+                    pass = (pass && filter(item));
+                }
+            }
+            if (typeof this.searchFilter === 'function') {
+                pass = (pass && this.searchFilter(item));
+            }
+            if (pass) {
+                res.push(item);
+            }
+        }
+        return this.viewData = res;
     };
     return VcDataService;
 }());

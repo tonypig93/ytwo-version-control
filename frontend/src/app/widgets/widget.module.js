@@ -22,9 +22,11 @@ var WidgetModule = (function () {
 }());
 WidgetModule = __decorate([
     core_1.NgModule({
-        imports: [ngx_bootstrap_1.ModalModule.forRoot(), ngx_bootstrap_1.BsDropdownModule.forRoot(), common_1.CommonModule, router_1.RouterModule, forms_1.FormsModule, forms_1.ReactiveFormsModule],
+        imports: [ngx_bootstrap_1.ModalModule.forRoot(), ngx_bootstrap_1.BsDropdownModule.forRoot(), ngx_bootstrap_1.TabsModule.forRoot(),
+            common_1.CommonModule, router_1.RouterModule, forms_1.FormsModule, forms_1.ReactiveFormsModule],
         declarations: [modal_component_1.ModalComponent, nav_bar_component_1.NavBarComponent, dropdown_component_1.DropdownComponent, group_add_user_component_1.AddUserModalComponent, dropdown_basic_component_1.DropdownBasicComponent],
-        exports: [modal_component_1.ModalComponent, nav_bar_component_1.NavBarComponent, dropdown_component_1.DropdownComponent, group_add_user_component_1.AddUserModalComponent, dropdown_basic_component_1.DropdownBasicComponent]
+        exports: [modal_component_1.ModalComponent, nav_bar_component_1.NavBarComponent, dropdown_component_1.DropdownComponent, group_add_user_component_1.AddUserModalComponent, dropdown_basic_component_1.DropdownBasicComponent,
+            ngx_bootstrap_1.ModalModule, ngx_bootstrap_1.BsDropdownModule, ngx_bootstrap_1.TabsModule]
     })
 ], WidgetModule);
 exports.WidgetModule = WidgetModule;

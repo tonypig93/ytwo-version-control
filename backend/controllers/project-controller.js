@@ -1,6 +1,7 @@
 let q = require('q');
 let Controller = require('./base');
 let DBController = require('./db-controller');
+let UserController = require('./user-controller');
 let ProjectController = new Controller(function() {
 });
 ProjectController.include({
@@ -45,9 +46,9 @@ ProjectController.include({
         });
 
         let defer2 = q.defer();
-        DBController.query('select * from PRJ_MEMBER where PRJ_FK=?', [id])
+        DBController.query('select * from user left join prj_member on prj_member.USER_FK=user.ID left join role on prj_member.ROLE_FK=role.ID where prj_member.PRJ_FK=?', [id])
         .then(function (res) {
-            defer2.resolve(res);
+            defer2.resolve(UserController.roleInfo(res));
         }, function (err) {
             defer2.reject(err);
         });

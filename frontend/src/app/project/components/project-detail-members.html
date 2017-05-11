@@ -1,0 +1,21 @@
+<div class="page-header">
+    <h3><i class="fa fa-address-book"></i> {{members.viewData.length}}
+        <small></small>
+    </h3>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Members List</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3" *ngFor="let item of members.viewData">
+                <div class="thumbnail">
+                    <img src="https://help.github.com/assets/images/site/be-social.gif"  alt="">
+                    <div class="caption">
+                        <h3>{{item.userName}}</h3>
+                        <p>{{item.roleName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

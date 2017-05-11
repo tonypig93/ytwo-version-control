@@ -102,6 +102,28 @@ UserController.include({
             }
         return isArray ? tmp : tmp[0];
     },
+    roleInfo: function (users) {
+        let isArray = users instanceof Array;
+        if(!isArray) {
+            users = [users];
+        }
+        let tmp = [];
+            for(let i = 0; i < users.length; i ++) {
+                let user = users[i];
+                tmp.push({
+                    ID: user.ID,
+                    userName: user.USER_NAME,
+                    expireTime: user.expireTime,
+                    $hash: user.$hash,
+                    GroupID: user.GROUP_FK,
+                    email: user.EMAIL,
+                    roleName: user.ROLE_NAME,
+                    power: user.POWER,
+                    projectID: user.PRJ_FK
+                });
+            }
+        return isArray ? tmp : tmp[0];
+    },
     getMD5: function (str) {
         return encrypt(str).toString();
     },

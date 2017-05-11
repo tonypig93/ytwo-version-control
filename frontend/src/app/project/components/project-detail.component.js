@@ -11,12 +11,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var group_data_service_1 = require("../../group/services/group-data.service");
 var project_data_service_1 = require("../services/project-data.service");
+var router_1 = require("@angular/router");
+var vc_data_service_1 = require("../../services/vc-data.service");
 var ProjectDetailComponent = (function () {
-    function ProjectDetailComponent(ParamsService, ProjectUserDataService) {
+    function ProjectDetailComponent(ParamsService, ProjectUserDataService, ActivatedRoute, ProjectMangementDataService) {
         this.ParamsService = ParamsService;
         this.ProjectUserDataService = ProjectUserDataService;
+        this.ActivatedRoute = ActivatedRoute;
+        this.ProjectMangementDataService = ProjectMangementDataService;
     }
     ProjectDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var data = this.ProjectMangementDataService.management;
+        this.management = {
+            project: data['project'],
+            members: new vc_data_service_1.VcDataService(data['members']),
+            tasks: new vc_data_service_1.VcDataService(data['tasks']),
+            versions: new vc_data_service_1.VcDataService(data['versions'])
+        };
+        this.ProjectUserDataService.userList.subscribe(function (_data) {
+            _this.userList = _data;
+        });
     };
     return ProjectDetailComponent;
 }());
@@ -27,7 +42,9 @@ ProjectDetailComponent = __decorate([
         styleUrls: ['./project.css']
     }),
     __metadata("design:paramtypes", [group_data_service_1.ParamsService,
-        project_data_service_1.ProjectUserDataService])
+        project_data_service_1.ProjectUserDataService,
+        router_1.ActivatedRoute,
+        project_data_service_1.ProjectMangementDataService])
 ], ProjectDetailComponent);
 exports.ProjectDetailComponent = ProjectDetailComponent;
 //# sourceMappingURL=project-detail.component.js.map

@@ -29,10 +29,14 @@ export class ProjectUserDataService {
 }
 @Injectable()
 export class ProjectMangementDataService implements Resolve<any> {
+    public management: any;
     constructor(private http: VcHttpService, private ParamsService: ParamsService) { }
     public resolve(route: ActivatedRouteSnapshot) {
         this.ParamsService.projectId = route.params['id'];
         return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
-        .map(res => res.data);
+        .map(res => {
+            this.management = res.data;
+            return res.data
+        });
     }
 }
