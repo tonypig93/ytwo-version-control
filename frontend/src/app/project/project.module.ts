@@ -11,12 +11,15 @@ import { ProjectTabsBasicComponent } from './components/project-tabs-basic.compo
 import { ProjectDetailGeneralComponent } from './components/project-detail-general.component';
 import { ProjectDetailTasksComponent } from './components/project-detail-tasks.component';
 import { ProjectDetailMembersComponent } from './components/project-detail-members.component';
+import { ProjectAddUserModalComponent } from './components/project-add-user.component';
+import { ProjectDetailRolesComponent } from './components/project-detail-roles.component';
 import { SelectModule } from 'ng2-select';
 
 @NgModule({
     imports:      [ CommonModule, FormsModule, ProjectRoutingModule, WidgetModule, ReactiveFormsModule, SelectModule ],
     declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent, ProjectTabsBasicComponent,
-                    ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent ],
+                    ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent,
+                    ProjectAddUserModalComponent, ProjectDetailRolesComponent ],
     providers: [ ProjectDataService, ProjectUserDataService, ProjectMangementDataService ]
 })
 export class ProjectModule { }

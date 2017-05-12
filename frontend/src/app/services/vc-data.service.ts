@@ -1,5 +1,5 @@
 export class VcDataService {
-    public data: any [];
+    private _data: any [];
     public viewData: any[];
     private currentSortAttr = 'ID';
     private filters: any [] = [];
@@ -7,6 +7,13 @@ export class VcDataService {
     constructor(source: any[]) {
         this.data = source;
         this.viewData = source;
+    }
+    set data(value: any []) {
+        this._data = value;
+        this.setViewData();
+    }
+    get data() {
+        return this._data;
     }
     public sort(attr: string) {
         this.currentSortAttr = attr;

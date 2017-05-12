@@ -26,6 +26,11 @@ export class ProjectDataService implements Resolve<any> {
 @Injectable()
 export class ProjectUserDataService {
     userList: Observable<any>;
+    constructor(private http: VcHttpService, private ParamsService: ParamsService) { }
+    getRoleList(): Observable<any> {
+        return this.http.get('http://localhost:8000/project/role/list?id=' + this.ParamsService.projectId)
+        .map(res => res.data);
+    }
 }
 @Injectable()
 export class ProjectMangementDataService implements Resolve<any> {
@@ -36,7 +41,15 @@ export class ProjectMangementDataService implements Resolve<any> {
         return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
         .map(res => {
             this.management = res.data;
-            return res.data
+            return res.data;
         });
+    }
+    public addUser(data: any) {
+        return this.http.post('http://localhost:8000/project/user/add', data)
+        .map(res => res.data);
+    }
+    public deleteUser(userId: number, projectId: number) {
+        return this.http.post('http://localhost:8000/project/user/delete', {userId: userId, projectId: projectId})
+        .map(res => res.data);
     }
 }

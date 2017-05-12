@@ -23,7 +23,9 @@ export class ProjectDetailComponent implements OnInit  {
             project: data['project'],
             members: new VcDataService(data['members']),
             tasks: new VcDataService(data['tasks']),
-            versions: new VcDataService(data['versions'])
+            versions: new VcDataService(data['versions']),
+            roles: new VcDataService(data['roles']),
+            powers: new VcDataService(data['powers'])
         };
         this.ProjectUserDataService.userList.subscribe(_data => {
               this.userList = _data;

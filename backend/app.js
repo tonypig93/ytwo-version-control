@@ -138,10 +138,40 @@ app.get('/project/manage', function (req, res) {
             project: data[0],
             members: data[1],
             tasks: data[2],
-            versions: data[3]
+            versions: data[3],
+            roles: data[4],
+            powers: data[5]
         }));
     }, function (err) {
         console.log('get project manage failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.get('/project/role/list', function (req, res) {
+    let projectId = req.query.id;
+    ProjectController.getRoleList(projectId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('get project role list fail');
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/project/user/add', function (req, res) {
+    let userInfo = req.body;
+    ProjectController.addUser(userInfo).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('add user to project failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/project/user/delete', function (req, res) {
+    let userId = req.body.userId,
+        projectId = req.body.projectId;
+    ProjectController.deleteUser(userId, projectId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('delete user from project failed')
         res.end(dataJson(null, 1, 'info: ' + err));
     })
 });

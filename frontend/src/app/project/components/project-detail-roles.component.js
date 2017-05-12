@@ -12,46 +12,30 @@ var core_1 = require("@angular/core");
 var group_data_service_1 = require("../../group/services/group-data.service");
 var vc_data_service_1 = require("../../services/vc-data.service");
 var project_data_service_1 = require("../services/project-data.service");
-var ProjectDetailMembersComponent = (function () {
-    function ProjectDetailMembersComponent(ProjectMangementDataService, ParamsService) {
+var ProjectDetailRolesComponent = (function () {
+    function ProjectDetailRolesComponent(ProjectMangementDataService, ParamsService) {
         this.ProjectMangementDataService = ProjectMangementDataService;
         this.ParamsService = ParamsService;
-        this.showModal = false;
     }
-    ProjectDetailMembersComponent.prototype.ngOnInit = function () {
+    ProjectDetailRolesComponent.prototype.ngOnInit = function () {
     };
-    ProjectDetailMembersComponent.prototype.refresh = function (data) {
-        this.members.data = data;
-    };
-    ProjectDetailMembersComponent.prototype.trackByID = function (index, item) {
-        return item.ID;
-    };
-    ProjectDetailMembersComponent.prototype.mark = function (id) {
-        this.selected = id;
-    };
-    ProjectDetailMembersComponent.prototype.isMarked = function (id) {
-        return this.selected === id;
-    };
-    ProjectDetailMembersComponent.prototype.deleteUser = function () {
-        var _this = this;
-        this.ProjectMangementDataService.deleteUser(this.selected, this.ParamsService.projectId)
-            .subscribe(function (data) {
-            _this.members.data = data;
-        });
-    };
-    return ProjectDetailMembersComponent;
+    return ProjectDetailRolesComponent;
 }());
 __decorate([
     core_1.Input(),
     __metadata("design:type", vc_data_service_1.VcDataService)
-], ProjectDetailMembersComponent.prototype, "members", void 0);
-ProjectDetailMembersComponent = __decorate([
+], ProjectDetailRolesComponent.prototype, "roles", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", vc_data_service_1.VcDataService)
+], ProjectDetailRolesComponent.prototype, "powers", void 0);
+ProjectDetailRolesComponent = __decorate([
     core_1.Component({
-        selector: 'vc-project-detail-members',
-        templateUrl: './project-detail-members.html',
+        selector: 'vc-project-detail-roles',
+        templateUrl: './project-detail-roles.html',
         styleUrls: ['./project.css']
     }),
     __metadata("design:paramtypes", [project_data_service_1.ProjectMangementDataService, group_data_service_1.ParamsService])
-], ProjectDetailMembersComponent);
-exports.ProjectDetailMembersComponent = ProjectDetailMembersComponent;
-//# sourceMappingURL=project-detail-members.component.js.map
+], ProjectDetailRolesComponent);
+exports.ProjectDetailRolesComponent = ProjectDetailRolesComponent;
+//# sourceMappingURL=project-detail-roles.component.js.map

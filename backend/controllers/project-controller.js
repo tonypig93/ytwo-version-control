@@ -8,6 +8,9 @@ ProjectController.include({
     getList: function () {
         return DBController.query('select * from PROJECT where MARK_DELETE=0');
     },
+    getRoleList: function (id) {
+        return DBController.query('select * from PRJ_ROLE where PRJ_FK=?', [id]);
+    },
     add: function ({projectName, description, tasks, visibility, members, groupId}) {
         let baseSql = {
             sql: 'insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION) values (?,?,?,?)',
@@ -36,41 +39,55 @@ ProjectController.include({
         }
         return DBController.transaction(baseSql);
     },
+    addUser: function ({role, user, projectId}) {
+        let defer = q.defer();
+        DBController.insert('insert into PRJ_MEMBER (USER_FK,PRJ_FK,ROLE_FK) values (?,?,?)', [user, projectId, role])
+        .then((res) => {
+            this.getUser(projectId).then( data => {
+                defer.resolve(data);
+            })
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
+    deleteUser: function (userId, projectId) {
+        let defer = q.defer();
+        DBController.query('delete from PRJ_MEMBER where USER_FK=? and PRJ_FK=?', [userId, projectId])
+        .then((res) => {
+            this.getUser(projectId).then( data => {
+                defer.resolve(data);
+            });
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
+    
     getManage: function (id) {
-        let defer1 = q.defer();
-        DBController.query('select * from PROJECT where ID=?', [id])
-        .then(function (res) {
-            defer1.resolve(res);
-        }, function (err) {
-            defer1.reject(err);
-        });
-
-        let defer2 = q.defer();
-        DBController.query('select * from user left join prj_member on prj_member.USER_FK=user.ID left join role on prj_member.ROLE_FK=role.ID where prj_member.PRJ_FK=?', [id])
-        .then(function (res) {
-            defer2.resolve(UserController.roleInfo(res));
-        }, function (err) {
-            defer2.reject(err);
-        });
-
-        let defer3 = q.defer();
-        DBController.query('select * from PRJ_TASK where PRJ_FK=?', [id])
-        .then(function (res) {
-            defer3.resolve(res);
-        }, function (err) {
-            defer3.reject(err);
-        });
-
-        let defer4 = q.defer();
-        DBController.query('select * from PRJ_VERSION where PRJ_FK=?', [id])
-        .then(function (res) {
-            defer4.resolve(res);
-        }, function (err) {
-            defer4.reject(err);
-        });
-        
-        let all = q.all([defer1.promise, defer2.promise, defer3.promise, defer4.promise]);
+        let all = q.all([this.getProject(id), this.getUser(id), this.getTask(id), this.getVersion(id), this.getRoleList(id), this.getPowerList()]);
         return all;
+    },
+    getProject(id) {
+        return DBController.query('select * from PROJECT where ID=?', [id]);
+    },
+    getUser(id) {
+        return DBController.query(`select user.ID,user.USER_NAME,GROUP_FK,EMAIL,prj_member.PRJ_FK,ROLE_FK,ROLE_NAME,POWER from user 
+                            left join prj_member on prj_member.USER_FK=user.ID 
+                            left join prj_role on prj_member.ROLE_FK=prj_role.ID 
+                            where prj_member.PRJ_FK=? and prj_role.PRJ_FK=?`, [id,id]);
+    },
+    getTask(id) {
+        return DBController.query('select * from PRJ_TASK where PRJ_FK=?', [id]);
+    },
+    getVersion(id) {
+        return DBController.query('select * from PRJ_VERSION where PRJ_FK=?', [id]);
+    },
+    getRoles(id) {
+        return DBController.query('select * from PRJ_ROLE where PRJ_FK=?', [id]);
+    },
+    getPowerList() {
+        return DBController.query('select * from PRJ_POWER');
     }
 });
 module.exports = ProjectController.create();

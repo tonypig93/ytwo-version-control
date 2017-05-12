@@ -27,7 +27,9 @@ var ProjectDetailComponent = (function () {
             project: data['project'],
             members: new vc_data_service_1.VcDataService(data['members']),
             tasks: new vc_data_service_1.VcDataService(data['tasks']),
-            versions: new vc_data_service_1.VcDataService(data['versions'])
+            versions: new vc_data_service_1.VcDataService(data['versions']),
+            roles: new vc_data_service_1.VcDataService(data['roles']),
+            powers: new vc_data_service_1.VcDataService(data['powers'])
         };
         this.ProjectUserDataService.userList.subscribe(function (_data) {
             _this.userList = _data;

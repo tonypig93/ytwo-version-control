@@ -6,6 +6,17 @@ var VcDataService = (function () {
         this.data = source;
         this.viewData = source;
     }
+    Object.defineProperty(VcDataService.prototype, "data", {
+        get: function () {
+            return this._data;
+        },
+        set: function (value) {
+            this._data = value;
+            this.setViewData();
+        },
+        enumerable: true,
+        configurable: true
+    });
     VcDataService.prototype.sort = function (attr) {
         this.currentSortAttr = attr;
         this.quickSort(this.data, 0, this.data.length - 1, attr);

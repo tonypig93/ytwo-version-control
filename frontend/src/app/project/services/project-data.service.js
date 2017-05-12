@@ -40,12 +40,19 @@ ProjectDataService = __decorate([
 ], ProjectDataService);
 exports.ProjectDataService = ProjectDataService;
 var ProjectUserDataService = (function () {
-    function ProjectUserDataService() {
+    function ProjectUserDataService(http, ParamsService) {
+        this.http = http;
+        this.ParamsService = ParamsService;
     }
+    ProjectUserDataService.prototype.getRoleList = function () {
+        return this.http.get('http://localhost:8000/project/role/list?id=' + this.ParamsService.projectId)
+            .map(function (res) { return res.data; });
+    };
     return ProjectUserDataService;
 }());
 ProjectUserDataService = __decorate([
-    core_1.Injectable()
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [vc_http_service_1.VcHttpService, group_data_service_1.ParamsService])
 ], ProjectUserDataService);
 exports.ProjectUserDataService = ProjectUserDataService;
 var ProjectMangementDataService = (function () {
@@ -61,6 +68,14 @@ var ProjectMangementDataService = (function () {
             _this.management = res.data;
             return res.data;
         });
+    };
+    ProjectMangementDataService.prototype.addUser = function (data) {
+        return this.http.post('http://localhost:8000/project/user/add', data)
+            .map(function (res) { return res.data; });
+    };
+    ProjectMangementDataService.prototype.deleteUser = function (userId, projectId) {
+        return this.http.post('http://localhost:8000/project/user/delete', { userId: userId, projectId: projectId })
+            .map(function (res) { return res.data; });
     };
     return ProjectMangementDataService;
 }());
