@@ -16,6 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `group_role`
+--
+
+DROP TABLE IF EXISTS `group_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_role` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_role`
+--
+
+LOCK TABLES `group_role` WRITE;
+/*!40000 ALTER TABLE `group_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `group_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `groups`
 --
 
@@ -40,7 +63,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1000,'YTWO','a company',0,4),(1001,'ZTWO','hehe',0,1),(1002,'XTWO','destroy the world with codes',0,1);
+INSERT INTO `groups` VALUES (1000,'YTWO','a company',0,6),(1001,'ZTWO','hehe',0,1),(1002,'XTWO','destroy the world with codes',0,1);
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +82,7 @@ CREATE TABLE `prj_member` (
   `ROLE_FK` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,8 +91,63 @@ CREATE TABLE `prj_member` (
 
 LOCK TABLES `prj_member` WRITE;
 /*!40000 ALTER TABLE `prj_member` DISABLE KEYS */;
-INSERT INTO `prj_member` VALUES (17,1013,1020,'2017-05-10 15:41:59',1),(18,1016,1020,'2017-05-10 15:41:59',2),(19,1018,1020,'2017-05-10 15:41:59',3),(20,1019,1020,'2017-05-10 15:41:59',4),(21,1013,1021,'2017-05-10 15:50:55',1),(22,1016,1021,'2017-05-10 15:50:55',0);
+INSERT INTO `prj_member` VALUES (17,1013,1020,'2017-05-10 15:41:59',1),(19,1018,1020,'2017-05-10 15:41:59',3),(20,1019,1020,'2017-05-10 15:41:59',4),(21,1013,1021,'2017-05-10 15:50:55',1),(22,1016,1021,'2017-05-10 15:50:55',0),(26,1022,1020,'2017-05-12 15:46:53',1);
 /*!40000 ALTER TABLE `prj_member` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `prj_power`
+--
+
+DROP TABLE IF EXISTS `prj_power`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prj_power` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `POWER_NAME` varchar(45) NOT NULL DEFAULT '0',
+  `POWER_VALUE` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
+  UNIQUE KEY `POWER_NAME_UNIQUE` (`POWER_NAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `prj_power`
+--
+
+LOCK TABLES `prj_power` WRITE;
+/*!40000 ALTER TABLE `prj_power` DISABLE KEYS */;
+INSERT INTO `prj_power` VALUES (6,'Version: Update Patch',1),(7,'Version: Update Minor',2),(8,'Version: Update Majoy',4),(9,'Task: Add/Delete',8),(10,'Member: Add/Delete',16),(11,'Project: Properties',32);
+/*!40000 ALTER TABLE `prj_power` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `prj_role`
+--
+
+DROP TABLE IF EXISTS `prj_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prj_role` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ROLE_NAME` varchar(45) NOT NULL,
+  `POWER` int(11) NOT NULL DEFAULT '0',
+  `PRJ_FK` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
+  UNIQUE KEY `ROLE_NAME_UNIQUE` (`ROLE_NAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `prj_role`
+--
+
+LOCK TABLES `prj_role` WRITE;
+/*!40000 ALTER TABLE `prj_role` DISABLE KEYS */;
+INSERT INTO `prj_role` VALUES (1,'Leader',63,1020),(2,'Developer',1,1020),(3,'Project Manager',7,1020),(4,'Product Manager',56,1020);
+/*!40000 ALTER TABLE `prj_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -170,33 +248,6 @@ INSERT INTO `project` VALUES (1020,'YTWO Mobile App fjdlsfj. jlkjljflkd fjkdl',1
 UNLOCK TABLES;
 
 --
--- Table structure for table `role`
---
-
-DROP TABLE IF EXISTS `role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `role` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ROLE_NAME` varchar(45) NOT NULL,
-  `POWER` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `ID_UNIQUE` (`ID`),
-  UNIQUE KEY `ROLE_NAME_UNIQUE` (`ROLE_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `role`
---
-
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'Leader',63),(2,'Developer',1),(3,'Project Manager',7),(4,'Product Manager',56);
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -214,7 +265,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `EMAIL_UNIQUE` (`EMAIL`),
   KEY `GROUP_FK_idx` (`GROUP_FK`)
-) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1023 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +274,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1013,'hay','202cb962ac59075b964b07152d234b70','2017-05-08 17:30:24',1000,'hay@qq.com'),(1016,'tom','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:10',1000,'t@qq.com'),(1018,'tim','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:33',1000,'tim@qq.com'),(1019,'rick','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:46',1000,'rick@qq.com'),(1020,'walt','c4ca4238a0b923820dcc509a6f75849b','2017-05-10 15:40:15',1002,'w@qq.com');
+INSERT INTO `user` VALUES (1013,'hay','202cb962ac59075b964b07152d234b70','2017-05-08 17:30:24',1000,'hay@qq.com'),(1016,'tom','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:10',1000,'t@qq.com'),(1018,'tim','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:33',1000,'tim@qq.com'),(1019,'rick','c4ca4238a0b923820dcc509a6f75849b','2017-05-09 16:35:46',1000,'rick@qq.com'),(1020,'walt','c4ca4238a0b923820dcc509a6f75849b','2017-05-10 15:40:15',1002,'w@qq.com'),(1021,'issac','c4ca4238a0b923820dcc509a6f75849b','2017-05-12 15:10:09',1000,'i@q.com'),(1022,'window','c4ca4238a0b923820dcc509a6f75849b','2017-05-12 15:10:51',1000,'w@q.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -236,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-11 17:18:57
+-- Dump completed on 2017-05-12 17:00:19
