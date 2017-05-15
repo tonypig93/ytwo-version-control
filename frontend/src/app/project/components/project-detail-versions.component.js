@@ -25,7 +25,7 @@ ProjectDetailVersionsComponent = __decorate([
     core_1.Component({
         selector: 'vc-project-detail-versions',
         templateUrl: './project-detail-versions.html',
-        styleUrls: ['./project.css']
+        styleUrls: ['./project-version.css']
     }),
     __metadata("design:paramtypes", [])
 ], ProjectDetailVersionsComponent);

@@ -5,7 +5,7 @@ import { VcDataService } from '../../services/vc-data.service';
 @Component({
   selector: 'vc-project-detail-versions',
   templateUrl: './project-detail-versions.html',
-  styleUrls: ['./project.css']
+  styleUrls: ['./project-version.css']
 })
 export class ProjectDetailVersionsComponent implements OnInit  {
     @Input() versions: VcDataService;
