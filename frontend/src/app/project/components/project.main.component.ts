@@ -15,7 +15,6 @@ export class ProjectMainComponent implements OnInit  {
     private ProjectUserDataService: ProjectUserDataService,
     private ActivatedRoute: ActivatedRoute) { }
   ngOnInit() {
-    this.ProjectUserDataService.userList = this.GroupUserDataService.getList(this.ParamsService.groupId);
   }
 }
 

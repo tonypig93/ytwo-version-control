@@ -14,12 +14,14 @@ var forms_1 = require("@angular/forms");
 var project_data_service_1 = require("../services/project-data.service");
 var group_data_service_1 = require("../../group/services/group-data.service");
 var vc_data_service_1 = require("../../services/vc-data.service");
+var group_data_service_2 = require("../../group/services/group-data.service");
 var ProjectAddUserModalComponent = (function () {
-    function ProjectAddUserModalComponent(ProjectUserDataService, fb, ProjectMangementDataService, ParamsService) {
+    function ProjectAddUserModalComponent(ProjectUserDataService, fb, ProjectMangementDataService, ParamsService, GroupUserDataService) {
         this.ProjectUserDataService = ProjectUserDataService;
         this.fb = fb;
         this.ProjectMangementDataService = ProjectMangementDataService;
         this.ParamsService = ParamsService;
+        this.GroupUserDataService = GroupUserDataService;
         this.isModalShown = false;
         this.modalTitle = 'Add a user to this project';
         this.modalChange = new core_1.EventEmitter();
@@ -55,25 +57,20 @@ var ProjectAddUserModalComponent = (function () {
     ProjectAddUserModalComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.buildForm();
-        this.ProjectUserDataService.userList.subscribe(function (data) {
-            for (var i = 0, item = void 0; (item = data[i]); i++) {
-                if (!_this.members.findByAttr('ID', item.ID)) {
-                    _this.userList.push({
-                        id: item.ID,
-                        text: item.userName
-                    });
-                }
-            }
-        });
-        this.ProjectUserDataService.getRoleList()
-            .subscribe(function (data) {
-            for (var i = 0, item = void 0; (item = data[i]); i++) {
-                _this.roleList.push({
+        for (var i = 0, item = void 0; (item = this.GroupUserDataService.userList[i]); i++) {
+            if (!this.members.findByAttr('ID', item.ID)) {
+                this.userList.push({
                     id: item.ID,
-                    text: item.ROLE_NAME
+                    text: item.userName
                 });
             }
-        });
+        }
+        for (var i = 0, item = void 0; (item = this.roles.data[i]); i++) {
+            this.roleList.push({
+                id: item.ID,
+                text: item.ROLE_NAME
+            });
+        }
         this.addForm.valueChanges
             .subscribe(function (data) { return _this.onValueChanged(false); });
         this.onValueChanged(false);
@@ -137,6 +134,10 @@ __decorate([
     __metadata("design:type", vc_data_service_1.VcDataService)
 ], ProjectAddUserModalComponent.prototype, "members", void 0);
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", vc_data_service_1.VcDataService)
+], ProjectAddUserModalComponent.prototype, "roles", void 0);
+__decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], ProjectAddUserModalComponent.prototype, "modalChange", void 0);
@@ -156,7 +157,8 @@ ProjectAddUserModalComponent = __decorate([
     __metadata("design:paramtypes", [project_data_service_1.ProjectUserDataService,
         forms_1.FormBuilder,
         project_data_service_1.ProjectMangementDataService,
-        group_data_service_1.ParamsService])
+        group_data_service_1.ParamsService,
+        group_data_service_2.GroupUserDataService])
 ], ProjectAddUserModalComponent);
 exports.ProjectAddUserModalComponent = ProjectAddUserModalComponent;
 //# sourceMappingURL=project-add-user.component.js.map

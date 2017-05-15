@@ -12,6 +12,7 @@ import { VcDataService } from '../../services/vc-data.service';
 export class ProjectDetailComponent implements OnInit  {
       public management: any;
       public userList: any [];
+
       constructor(
       private ParamsService: ParamsService,
       private ProjectUserDataService: ProjectUserDataService,
@@ -27,9 +28,9 @@ export class ProjectDetailComponent implements OnInit  {
             roles: new VcDataService(data['roles']),
             powers: new VcDataService(data['powers'])
         };
-        this.ProjectUserDataService.userList.subscribe(_data => {
-              this.userList = _data;
-        });
+        // this.ProjectUserDataService.userList.subscribe(_data => {
+        //       this.userList = _data;
+        // });
       }
 }
 

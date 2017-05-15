@@ -77,6 +77,18 @@ var ProjectMangementDataService = (function () {
         return this.http.post('http://localhost:8000/project/user/delete', { userId: userId, projectId: projectId })
             .map(function (res) { return res.data; });
     };
+    ProjectMangementDataService.prototype.updateRole = function (roleId, value) {
+        return this.http.post('http://localhost:8000/project/role/update', { roleId: roleId, value: value })
+            .map(function (res) { return res.data; });
+    };
+    ProjectMangementDataService.prototype.deleteRole = function (roleId, projectId) {
+        return this.http.post('http://localhost:8000/project/role/delete', { roleId: roleId, projectId: projectId })
+            .map(function (res) { return res.data; });
+    };
+    ProjectMangementDataService.prototype.addRole = function (data) {
+        return this.http.post('http://localhost:8000/project/role/add', data)
+            .map(function (res) { return res.data; });
+    };
     return ProjectMangementDataService;
 }());
 ProjectMangementDataService = __decorate([

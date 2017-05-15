@@ -156,6 +156,33 @@ app.get('/project/role/list', function (req, res) {
         res.end(dataJson(null, 1, 'info: ' + err));
     })
 });
+app.post('/project/role/update', function (req, res) {
+    let {roleId, value} = req.body;
+    ProjectController.updateRole(roleId, value).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('update project role failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/project/role/delete', function (req, res) {
+    let {roleId, projectId} = req.body;
+    ProjectController.deleteRole(roleId, projectId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('delete project failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
+app.post('/project/role/add', function (req, res) {
+    let {roleName, value, projectId} = req.body;
+    ProjectController.addRole(roleName, value, projectId).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('add project role failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
 app.post('/project/user/add', function (req, res) {
     let userInfo = req.body;
     ProjectController.addUser(userInfo).then(function (data) {

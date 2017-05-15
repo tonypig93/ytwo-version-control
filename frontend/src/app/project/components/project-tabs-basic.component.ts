@@ -9,6 +9,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 export class ProjectTabsBasicComponent implements OnInit {
   @Input() management: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
+  public currentTab = 'general';
   constructor() { }
   ngOnInit() {
       // console.log(this.management)

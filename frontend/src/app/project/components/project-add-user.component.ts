@@ -4,6 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@ang
 import { ProjectUserDataService, ProjectMangementDataService } from '../services/project-data.service';
 import { ParamsService } from '../../group/services/group-data.service';
 import { VcDataService } from '../../services/vc-data.service';
+import { GroupUserDataService } from '../../group/services/group-data.service';
 
 @Component({
     selector: 'project-add-user-modal',
@@ -13,6 +14,7 @@ export class ProjectAddUserModalComponent implements OnInit {
     @Input() public isModalShown = false;
     @Input() public modalTitle = 'Add a user to this project';
     @Input() public members: VcDataService;
+    @Input() public roles: VcDataService;
     @Output() public modalChange = new EventEmitter();
     @Output() public refreshList = new EventEmitter();
     @ViewChild('autoShownModal') public autoShownModal: ModalDirective;
@@ -36,7 +38,8 @@ export class ProjectAddUserModalComponent implements OnInit {
         private ProjectUserDataService: ProjectUserDataService,
         private fb: FormBuilder,
         private ProjectMangementDataService: ProjectMangementDataService,
-        private ParamsService: ParamsService) { }
+        private ParamsService: ParamsService,
+        private GroupUserDataService: GroupUserDataService) { }
     public showModal(): void {
         this.isModalShown = true;
     }
@@ -54,25 +57,20 @@ export class ProjectAddUserModalComponent implements OnInit {
     }
     ngOnInit() {
         this.buildForm();
-        this.ProjectUserDataService.userList.subscribe(data => {
-            for (let i = 0, item; (item = data[i]); i ++) {
-                if (!this.members.findByAttr('ID', item.ID)) {
-                    this.userList.push({
-                        id: item.ID,
-                        text: item.userName
-                    });
-                }
-            }
-        });
-        this.ProjectUserDataService.getRoleList()
-        .subscribe(data => {
-            for (let i = 0, item; (item = data[i]); i ++) {
-                this.roleList.push({
+        for (let i = 0, item; (item = this.GroupUserDataService.userList[i]); i ++) {
+            if (!this.members.findByAttr('ID', item.ID)) {
+                this.userList.push({
                     id: item.ID,
-                    text: item.ROLE_NAME
+                    text: item.userName
                 });
             }
-        });
+        }
+        for (let i = 0, item; (item = this.roles.data[i]); i ++) {
+            this.roleList.push({
+                id: item.ID,
+                text: item.ROLE_NAME
+            });
+        }
         this.addForm.valueChanges
         .subscribe((data: any) => this.onValueChanged(false));
         this.onValueChanged(false);

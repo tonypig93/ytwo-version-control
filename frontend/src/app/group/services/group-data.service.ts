@@ -20,9 +20,14 @@ export class GroupDataService implements Resolve<any> {
 }
 @Injectable()
 export class GroupUserDataService implements Resolve<any> {
+    public userList: any [];
     constructor(private http: VcHttpService, private router: Router) { }
     public resolve(route: ActivatedRouteSnapshot) {
-        return this.getList(route.params['id']);
+        return this.getList(route.params['id'])
+        .map(data => {
+            this.userList = data;
+            return data;
+        });
     }
     public getList(groupId: number) {
         return this.http.get('http://localhost:8000/user/list?groupId=' + groupId)

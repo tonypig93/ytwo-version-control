@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var ngx_bootstrap_1 = require("ngx-bootstrap");
 var ProjectTabsBasicComponent = (function () {
     function ProjectTabsBasicComponent() {
+        this.currentTab = 'general';
     }
     ProjectTabsBasicComponent.prototype.ngOnInit = function () {
         // console.log(this.management)

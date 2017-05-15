@@ -20,7 +20,6 @@ var ProjectMainComponent = (function () {
         this.ActivatedRoute = ActivatedRoute;
     }
     ProjectMainComponent.prototype.ngOnInit = function () {
-        this.ProjectUserDataService.userList = this.GroupUserDataService.getList(this.ParamsService.groupId);
     };
     return ProjectMainComponent;
 }());

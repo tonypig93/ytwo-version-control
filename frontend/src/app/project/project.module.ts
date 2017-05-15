@@ -13,13 +13,16 @@ import { ProjectDetailTasksComponent } from './components/project-detail-tasks.c
 import { ProjectDetailMembersComponent } from './components/project-detail-members.component';
 import { ProjectAddUserModalComponent } from './components/project-add-user.component';
 import { ProjectDetailRolesComponent } from './components/project-detail-roles.component';
+import { ProjectAddRoleModalComponent } from './components/project-add-role.component';
+import { ProjectDetailVersionsComponent } from './components/project-detail-versions.component';
 import { SelectModule } from 'ng2-select';
 
 @NgModule({
     imports:      [ CommonModule, FormsModule, ProjectRoutingModule, WidgetModule, ReactiveFormsModule, SelectModule ],
     declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent, ProjectTabsBasicComponent,
                     ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent,
-                    ProjectAddUserModalComponent, ProjectDetailRolesComponent ],
+                    ProjectAddUserModalComponent, ProjectDetailRolesComponent, ProjectAddRoleModalComponent,
+                    ProjectDetailVersionsComponent ],
     providers: [ ProjectDataService, ProjectUserDataService, ProjectMangementDataService ]
 })
 export class ProjectModule { }

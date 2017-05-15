@@ -11,6 +11,33 @@ ProjectController.include({
     getRoleList: function (id) {
         return DBController.query('select * from PRJ_ROLE where PRJ_FK=?', [id]);
     },
+    updateRole: function (roleId, value) {
+        return DBController.query('update PRJ_ROLE set POWER=? where ID=?', [value, roleId]);
+    },
+    deleteRole: function (roleId, projectId) {
+        let defer = q.defer();
+        DBController.query('delete from PRJ_ROLE where ID=? and PRJ_FK=?', [roleId,projectId])
+        .then((res) => {
+            this.getRoleList(projectId).then( data => {
+                defer.resolve(data);
+            });
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
+    addRole: function (roleName, value, projectId) {
+        let defer = q.defer();
+        DBController.insert('insert into PRJ_ROLE (ROLE_NAME,POWER,PRJ_FK) values (?,?,?)', [roleName,value,projectId])
+        .then((res) => {
+            this.getRoleList(projectId).then( data => {
+                defer.resolve(data);
+            });
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
     add: function ({projectName, description, tasks, visibility, members, groupId}) {
         let baseSql = {
             sql: 'insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION) values (?,?,?,?)',

@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h3><i class="fa fa-address-book"></i> {{members.viewData.length}}
+    <h3><i class="fa fa-address-book"></i> Total members: {{members.viewData.length}}
         <small></small>
     </h3>
 </div>
@@ -33,4 +33,4 @@
         </div>
     </div>
 </div>
-<project-add-user-modal [isModalShown]="showModal" (refreshList)="refresh($event)" [members]="members" (modalChange)="showModal=false"></project-add-user-modal>
+<project-add-user-modal [isModalShown]="showModal" (refreshList)="refresh($event)" [members]="members" [roles]="roles" (modalChange)="showModal=false"></project-add-user-modal>

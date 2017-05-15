@@ -21,7 +21,6 @@ var ProjectDetailComponent = (function () {
         this.ProjectMangementDataService = ProjectMangementDataService;
     }
     ProjectDetailComponent.prototype.ngOnInit = function () {
-        var _this = this;
         var data = this.ProjectMangementDataService.management;
         this.management = {
             project: data['project'],
@@ -31,9 +30,9 @@ var ProjectDetailComponent = (function () {
             roles: new vc_data_service_1.VcDataService(data['roles']),
             powers: new vc_data_service_1.VcDataService(data['powers'])
         };
-        this.ProjectUserDataService.userList.subscribe(function (_data) {
-            _this.userList = _data;
-        });
+        // this.ProjectUserDataService.userList.subscribe(_data => {
+        //       this.userList = _data;
+        // });
     };
     return ProjectDetailComponent;
 }());

@@ -40,7 +40,12 @@ var GroupUserDataService = (function () {
         this.router = router;
     }
     GroupUserDataService.prototype.resolve = function (route) {
-        return this.getList(route.params['id']);
+        var _this = this;
+        return this.getList(route.params['id'])
+            .map(function (data) {
+            _this.userList = data;
+            return data;
+        });
     };
     GroupUserDataService.prototype.getList = function (groupId) {
         return this.http.get('http://localhost:8000/user/list?groupId=' + groupId)

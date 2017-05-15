@@ -25,7 +25,6 @@ export class ProjectDataService implements Resolve<any> {
 }
 @Injectable()
 export class ProjectUserDataService {
-    userList: Observable<any>;
     constructor(private http: VcHttpService, private ParamsService: ParamsService) { }
     getRoleList(): Observable<any> {
         return this.http.get('http://localhost:8000/project/role/list?id=' + this.ParamsService.projectId)
@@ -50,6 +49,18 @@ export class ProjectMangementDataService implements Resolve<any> {
     }
     public deleteUser(userId: number, projectId: number) {
         return this.http.post('http://localhost:8000/project/user/delete', {userId: userId, projectId: projectId})
+        .map(res => res.data);
+    }
+    public updateRole(roleId: number, value: number) {
+        return this.http.post('http://localhost:8000/project/role/update', {roleId: roleId, value: value})
+        .map(res => res.data);
+    }
+    public deleteRole(roleId: number, projectId: number) {
+        return this.http.post('http://localhost:8000/project/role/delete', {roleId: roleId, projectId: projectId})
+        .map(res => res.data);
+    }
+    public addRole(data: any) {
+        return this.http.post('http://localhost:8000/project/role/add', data)
         .map(res => res.data);
     }
 }
