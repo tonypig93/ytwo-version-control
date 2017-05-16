@@ -89,6 +89,10 @@ var ProjectMangementDataService = (function () {
         return this.http.post('http://localhost:8000/project/role/add', data)
             .map(function (res) { return res.data; });
     };
+    ProjectMangementDataService.prototype.updateVersion = function (data) {
+        return this.http.post('http://localhost:8000/project/version/update', data)
+            .map(function (res) { return res.data; });
+    };
     return ProjectMangementDataService;
 }());
 ProjectMangementDataService = __decorate([

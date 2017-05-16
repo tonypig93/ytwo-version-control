@@ -46,7 +46,7 @@ DBController.include({
                     return;
                 }
                 console.log('db insert successed: ' + result.insertId);
-                defer.resolve(true);
+                defer.resolve(result);
                 connection.release();
             });
         });

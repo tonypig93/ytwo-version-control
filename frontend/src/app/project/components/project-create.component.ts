@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@ang
 import { notEmpty } from '../../services/validator';
 import { ProjectUserDataService, ProjectDataService } from '../services/project-data.service';
 import { ParamsService } from '../../group/services/group-data.service';
+import { GroupUserDataService } from '../../group/services/group-data.service';
 
 @Component({
   selector: 'vc-project-create',
@@ -42,20 +43,18 @@ export class ProjectCreateComponent implements OnInit {
         private fb: FormBuilder,
         private ProjectUserDataService: ProjectUserDataService,
         private ProjectDataService: ProjectDataService,
-        private ParamsService: ParamsService) {
+        private ParamsService: ParamsService,
+        private GroupUserDataService: GroupUserDataService) {
     }
     ngOnInit(): void {
         this.buildForm();
-        this.ProjectUserDataService.userList.subscribe(data => {
-            // this.members.push(this.fb.group(data[0]));
-            // this.userList = data;
-            for (let i = 0, item; (item = data[i]); i ++) {
-                this.userList.push({
-                    id: item.ID,
-                    text: item.userName
-                });
-            }
-        });
+        let data = this.GroupUserDataService.userList;
+        for (let i = 0, item; (item = data[i]); i ++) {
+            this.userList.push({
+                id: item.ID,
+                text: item.userName
+            });
+        }
     }
     buildForm(): void {
         this.projectForm = this.fb.group({

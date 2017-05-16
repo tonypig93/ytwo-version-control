@@ -4,3 +4,10 @@
     text-decoration: none;
     display: inline-block;
 }
+.input-group button.btn {
+    height: 40px;
+}
+.nav-tabs {
+    display: flex;
+    justify-content: space-between;
+}

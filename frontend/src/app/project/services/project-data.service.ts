@@ -63,4 +63,8 @@ export class ProjectMangementDataService implements Resolve<any> {
         return this.http.post('http://localhost:8000/project/role/add', data)
         .map(res => res.data);
     }
+    public updateVersion(data: any) {
+        return this.http.post('http://localhost:8000/project/version/update', data)
+        .map(res => res.data);
+    }
 }

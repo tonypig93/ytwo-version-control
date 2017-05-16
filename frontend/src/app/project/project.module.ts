@@ -15,14 +15,16 @@ import { ProjectAddUserModalComponent } from './components/project-add-user.comp
 import { ProjectDetailRolesComponent } from './components/project-detail-roles.component';
 import { ProjectAddRoleModalComponent } from './components/project-add-role.component';
 import { ProjectDetailVersionsComponent } from './components/project-detail-versions.component';
+import { ProjectDetailVersionsLogComponent } from './components/project-detail-versions-log.component';
+import { QuillModule } from 'ngx-quill'
 import { SelectModule } from 'ng2-select';
 
 @NgModule({
-    imports:      [ CommonModule, FormsModule, ProjectRoutingModule, WidgetModule, ReactiveFormsModule, SelectModule ],
+    imports:      [ CommonModule, FormsModule, ProjectRoutingModule, WidgetModule, ReactiveFormsModule, SelectModule, QuillModule ],
     declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent, ProjectTabsBasicComponent,
                     ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent,
                     ProjectAddUserModalComponent, ProjectDetailRolesComponent, ProjectAddRoleModalComponent,
-                    ProjectDetailVersionsComponent ],
+                    ProjectDetailVersionsComponent, ProjectDetailVersionsLogComponent ],
     providers: [ ProjectDataService, ProjectUserDataService, ProjectMangementDataService ]
 })
 export class ProjectModule { }

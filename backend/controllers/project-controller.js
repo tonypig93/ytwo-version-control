@@ -90,7 +90,23 @@ ProjectController.include({
         });
         return defer.promise;
     },
-    
+    updateVersion: function (major, minor, patch, projectId, repoCode, log) {
+        let defer = q.defer();
+        let userId = 1013;
+        console.log(projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature)
+        DBController.insert(`insert into PRJ_VERSION 
+            (PRJ_FK,V_MAJOR,V_MINOR,V_PATCH,USER_FK,REPO_CODE,LOG_BUG,LOG_GENERAL,LOG_FEATURE) 
+            values (?,?,?,?,?,?,?,?,?)`,
+            [projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature])
+        .then((res) => {
+            this.getOneVersion(res.insertId).then( data => {
+                defer.resolve(data);
+            });
+        }, function (err) {
+            defer.reject(err);
+        });
+        return defer.promise;
+    },
     getManage: function (id) {
         let all = q.all([this.getProject(id), this.getUser(id), this.getTask(id), this.getVersion(id), this.getRoleList(id), this.getPowerList()]);
         return all;
@@ -115,6 +131,9 @@ ProjectController.include({
     },
     getPowerList() {
         return DBController.query('select * from PRJ_POWER');
+    },
+    getOneVersion: function (id) {
+        return DBController.query('select * from PRJ_VERSION where ID=?', [id]);
     }
 });
 module.exports = ProjectController.create();

@@ -205,3 +205,6 @@ hr{
 .container {
     width: 980px;
 }
+#project-log .nav-tabs {
+    display: block;
+}

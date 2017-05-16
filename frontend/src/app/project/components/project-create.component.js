@@ -12,12 +12,14 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var project_data_service_1 = require("../services/project-data.service");
 var group_data_service_1 = require("../../group/services/group-data.service");
+var group_data_service_2 = require("../../group/services/group-data.service");
 var ProjectCreateComponent = (function () {
-    function ProjectCreateComponent(fb, ProjectUserDataService, ProjectDataService, ParamsService) {
+    function ProjectCreateComponent(fb, ProjectUserDataService, ProjectDataService, ParamsService, GroupUserDataService) {
         this.fb = fb;
         this.ProjectUserDataService = ProjectUserDataService;
         this.ProjectDataService = ProjectDataService;
         this.ParamsService = ParamsService;
+        this.GroupUserDataService = GroupUserDataService;
         this.taskId = 0;
         this.userList = [];
         this.formErrors = {
@@ -46,18 +48,14 @@ var ProjectCreateComponent = (function () {
         };
     }
     ProjectCreateComponent.prototype.ngOnInit = function () {
-        var _this = this;
         this.buildForm();
-        this.ProjectUserDataService.userList.subscribe(function (data) {
-            // this.members.push(this.fb.group(data[0]));
-            // this.userList = data;
-            for (var i = 0, item = void 0; (item = data[i]); i++) {
-                _this.userList.push({
-                    id: item.ID,
-                    text: item.userName
-                });
-            }
-        });
+        var data = this.GroupUserDataService.userList;
+        for (var i = 0, item = void 0; (item = data[i]); i++) {
+            this.userList.push({
+                id: item.ID,
+                text: item.userName
+            });
+        }
     };
     ProjectCreateComponent.prototype.buildForm = function () {
         var _this = this;
@@ -154,7 +152,8 @@ ProjectCreateComponent = __decorate([
     __metadata("design:paramtypes", [forms_1.FormBuilder,
         project_data_service_1.ProjectUserDataService,
         project_data_service_1.ProjectDataService,
-        group_data_service_1.ParamsService])
+        group_data_service_1.ParamsService,
+        group_data_service_2.GroupUserDataService])
 ], ProjectCreateComponent);
 exports.ProjectCreateComponent = ProjectCreateComponent;
 //# sourceMappingURL=project-create.component.js.map

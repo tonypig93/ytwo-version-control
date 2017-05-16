@@ -202,6 +202,15 @@ app.post('/project/user/delete', function (req, res) {
         res.end(dataJson(null, 1, 'info: ' + err));
     })
 });
+app.post('/project/version/update', function (req, res) {
+    let {major, minor, patch, projectId, repoCode, log} = req.body;
+    ProjectController.updateVersion(major, minor, patch, projectId, repoCode, log).then(function (data) {
+        res.end(dataJson(data));
+    }, function (err) {
+        console.log('update project version failed')
+        res.end(dataJson(null, 1, 'info: ' + err));
+    })
+});
 http.listen(8000, function(){
 	console.log('listening on *:8000');
 });
