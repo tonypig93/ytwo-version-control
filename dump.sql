@@ -137,7 +137,7 @@ CREATE TABLE `prj_role` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `ROLE_NAME_UNIQUE` (`ROLE_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `prj_role` (
 
 LOCK TABLES `prj_role` WRITE;
 /*!40000 ALTER TABLE `prj_role` DISABLE KEYS */;
-INSERT INTO `prj_role` VALUES (1,'Leader',63,1020),(2,'Developer',1,1020),(3,'Project Manager',7,1020),(4,'Product Manager',56,1020);
+INSERT INTO `prj_role` VALUES (1,'Leader',63,1020),(2,'Developer',3,1020),(3,'Project Manager',7,1020),(4,'Product Manager',56,1020),(5,'Tester',9,1020);
 /*!40000 ALTER TABLE `prj_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +194,7 @@ CREATE TABLE `prj_version` (
   `V_MINOR` int(11) NOT NULL,
   `V_PATCH` int(11) NOT NULL,
   `USER_FK` int(11) NOT NULL,
-  `INPUT_DATE` varchar(45) DEFAULT 'now()',
+  `INPUT_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `REPO_CODE` varchar(45) DEFAULT NULL,
   `LOG_BUG` varchar(2000) DEFAULT NULL,
   `LOG_FEATURE` varchar(2000) DEFAULT NULL,
@@ -287,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-12 17:00:19
+-- Dump completed on 2017-05-16 17:20:55
