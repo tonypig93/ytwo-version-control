@@ -1,6 +1,6 @@
 let mysql  = require('mysql');
 let q = require('q');
-let Controller = require('./base');
+let Controller = require('../base/controller');
 let DBController = new Controller(function() {
     this.dbConfig = {
         host     : '127.0.0.1',       //主机

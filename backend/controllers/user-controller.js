@@ -1,4 +1,4 @@
-let Controller = require('./base');
+let Controller = require('../base/controller');
 let DBController = require('./db-controller');
 let encrypt = require('crypto-js/md5');
 let q = require('q');

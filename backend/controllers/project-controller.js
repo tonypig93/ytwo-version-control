@@ -1,5 +1,5 @@
 let q = require('q');
-let Controller = require('./base');
+let Controller = require('../base/controller');
 let DBController = require('./db-controller');
 let UserController = require('./user-controller');
 let ProjectController = new Controller(function() {
