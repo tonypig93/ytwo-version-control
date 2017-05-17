@@ -30,6 +30,7 @@ var ProjectDetailComponent = (function () {
             roles: new vc_data_service_1.VcDataService(data['roles']),
             powers: new vc_data_service_1.VcDataService(data['powers'])
         };
+        this.management.versions.data.reverse();
         // this.ProjectUserDataService.userList.subscribe(_data => {
         //       this.userList = _data;
         // });

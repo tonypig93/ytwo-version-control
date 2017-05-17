@@ -188,20 +188,20 @@ DROP TABLE IF EXISTS `prj_version`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prj_version` (
-  `ID` int(11) NOT NULL DEFAULT '1000',
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `PRJ_FK` int(11) NOT NULL,
   `V_MAJOR` int(11) NOT NULL,
   `V_MINOR` int(11) NOT NULL,
   `V_PATCH` int(11) NOT NULL,
   `USER_FK` int(11) NOT NULL,
-  `INPUT_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   `REPO_CODE` varchar(45) DEFAULT NULL,
   `LOG_BUG` varchar(2000) DEFAULT NULL,
   `LOG_FEATURE` varchar(2000) DEFAULT NULL,
-  `LOG_GENERAL` varchar(4000) DEFAULT NULL,
+  `LOG_GENERAL` varchar(2000) DEFAULT NULL,
+  `INPUT_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,6 +210,7 @@ CREATE TABLE `prj_version` (
 
 LOCK TABLES `prj_version` WRITE;
 /*!40000 ALTER TABLE `prj_version` DISABLE KEYS */;
+INSERT INTO `prj_version` VALUES (1001,1020,0,1,0,1013,NULL,NULL,NULL,NULL,'2017-05-17 11:55:15'),(1002,1020,0,1,1,1013,'23213123','bug','f','ggg','2017-05-17 11:58:52'),(1003,1020,0,1,2,1013,'423432421','','<p>ewfwf</p>','<ol><li><strong><u>432423</u></strong></li><li><strong><u>33232</u></strong></li><li><strong><u>4</u></strong></li></ol>','2017-05-17 16:50:36'),(1004,1020,0,1,3,1013,'3232323','','','<h1>dfsfsafsfd</h1>','2017-05-17 16:51:58'),(1005,1020,0,1,4,1013,'213123','','','','2017-05-17 16:52:52'),(1006,1020,0,1,5,1013,'1233213','','',NULL,'2017-05-17 16:53:46'),(1007,1020,0,1,6,1013,'123123','','','','2017-05-17 17:01:54'),(1008,1020,0,1,7,1013,'432423','','','','2017-05-17 17:02:26');
 /*!40000 ALTER TABLE `prj_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +244,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1020,'YTWO Mobile App fjdlsfj. jlkjljflkd fjkdl',1000,1,NULL,4,'app for YTWO, customers, suppliers',0,0,2),(1021,'YTWO desktop',1000,1,NULL,2,'desktop software service',0,0,2);
+INSERT INTO `project` VALUES (1020,'YTWO Mobile App fjdlsfj. jlkjljflkd fjkdl',1000,1,'0.1.7',4,'app for YTWO, customers, suppliers',0,0,2),(1021,'YTWO desktop',1000,1,NULL,2,'desktop software service',0,0,2);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-16 17:20:55
+-- Dump completed on 2017-05-17 17:14:24

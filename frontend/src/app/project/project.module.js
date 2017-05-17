@@ -23,6 +23,7 @@ var project_detail_roles_component_1 = require("./components/project-detail-role
 var project_add_role_component_1 = require("./components/project-add-role.component");
 var project_detail_versions_component_1 = require("./components/project-detail-versions.component");
 var project_detail_versions_log_component_1 = require("./components/project-detail-versions-log.component");
+var vc_directives_1 = require("../directives/vc-directives");
 var ngx_quill_1 = require("ngx-quill");
 var ng2_select_1 = require("ng2-select");
 var ProjectModule = (function () {
@@ -36,7 +37,7 @@ ProjectModule = __decorate([
         declarations: [project_main_component_1.ProjectMainComponent, project_create_component_1.ProjectCreateComponent, project_detail_component_1.ProjectDetailComponent, project_tabs_basic_component_1.ProjectTabsBasicComponent,
             project_detail_general_component_1.ProjectDetailGeneralComponent, project_detail_tasks_component_1.ProjectDetailTasksComponent, project_detail_members_component_1.ProjectDetailMembersComponent,
             project_add_user_component_1.ProjectAddUserModalComponent, project_detail_roles_component_1.ProjectDetailRolesComponent, project_add_role_component_1.ProjectAddRoleModalComponent,
-            project_detail_versions_component_1.ProjectDetailVersionsComponent, project_detail_versions_log_component_1.ProjectDetailVersionsLogComponent],
+            project_detail_versions_component_1.ProjectDetailVersionsComponent, project_detail_versions_log_component_1.ProjectDetailVersionsLogComponent, vc_directives_1.VcActiveList],
         providers: [project_data_service_1.ProjectDataService, project_data_service_1.ProjectUserDataService, project_data_service_1.ProjectMangementDataService]
     })
 ], ProjectModule);

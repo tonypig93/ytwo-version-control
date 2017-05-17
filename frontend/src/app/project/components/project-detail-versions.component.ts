@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ParamsService } from '../../group/services/group-data.service';
 import { VcDataService } from '../../services/vc-data.service';
+import { VcListControl } from '../../services/vc-base.service';
 import { ProjectMangementDataService } from '../services/project-data.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { ProjectMangementDataService } from '../services/project-data.service';
   templateUrl: './project-detail-versions.html',
   styleUrls: ['./project-version.css']
 })
-export class ProjectDetailVersionsComponent implements OnInit  {
+export class ProjectDetailVersionsComponent extends VcListControl implements OnInit  {
     @Input() versions: VcDataService;
     form: FormGroup;
     formErrors = {
@@ -32,13 +33,20 @@ export class ProjectDetailVersionsComponent implements OnInit  {
             'required': 'Repository code is required.',
         }
     };
+    selectedVersion = 'New Version';
+    selectedVID: number;
+    isReadOnly = false;
     constructor(
       private fb: FormBuilder,
       private ProjectMangementDataService: ProjectMangementDataService,
-      private ParamsService: ParamsService) {}
+      private ParamsService: ParamsService) {
+          super();
+      }
     ngOnInit() {
       this.buildForm();
+      console.log(this.form)
     }
+
     doSubmit() {
       console.log(this.form);
       let payload = {};
@@ -46,7 +54,7 @@ export class ProjectDetailVersionsComponent implements OnInit  {
       payload['projectId'] = this.ParamsService.projectId;
       this.ProjectMangementDataService.updateVersion(payload)
       .subscribe(data => {
-        console.log(data);
+        this.versions.data = data.concat(this.versions.data);
       })
     }
     decrease(name: string) {
@@ -60,20 +68,38 @@ export class ProjectDetailVersionsComponent implements OnInit  {
       control.patchValue(++value);
     }
     buildForm(): void {
+        let last = this.versions.data[0];
         this.form = this.fb.group({
-            major: [0, Validators.required],
-            minor: [0, Validators.required],
-            patch: [0, Validators.required],
+            major: [last.V_MAJOR, Validators.required],
+            minor: [last.V_MINOR, Validators.required],
+            patch: [last.V_PATCH, Validators.required],
             log: this.fb.group({
-              general: 'ggg',
-              feature: 'f',
-              bug: 'bug'
+              general: '',
+              feature: '',
+              bug: ''
             }),
             repoCode: ['', Validators.required]
         });
         this.form.valueChanges
         .subscribe((data: any) => this.onValueChanged(data));
         this.onValueChanged();
+    }
+    setModel(data: any) {
+        let last = this.versions.data[0];
+        this.form.reset({
+            major: data ? data.V_MAJOR : last.V_MAJOR,
+            minor: data ? data.V_MINOR : last.V_MINOR,
+            patch: data ? data.V_PATCH : last.V_PATCH,
+            log: {
+                general: data ? data.LOG_GENERAL : '',
+                feature: data ? data.LOG_FEATURE : '',
+                bug: data ? data.LOG_BUG : ''
+            },
+            repoCode: data ? data.REPO_CODE : ''
+        });
+        this.selectedVersion = data ? `${data.V_MAJOR}.${data.V_MINOR}.${data.V_PATCH}` : 'New Version';
+        this.isReadOnly = data ? true : false;
+        this.selectedVID = data ? data.ID : undefined;
     }
     onValueChanged(data?: any) {
         if (!this.form) { return; }
@@ -91,6 +117,9 @@ export class ProjectDetailVersionsComponent implements OnInit  {
             }
         }
         }
+    }
+    isCurrent(id: number) {
+        return this.selectedVID === id;
     }
 }
 

@@ -1,13 +1,13 @@
 <div class="tabs-header" [formGroup]="group">
   <tabset #staticTabs>
     <tab heading="General">
-        <quill-editor placeholder="General" formControlName="general" [modules]="modules"></quill-editor>
+        <quill-editor [readOnly]="isReadOnly" [maxLength]="2000" placeholder="General" formControlName="general" [modules]="modules"></quill-editor>
     </tab>
     <tab heading="Features">
-        <quill-editor placeholder="Features" formControlName="feature" [modules]="modules"></quill-editor>
+        <quill-editor [readOnly]="isReadOnly" [maxLength]="2000" placeholder="Features" formControlName="feature" [modules]="modules"></quill-editor>
     </tab>
     <tab heading="Fixes">
-        <quill-editor placeholder="Bug fixes" formControlName="bug" [modules]="modules"></quill-editor>
+        <quill-editor [readOnly]="isReadOnly" [maxLength]="2000" placeholder="Bug fixes" formControlName="bug" [modules]="modules"></quill-editor>
     </tab>
   </tabset>
 </div>

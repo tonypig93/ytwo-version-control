@@ -11,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProjectDetailVersionsLogComponent implements OnInit {
   @Input() group: FormGroup;
+  @Input() isReadOnly: boolean;
   log: any;
   @ViewChild('staticTabs') staticTabs: TabsetComponent;
   modules: any = {

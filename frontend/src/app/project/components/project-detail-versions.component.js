@@ -1,4 +1,9 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,19 +17,22 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var group_data_service_1 = require("../../group/services/group-data.service");
 var vc_data_service_1 = require("../../services/vc-data.service");
+var vc_base_service_1 = require("../../services/vc-base.service");
 var project_data_service_1 = require("../services/project-data.service");
-var ProjectDetailVersionsComponent = (function () {
+var ProjectDetailVersionsComponent = (function (_super) {
+    __extends(ProjectDetailVersionsComponent, _super);
     function ProjectDetailVersionsComponent(fb, ProjectMangementDataService, ParamsService) {
-        this.fb = fb;
-        this.ProjectMangementDataService = ProjectMangementDataService;
-        this.ParamsService = ParamsService;
-        this.formErrors = {
+        var _this = _super.call(this) || this;
+        _this.fb = fb;
+        _this.ProjectMangementDataService = ProjectMangementDataService;
+        _this.ParamsService = ParamsService;
+        _this.formErrors = {
             'major': '',
             'minor': '',
             'patch': '',
             'repoCode': ''
         };
-        this.validationMessages = {
+        _this.validationMessages = {
             'major': {
                 'required': 'Majoy number is required.',
             },
@@ -38,18 +46,23 @@ var ProjectDetailVersionsComponent = (function () {
                 'required': 'Repository code is required.',
             }
         };
+        _this.selectedVersion = 'New Version';
+        _this.isReadOnly = false;
+        return _this;
     }
     ProjectDetailVersionsComponent.prototype.ngOnInit = function () {
         this.buildForm();
+        console.log(this.form);
     };
     ProjectDetailVersionsComponent.prototype.doSubmit = function () {
+        var _this = this;
         console.log(this.form);
         var payload = {};
         $.fn.extend(payload, this.form.value);
         payload['projectId'] = this.ParamsService.projectId;
         this.ProjectMangementDataService.updateVersion(payload)
             .subscribe(function (data) {
-            console.log(data);
+            _this.versions.data = data.concat(_this.versions.data);
         });
     };
     ProjectDetailVersionsComponent.prototype.decrease = function (name) {
@@ -64,20 +77,38 @@ var ProjectDetailVersionsComponent = (function () {
     };
     ProjectDetailVersionsComponent.prototype.buildForm = function () {
         var _this = this;
+        var last = this.versions.data[0];
         this.form = this.fb.group({
-            major: [0, forms_1.Validators.required],
-            minor: [0, forms_1.Validators.required],
-            patch: [0, forms_1.Validators.required],
+            major: [last.V_MAJOR, forms_1.Validators.required],
+            minor: [last.V_MINOR, forms_1.Validators.required],
+            patch: [last.V_PATCH, forms_1.Validators.required],
             log: this.fb.group({
-                general: 'ggg',
-                feature: 'f',
-                bug: 'bug'
+                general: '',
+                feature: '',
+                bug: ''
             }),
             repoCode: ['', forms_1.Validators.required]
         });
         this.form.valueChanges
             .subscribe(function (data) { return _this.onValueChanged(data); });
         this.onValueChanged();
+    };
+    ProjectDetailVersionsComponent.prototype.setModel = function (data) {
+        var last = this.versions.data[0];
+        this.form.reset({
+            major: data ? data.V_MAJOR : last.V_MAJOR,
+            minor: data ? data.V_MINOR : last.V_MINOR,
+            patch: data ? data.V_PATCH : last.V_PATCH,
+            log: {
+                general: data ? data.LOG_GENERAL : '',
+                feature: data ? data.LOG_FEATURE : '',
+                bug: data ? data.LOG_BUG : ''
+            },
+            repoCode: data ? data.REPO_CODE : ''
+        });
+        this.selectedVersion = data ? data.V_MAJOR + "." + data.V_MINOR + "." + data.V_PATCH : 'New Version';
+        this.isReadOnly = data ? true : false;
+        this.selectedVID = data ? data.ID : undefined;
     };
     ProjectDetailVersionsComponent.prototype.onValueChanged = function (data) {
         if (!this.form) {
@@ -96,8 +127,11 @@ var ProjectDetailVersionsComponent = (function () {
             }
         }
     };
+    ProjectDetailVersionsComponent.prototype.isCurrent = function (id) {
+        return this.selectedVID === id;
+    };
     return ProjectDetailVersionsComponent;
-}());
+}(vc_base_service_1.VcListControl));
 __decorate([
     core_1.Input(),
     __metadata("design:type", vc_data_service_1.VcDataService)

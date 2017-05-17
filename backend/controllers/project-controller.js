@@ -93,7 +93,6 @@ ProjectController.include({
     updateVersion: function (major, minor, patch, projectId, repoCode, log) {
         let defer = q.defer();
         let userId = 1013;
-        console.log(projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature)
         DBController.insert(`insert into PRJ_VERSION 
             (PRJ_FK,V_MAJOR,V_MINOR,V_PATCH,USER_FK,REPO_CODE,LOG_BUG,LOG_GENERAL,LOG_FEATURE) 
             values (?,?,?,?,?,?,?,?,?)`,

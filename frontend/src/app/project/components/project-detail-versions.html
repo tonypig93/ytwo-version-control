@@ -8,16 +8,23 @@
         <div class="panel panel-default">
             <div class="panel-heading">Versions</div>
             <div class="panel-body">
-                <a href="javascript:;" class="version-new">New Version</a>
+                <ul class="list-block">
+                    <li>
+                        <a href="javascript:;" [class.active]="isCurrent()" (click)="setModel()">New Version</a>
+                    </li>
+                    <li *ngFor="let item of versions.data; trackBy: trackByID" (click)="setModel(item)">
+                        <a href="javascript:;" [class.active]="isCurrent(item.ID)">{{item.V_MAJOR + '.' + item.V_MINOR + '.' + item.V_PATCH}}</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <div class="col-sm-8">
         <div class="panel panel-default">
-            <div class="panel-heading">Versions</div>
+            <div class="panel-heading">{{selectedVersion}}</div>
             <div class="panel-body">
                 <form [formGroup]="form" novalidate (ngSubmit)="doSubmit()">
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="!isReadOnly">
                         <div class="row">
                             <div class="col-sm-4">
                                 <label>Majoy</label>
@@ -69,16 +76,16 @@
                     </div>
                     <div class="form-group">
                         <label>Repository Code</label>
-                        <input type="text" class="form-control" formControlName="repoCode">
+                        <input type="text" class="form-control" [readOnly]="isReadOnly" formControlName="repoCode">
                         <div *ngIf="formErrors.repoCode" class="alert alert-danger">
                             {{ formErrors.repoCode }}
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Update Logs</label>
-                        <project-version-log [group]="form.get('log')"></project-version-log>
+                        <project-version-log [isReadOnly]="isReadOnly" [group]="form.get('log')"></project-version-log>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="!isReadOnly">
                         <div class="col-sm-6">
                             <button type="submit" class="btn btn-success btn-block" [disabled]="!form.valid">Submit</button>
                         </div>

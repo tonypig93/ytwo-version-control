@@ -11,3 +11,18 @@
     display: flex;
     justify-content: space-between;
 }
+.list-block {
+    list-style: none;
+    padding: 0;
+}
+.list-block > li > a {
+    display: block;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+.list-block > li > a:hover {
+    border-bottom: 1px solid #ddd;
+}
+.list-block > li > a.active {
+    border-bottom: 1px solid #ddd;
+}

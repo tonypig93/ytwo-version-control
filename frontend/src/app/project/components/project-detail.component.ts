@@ -28,6 +28,7 @@ export class ProjectDetailComponent implements OnInit  {
             roles: new VcDataService(data['roles']),
             powers: new VcDataService(data['powers'])
         };
+        this.management.versions.data.reverse();
         // this.ProjectUserDataService.userList.subscribe(_data => {
         //       this.userList = _data;
         // });

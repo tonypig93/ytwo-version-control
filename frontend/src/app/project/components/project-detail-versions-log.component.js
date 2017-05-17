@@ -45,6 +45,10 @@ __decorate([
     __metadata("design:type", forms_1.FormGroup)
 ], ProjectDetailVersionsLogComponent.prototype, "group", void 0);
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ProjectDetailVersionsLogComponent.prototype, "isReadOnly", void 0);
+__decorate([
     core_1.ViewChild('staticTabs'),
     __metadata("design:type", ngx_bootstrap_1.TabsetComponent)
 ], ProjectDetailVersionsLogComponent.prototype, "staticTabs", void 0);
