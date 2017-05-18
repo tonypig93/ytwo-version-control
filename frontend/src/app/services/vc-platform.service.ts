@@ -16,8 +16,7 @@ export class VcPlatformService implements CanLoad {
                 observer.complete();
             });
         }
-        let {userName: userName, $hash: $hash} = userInfo;
-        return this.http.post('http://localhost:8000/checkIdentity', {userName: userName, $hash: $hash})
+        return this.http.post('http://localhost:8000/checkIdentity', {})
         .map(res => {
             if (!res.error) {
                 return true;

@@ -31,9 +31,13 @@ var ProfilesService = (function () {
         //     }
         // })
     };
+    ProfilesService.prototype.logout = function () {
+        return this.http.post('http://localhost:8000/logout', {});
+    };
     ProfilesService.prototype.setUserInfo = function (userInfo) {
         this.userInfo = userInfo;
         this.saveUserInfo();
+        this.http.setAuthHeader(userInfo.$hash);
     };
     ProfilesService.prototype.getUserInfo = function () {
         return this.userInfo ? this.userInfo : this.getUserInfoFromStorage();

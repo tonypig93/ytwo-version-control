@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Pipe } from '@angular/core';
 @Directive({
     selector: '[vc-active-list]'
 })
@@ -10,4 +10,12 @@ export class VcActiveList {
     onClick() {
         console.log(333);
     }
+}
+@Pipe({
+  name: 'reverse'
+})
+export class ReversePipe {
+  transform(value: any []) {
+    return value.slice().reverse();
+  }
 }

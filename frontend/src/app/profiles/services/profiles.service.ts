@@ -29,9 +29,13 @@ export class ProfilesService {
         //     }
         // })
     }
+    public logout(): Observable<any> {
+        return this.http.post('http://localhost:8000/logout', {});
+    }
     public setUserInfo(userInfo: IUserInfo) {
         this.userInfo = userInfo;
         this.saveUserInfo();
+        this.http.setAuthHeader(userInfo.$hash);
     }
     public getUserInfo(): IUserInfo {
         return this.userInfo ? this.userInfo : this.getUserInfoFromStorage();

@@ -1,3 +1,4 @@
+'use strict';
 let q = require('q');
 let Controller = require('../base/controller');
 let DBController = require('./db-controller');
@@ -90,15 +91,22 @@ ProjectController.include({
         });
         return defer.promise;
     },
-    updateVersion: function (major, minor, patch, projectId, repoCode, log) {
+    updateVersion: function (major, minor, patch, projectId, repoCode, log, userId, ID) {
         let defer = q.defer();
-        let userId = 1013;
-        DBController.insert(`insert into PRJ_VERSION 
+        let sql = '';
+        if (ID) {
+            sql = `update PRJ_VERSION set 
+            PRJ_FK=?,V_MAJOR=?,V_MINOR=?,V_PATCH=?,USER_FK=?,REPO_CODE=?,LOG_BUG=?,LOG_GENERAL=?,LOG_FEATURE=? 
+            where PRJ_VERSION.ID=?`;
+        } else {
+            sql = `insert into PRJ_VERSION 
             (PRJ_FK,V_MAJOR,V_MINOR,V_PATCH,USER_FK,REPO_CODE,LOG_BUG,LOG_GENERAL,LOG_FEATURE) 
-            values (?,?,?,?,?,?,?,?,?)`,
-            [projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature])
+            values (?,?,?,?,?,?,?,?,?)`;
+        }
+        DBController.insert(sql,
+            [projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature, ID])
         .then((res) => {
-            this.getOneVersion(res.insertId).then( data => {
+            this.getOneVersion(res.insertId || ID).then( data => {
                 defer.resolve(data);
             });
         }, function (err) {

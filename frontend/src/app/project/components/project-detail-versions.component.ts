@@ -44,17 +44,23 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
       }
     ngOnInit() {
       this.buildForm();
-      console.log(this.form)
     }
 
     doSubmit() {
-      console.log(this.form);
       let payload = {};
       $.fn.extend(payload, this.form.value);
       payload['projectId'] = this.ParamsService.projectId;
       this.ProjectMangementDataService.updateVersion(payload)
       .subscribe(data => {
-        this.versions.data = data.concat(this.versions.data);
+          if (data) {
+              data = data[0];
+              let index = this.versions.findByAttr('ID', data.ID, true);
+              if (index >= 0) {
+                this.versions.data[index] = data;
+              } else {
+                this.versions.data = [data].concat(this.versions.data);
+              }
+          }
       })
     }
     decrease(name: string) {
@@ -70,6 +76,7 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
     buildForm(): void {
         let last = this.versions.data[0];
         this.form = this.fb.group({
+            ID: [null],
             major: [last.V_MAJOR, Validators.required],
             minor: [last.V_MINOR, Validators.required],
             patch: [last.V_PATCH, Validators.required],
@@ -84,9 +91,11 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
         .subscribe((data: any) => this.onValueChanged(data));
         this.onValueChanged();
     }
-    setModel(data: any) {
-        let last = this.versions.data[0];
+    setModel(ID: number) {
+        let data = this.versions.findByAttr('ID', ID);
+        let last = this.versions.data[this.versions.data.length - 1];
         this.form.reset({
+            ID: data ? data.ID : null,
             major: data ? data.V_MAJOR : last.V_MAJOR,
             minor: data ? data.V_MINOR : last.V_MINOR,
             patch: data ? data.V_PATCH : last.V_PATCH,
@@ -98,7 +107,7 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
             repoCode: data ? data.REPO_CODE : ''
         });
         this.selectedVersion = data ? `${data.V_MAJOR}.${data.V_MINOR}.${data.V_PATCH}` : 'New Version';
-        this.isReadOnly = data ? true : false;
+        this.isReadOnly = (data && data.STATUS) ? true : false;
         this.selectedVID = data ? data.ID : undefined;
     }
     onValueChanged(data?: any) {

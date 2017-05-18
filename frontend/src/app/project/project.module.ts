@@ -16,7 +16,7 @@ import { ProjectDetailRolesComponent } from './components/project-detail-roles.c
 import { ProjectAddRoleModalComponent } from './components/project-add-role.component';
 import { ProjectDetailVersionsComponent } from './components/project-detail-versions.component';
 import { ProjectDetailVersionsLogComponent } from './components/project-detail-versions-log.component';
-import { VcActiveList } from '../directives/vc-directives';
+import { VcActiveList, ReversePipe } from '../directives/vc-directives';
 import { QuillModule } from 'ngx-quill'
 import { SelectModule } from 'ng2-select';
 
@@ -25,7 +25,7 @@ import { SelectModule } from 'ng2-select';
     declarations: [ ProjectMainComponent, ProjectCreateComponent, ProjectDetailComponent, ProjectTabsBasicComponent,
                     ProjectDetailGeneralComponent, ProjectDetailTasksComponent, ProjectDetailMembersComponent,
                     ProjectAddUserModalComponent, ProjectDetailRolesComponent, ProjectAddRoleModalComponent,
-                    ProjectDetailVersionsComponent, ProjectDetailVersionsLogComponent, VcActiveList ],
+                    ProjectDetailVersionsComponent, ProjectDetailVersionsLogComponent, VcActiveList, ReversePipe ],
     providers: [ ProjectDataService, ProjectUserDataService, ProjectMangementDataService ]
 })
 export class ProjectModule { }

@@ -10,9 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var vc_http_service_1 = require("./services/vc-http.service");
+var profiles_service_1 = require("./profiles/services/profiles.service");
 var AppComponent = (function () {
-    function AppComponent(router) {
+    function AppComponent(router, ProfilesService, http) {
         this.router = router;
+        this.ProfilesService = ProfilesService;
+        this.http = http;
+        var userInfo = this.ProfilesService.getUserInfo();
+        if (userInfo) {
+            this.http.setAuthHeader(userInfo.$hash);
+        }
     }
     AppComponent.prototype.isLoginPage = function () {
         return (this.router.url !== '/login') && (this.router.url !== '/');
@@ -25,7 +33,7 @@ AppComponent = __decorate([
         selector: 'vc-app',
         template: "<nav-bar *ngIf=\"isLoginPage()\"></nav-bar>\n  <router-outlet></router-outlet>",
     }),
-    __metadata("design:paramtypes", [router_1.Router])
+    __metadata("design:paramtypes", [router_1.Router, profiles_service_1.ProfilesService, vc_http_service_1.VcHttpService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

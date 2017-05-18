@@ -14,17 +14,20 @@ require("rxjs/add/operator/map");
 var VcHttpService = (function () {
     function VcHttpService(http) {
         this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Authorization': '' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
     }
     VcHttpService.prototype.get = function (url) {
-        return this.http.get(url)
+        return this.http.get(url, this.options)
             .map(function (res) { return res.json(); });
     };
     VcHttpService.prototype.post = function (url, body) {
         if (body === void 0) { body = {}; }
         return this.http.post(url, body, this.options)
             .map(function (res) { return res.json(); });
+    };
+    VcHttpService.prototype.setAuthHeader = function (token) {
+        this.options.headers.set('Authorization', token);
     };
     return VcHttpService;
 }());

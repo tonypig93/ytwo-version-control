@@ -1,3 +1,4 @@
+'use strict';
 let mysql  = require('mysql');
 let q = require('q');
 let Controller = require('../base/controller');

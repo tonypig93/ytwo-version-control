@@ -1,3 +1,4 @@
+'use strict';
 let app = require('express')();
 let http = require('http').Server(app);
 let bodyParser = require('body-parser');
@@ -5,6 +6,9 @@ let UserController = require('./controllers/user-controller');
 let ProjectController = require('./controllers/project-controller');
 let DbController = require('./controllers/db-controller');
 let GroupController = require('./controllers/group-controller');
+let httpService = require('./base/http-service');
+
+let { dataJson: dataJson, http: _http } = httpService;
 
 app.use(bodyParser());
 app.all('*', function(req, res, next) {
@@ -21,13 +25,7 @@ app.all('*', function(req, res, next) {
 app.get('/', function(req, res){
 	res.sendFile( __dirname + "../frontend/src/index.html" );
 });
-function dataJson(obj, error = 0, msg = '') {
-    return JSON.stringify({
-        error: error,
-        data: obj,
-        msg: msg
-    });
-}
+
 app.post('/login', function (req, res) {
     let userInfo = req.body;
     userInfo.IP = req.ip;
@@ -35,15 +33,16 @@ app.post('/login', function (req, res) {
         if(user) {
             res.end(dataJson(user));
         } else {
-            res.end(dataJson(null, 1, 'error'));
+            res.end(dataJson(null, 1, 'login failed'));
         }
     }, function (err) {
         res.end(dataJson(null, 1, err));
     });
 });
 app.post('/checkIdentity', function (req, res) {
-    let userInfo = req.body;
+    let userInfo = req.body || {};
     userInfo.IP = req.ip;
+    userInfo.$hash = req.header('authorization');
     UserController.checkLogin(userInfo).then(function (user) {
         // console.log(user);
         if(user) {
@@ -55,6 +54,11 @@ app.post('/checkIdentity', function (req, res) {
         console.log('user check fail')
         res.end(dataJson(null, 1, 'check result: false'));
     });
+});
+app.post('/logout', function (req, res) {
+    let $hash = req.header('authorization');
+    UserController.logout($hash);
+    res.end(dataJson(true));
 });
 app.get('/group/list', function (req, res) {
     GroupController.getList().then(function (data) {
@@ -202,15 +206,19 @@ app.post('/project/user/delete', function (req, res) {
         res.end(dataJson(null, 1, 'info: ' + err));
     })
 });
-app.post('/project/version/update', function (req, res) {
-    let {major, minor, patch, projectId, repoCode, log} = req.body;
-    ProjectController.updateVersion(major, minor, patch, projectId, repoCode, log).then(function (data) {
+app.post('/project/version/update', _http(function (req, res, $hash) {
+    let {major, minor, patch, projectId, repoCode, log, ID} = req.body;
+    let userID = UserController.getUserIDFromHash($hash);
+    ProjectController.updateVersion(major, minor, patch, projectId, repoCode, log, userID, ID).then(function (data) {
         res.end(dataJson(data));
     }, function (err) {
         console.log('update project version failed')
         res.end(dataJson(null, 1, 'info: ' + err));
     })
-});
+}, function ($hash) {
+    return !!$hash;
+}));
+
 http.listen(8000, function(){
 	console.log('listening on *:8000');
 });

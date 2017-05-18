@@ -29,8 +29,7 @@ var VcPlatformService = (function () {
                 observer.complete();
             });
         }
-        var userName = userInfo.userName, $hash = userInfo.$hash;
-        return this.http.post('http://localhost:8000/checkIdentity', { userName: userName, $hash: $hash })
+        return this.http.post('http://localhost:8000/checkIdentity', {})
             .map(function (res) {
             if (!res.error) {
                 return true;

@@ -27,8 +27,13 @@ var NavBarComponent = (function () {
             {
                 name: 'Logout',
                 fn: function () {
-                    _this.ProfilesService.clearUserInfo();
-                    _this.router.navigate(['/login']);
+                    _this.ProfilesService.logout()
+                        .subscribe(function (data) {
+                        if (data) {
+                            _this.ProfilesService.clearUserInfo();
+                            _this.router.navigate(['/login']);
+                        }
+                    });
                 }
             }
         ];

@@ -44,10 +44,14 @@ var VcDataService = (function () {
         this.quickSort(arr, left, i - 1, attr);
         this.quickSort(arr, i + 1, right, attr);
     };
-    VcDataService.prototype.findByAttr = function (attr, value) {
+    VcDataService.prototype.findByAttr = function (attr, value, isIndex) {
+        if (isIndex === void 0) { isIndex = false; }
+        if (!this.data) {
+            return null;
+        }
         if (this.currentSortAttr && (this.currentSortAttr !== attr)) {
-            throw new Error('Current data set is not sorted by \"'
-                + attr + '\"! Resort data set with \"' + attr + '\" or  using `findByAttrLinear`');
+            throw new Error('Current data set is not sorted by \"' +
+                attr + '\"! Resort data set with \"' + attr + '\" or  using `findByAttrLinear`');
         }
         var left = 0, right = this.data.length - 1;
         while (left < right) {
@@ -59,10 +63,11 @@ var VcDataService = (function () {
                 right = mid - 1;
             }
             else {
-                return this.data[mid];
+                return isIndex ? mid : this.data[mid];
             }
         }
-        return this.data[left][attr] === value ? this.data[left] : null;
+        var shot = this.data[left] && (this.data[left][attr] === value);
+        return shot ? (isIndex ? left : this.data[left]) : (isIndex ? -(++left) : null);
     };
     VcDataService.prototype.findByAttrLinear = function (attr, value) {
         var res = [];

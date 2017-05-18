@@ -1,3 +1,4 @@
+'use strict';
 let Controller = function (init) {
     let __class = function () {
         this.init.apply(this, arguments);

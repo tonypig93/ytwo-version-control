@@ -1,3 +1,4 @@
+'use strict';
 let q = require('q');
 let Controller = require('../base/controller');
 let DBController = require('./db-controller');

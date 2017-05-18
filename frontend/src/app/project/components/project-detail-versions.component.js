@@ -52,17 +52,24 @@ var ProjectDetailVersionsComponent = (function (_super) {
     }
     ProjectDetailVersionsComponent.prototype.ngOnInit = function () {
         this.buildForm();
-        console.log(this.form);
     };
     ProjectDetailVersionsComponent.prototype.doSubmit = function () {
         var _this = this;
-        console.log(this.form);
         var payload = {};
         $.fn.extend(payload, this.form.value);
         payload['projectId'] = this.ParamsService.projectId;
         this.ProjectMangementDataService.updateVersion(payload)
             .subscribe(function (data) {
-            _this.versions.data = data.concat(_this.versions.data);
+            if (data) {
+                data = data[0];
+                var index = _this.versions.findByAttr('ID', data.ID, true);
+                if (index >= 0) {
+                    _this.versions.data[index] = data;
+                }
+                else {
+                    _this.versions.data = [data].concat(_this.versions.data);
+                }
+            }
         });
     };
     ProjectDetailVersionsComponent.prototype.decrease = function (name) {
@@ -79,6 +86,7 @@ var ProjectDetailVersionsComponent = (function (_super) {
         var _this = this;
         var last = this.versions.data[0];
         this.form = this.fb.group({
+            ID: [null],
             major: [last.V_MAJOR, forms_1.Validators.required],
             minor: [last.V_MINOR, forms_1.Validators.required],
             patch: [last.V_PATCH, forms_1.Validators.required],
@@ -93,9 +101,11 @@ var ProjectDetailVersionsComponent = (function (_super) {
             .subscribe(function (data) { return _this.onValueChanged(data); });
         this.onValueChanged();
     };
-    ProjectDetailVersionsComponent.prototype.setModel = function (data) {
-        var last = this.versions.data[0];
+    ProjectDetailVersionsComponent.prototype.setModel = function (ID) {
+        var data = this.versions.findByAttr('ID', ID);
+        var last = this.versions.data[this.versions.data.length - 1];
         this.form.reset({
+            ID: data ? data.ID : null,
             major: data ? data.V_MAJOR : last.V_MAJOR,
             minor: data ? data.V_MINOR : last.V_MINOR,
             patch: data ? data.V_PATCH : last.V_PATCH,
@@ -107,7 +117,7 @@ var ProjectDetailVersionsComponent = (function (_super) {
             repoCode: data ? data.REPO_CODE : ''
         });
         this.selectedVersion = data ? data.V_MAJOR + "." + data.V_MINOR + "." + data.V_PATCH : 'New Version';
-        this.isReadOnly = data ? true : false;
+        this.isReadOnly = (data && data.STATUS) ? true : false;
         this.selectedVID = data ? data.ID : undefined;
     };
     ProjectDetailVersionsComponent.prototype.onValueChanged = function (data) {

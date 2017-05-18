@@ -22,8 +22,13 @@ export class NavBarComponent {
             {
                 name: 'Logout',
                 fn: () => {
-                    this.ProfilesService.clearUserInfo();
-                    this.router.navigate(['/login']);
+                    this.ProfilesService.logout()
+                    .subscribe(data => {
+                        if (data) {
+                            this.ProfilesService.clearUserInfo();
+                            this.router.navigate(['/login']);
+                        }
+                    })
                 }
             }
         ]

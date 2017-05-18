@@ -30,4 +30,18 @@ VcActiveList = __decorate([
     __metadata("design:paramtypes", [core_1.ElementRef])
 ], VcActiveList);
 exports.VcActiveList = VcActiveList;
+var ReversePipe = (function () {
+    function ReversePipe() {
+    }
+    ReversePipe.prototype.transform = function (value) {
+        return value.slice().reverse();
+    };
+    return ReversePipe;
+}());
+ReversePipe = __decorate([
+    core_1.Pipe({
+        name: 'reverse'
+    })
+], ReversePipe);
+exports.ReversePipe = ReversePipe;
 //# sourceMappingURL=vc-directives.js.map

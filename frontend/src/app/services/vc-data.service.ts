@@ -44,10 +44,13 @@ export class VcDataService {
         this.quickSort(arr, left, i - 1, attr);
         this.quickSort(arr, i + 1, right, attr);
     }
-    public findByAttr(attr: string, value: any) {
+    public findByAttr(attr: string, value: any, isIndex = false) {
+        if (!this.data) {
+            return null;
+        }
         if (this.currentSortAttr && (this.currentSortAttr !== attr)) {
-            throw new Error('Current data set is not sorted by \"'
-            + attr + '\"! Resort data set with \"' + attr + '\" or  using `findByAttrLinear`');
+            throw new Error('Current data set is not sorted by \"' +
+                attr + '\"! Resort data set with \"' + attr + '\" or  using `findByAttrLinear`');
         }
         let left = 0,
             right = this.data.length - 1;
@@ -58,10 +61,11 @@ export class VcDataService {
             } else if (value < this.data[mid][attr]) {
                 right = mid - 1;
             } else {
-                return this.data[mid];
+                return isIndex ? mid : this.data[mid];
             }
         }
-        return this.data[left][attr] === value ? this.data[left] : null;
+        let shot = this.data[left] && (this.data[left][attr] === value);
+        return shot ? (isIndex ? left : this.data[left]) : (isIndex ? -(++left) : null);
     }
     public findByAttrLinear(attr: string, value: any) {
         let res = [];
@@ -79,6 +83,7 @@ export class VcDataService {
         this.searchFilter = fn;
     }
     public setViewData() {
+
         let res = [];
         for (let i = 0, item; (item = this.data[i]); i ++) {
             let pass = true;

@@ -12,7 +12,7 @@
                     <li>
                         <a href="javascript:;" [class.active]="isCurrent()" (click)="setModel()">New Version</a>
                     </li>
-                    <li *ngFor="let item of versions.data; trackBy: trackByID" (click)="setModel(item)">
+                    <li *ngFor="let item of versions.data | reverse; trackBy: trackByID" (click)="setModel(item.ID)">
                         <a href="javascript:;" [class.active]="isCurrent(item.ID)">{{item.V_MAJOR + '.' + item.V_MINOR + '.' + item.V_PATCH}}</a>
                     </li>
                 </ul>
@@ -24,6 +24,7 @@
             <div class="panel-heading">{{selectedVersion}}</div>
             <div class="panel-body">
                 <form [formGroup]="form" novalidate (ngSubmit)="doSubmit()">
+                    <input type="number" formControlName="ID" class="form-control" readonly>
                     <div class="form-group" *ngIf="!isReadOnly">
                         <div class="row">
                             <div class="col-sm-4">
