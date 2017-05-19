@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { VcHttpService } from './vc-http.service';
 import { ProfilesService } from '../profiles/services/profiles.service';
 import { Router, CanLoad, Route } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class VcPlatformService implements CanLoad {

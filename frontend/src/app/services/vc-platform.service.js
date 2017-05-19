@@ -12,7 +12,7 @@ var core_1 = require("@angular/core");
 var vc_http_service_1 = require("./vc-http.service");
 var profiles_service_1 = require("../profiles/services/profiles.service");
 var router_1 = require("@angular/router");
-var Rx_1 = require("rxjs/Rx");
+var Observable_1 = require("rxjs/Observable");
 var VcPlatformService = (function () {
     function VcPlatformService(ProfilesService, http, router) {
         this.ProfilesService = ProfilesService;
@@ -23,7 +23,7 @@ var VcPlatformService = (function () {
         var _this = this;
         var userInfo = this.ProfilesService.getUserInfo();
         if (!userInfo) {
-            return Rx_1.Observable.create(function (observer) {
+            return Observable_1.Observable.create(function (observer) {
                 _this.router.navigate(['/login']);
                 observer.next(false);
                 observer.complete();

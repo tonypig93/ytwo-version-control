@@ -15,4 +15,3 @@ export class ProjectDetailGeneralComponent implements OnInit  {
         return this.visibilityMap[this.project.VISIBILITY];
     }
 }
-

@@ -12,15 +12,12 @@ import { GroupUserDataService } from '../../group/services/group-data.service';
 })
 export class ProjectCreateComponent implements OnInit {
     projectForm: FormGroup;
-    taskId = 0;
     userList: any [] = [];
     private value: any;
     formErrors = {
         'projectName': '',
         'description': '',
-        'tasks': '',
         'isPublic': '',
-        'members': ''
     };
     validationMessages = {
         'projectName': {
@@ -29,15 +26,9 @@ export class ProjectCreateComponent implements OnInit {
         'description': {
             'required': 'Description is required.',
         },
-        'tasks': {
-            'notEmpty': 'Task must be listed.'
-        },
         'visibility': {
             'required': 'Visibility is required.',
         },
-        'members': {
-            'notEmpty': 'Members must be listed.'
-        }
     };
     constructor(
         private fb: FormBuilder,
@@ -60,9 +51,7 @@ export class ProjectCreateComponent implements OnInit {
         this.projectForm = this.fb.group({
             projectName: ['', Validators.required],
             description: ['', Validators.required],
-            tasks: this.fb.array([]),
             visibility: ['0', Validators.required],
-            members: [[]]
         });
         this.projectForm.valueChanges
         .subscribe((data: any) => this.onValueChanged(data));
@@ -85,15 +74,6 @@ export class ProjectCreateComponent implements OnInit {
         }
         }
     }
-    get tasks(): FormArray {
-        return this.projectForm.get('tasks') as FormArray;
-    };
-    addTask() {
-        this.tasks.push(this.fb.group({
-            content: '',
-            id: this.taskId++
-        }));
-    }
     doSubmit() {
         if (this.projectForm.valid) {
         let values = this.projectForm.value;
@@ -105,34 +85,9 @@ export class ProjectCreateComponent implements OnInit {
         });
       }
     }
-    getActions(index: number) {
-        return [
-            {
-                name: 'Delete',
-                fn: (arr: FormArray, _index: number) => {
-                    arr.removeAt(_index);
-                },
-                params: [this.tasks, index]
-            }
-        ];
-    }
-    selected(value: any) {
-        let __value = this.projectForm.get('members').value;
-        __value.push(value.id)
-        this.projectForm.get('members').setValue(__value);
-    }
     refreshValue(value: any): void {
         this.value = value;
     }
-    removed(value: any): void {
-        let __value = this.projectForm.get('members').value;
-        let tmp = [];
-        for (let i = 0, item; (item = __value[i]); i ++) {
-            if (item !== value.id) {
-                tmp.push(item);
-            }
-        }
-        this.projectForm.get('members').setValue(tmp);
-    }
+
 }
 

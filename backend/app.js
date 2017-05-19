@@ -36,7 +36,7 @@ app.post('/login', function (req, res) {
             res.end(dataJson(null, 1, 'login failed'));
         }
     }, function (err) {
-        res.end(dataJson(null, 1, err));
+        res.end(dataJson(null, 1, 'Invalid USER_NAME or PASSWORD'));
     });
 });
 app.post('/checkIdentity', function (req, res) {
@@ -207,9 +207,9 @@ app.post('/project/user/delete', function (req, res) {
     })
 });
 app.post('/project/version/update', _http(function (req, res, $hash) {
-    let {major, minor, patch, projectId, repoCode, log, ID} = req.body;
+    let {major, minor, patch, projectId, repoCode, log, ID, release, type} = req.body;
     let userID = UserController.getUserIDFromHash($hash);
-    ProjectController.updateVersion(major, minor, patch, projectId, repoCode, log, userID, ID).then(function (data) {
+    ProjectController.updateVersion(major, minor, patch, projectId, repoCode, log, userID, ID, release, type).then(function (data) {
         res.end(dataJson(data));
     }, function (err) {
         console.log('update project version failed')

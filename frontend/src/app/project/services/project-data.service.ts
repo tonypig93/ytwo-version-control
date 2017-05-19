@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { VcHttpService } from '../../services/vc-http.service';
 import { Router, Resolve, Route, ActivatedRouteSnapshot } from '@angular/router';
 import { ParamsService } from '../../group/services/group-data.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ProjectDataService implements Resolve<any> {

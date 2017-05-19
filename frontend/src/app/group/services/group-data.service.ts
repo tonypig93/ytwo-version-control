@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VcHttpService } from '../../services/vc-http.service';
 import { Router, Resolve, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GroupDataService implements Resolve<any> {

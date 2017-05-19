@@ -199,9 +199,11 @@ CREATE TABLE `prj_version` (
   `LOG_FEATURE` varchar(2000) DEFAULT NULL,
   `LOG_GENERAL` varchar(2000) DEFAULT NULL,
   `INPUT_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
+  `STATUS` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: editing\n1: closed',
+  `TYPE` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: development version\n1: production version',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1014 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +212,7 @@ CREATE TABLE `prj_version` (
 
 LOCK TABLES `prj_version` WRITE;
 /*!40000 ALTER TABLE `prj_version` DISABLE KEYS */;
-INSERT INTO `prj_version` VALUES (1001,1020,0,1,0,1013,NULL,NULL,NULL,NULL,'2017-05-17 11:55:15'),(1002,1020,0,1,1,1013,'23213123','bug','f','ggg','2017-05-17 11:58:52'),(1003,1020,0,1,2,1013,'423432421','','<p>ewfwf</p>','<ol><li><strong><u>432423</u></strong></li><li><strong><u>33232</u></strong></li><li><strong><u>4</u></strong></li></ol>','2017-05-17 16:50:36'),(1004,1020,0,1,3,1013,'3232323','','','<h1>dfsfsafsfd</h1>','2017-05-17 16:51:58'),(1005,1020,0,1,4,1013,'213123','','','','2017-05-17 16:52:52'),(1006,1020,0,1,5,1013,'1233213','','',NULL,'2017-05-17 16:53:46'),(1007,1020,0,1,6,1013,'123123','','','','2017-05-17 17:01:54'),(1008,1020,0,1,7,1013,'432423','','','','2017-05-17 17:02:26');
+INSERT INTO `prj_version` VALUES (1001,1020,0,1,0,1013,NULL,NULL,NULL,NULL,'2017-05-17 11:55:15',0,0),(1002,1020,0,1,1,1013,'23213123','bug','f','ggg','2017-05-17 11:58:52',0,0),(1003,1020,0,1,2,1013,'423432421','','<p>ewfwf</p>','<ol><li><strong><u>432423</u></strong></li><li><strong><u>33232</u></strong></li><li><strong><u>4</u></strong></li></ol>','2017-05-17 16:50:36',0,0),(1004,1020,0,1,3,1013,'3232323','','','<h1>dfsfsafsfd</h1>','2017-05-17 16:51:58',0,0),(1005,1020,0,1,4,1013,'213123','','','','2017-05-17 16:52:52',0,0),(1006,1020,0,1,5,1013,'1233213','','','<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>','2017-05-17 16:53:46',1,0),(1007,1020,0,1,6,1013,'123123','','','','2017-05-17 17:01:54',1,0),(1008,1020,0,1,7,1013,'432423','','','','2017-05-17 17:02:26',1,0),(1009,1020,0,1,8,1013,'33213','','','<p>test update front22222dsfsdfsafsfd</p><p>77777dfsfsf</p><p>fdfsddfds</p><p>1221312321</p><p>rrrrr</p><p>qqqqqqqq</p><p>eeee</p><p>mmmmmmm</p>','2017-05-18 16:04:55',1,0),(1010,1020,0,1,9,1013,'123','','','','2017-05-19 10:39:14',1,0),(1011,1020,0,1,0,1013,'1234','','','','2017-05-19 11:16:10',1,1),(1013,1023,0,1,2,1013,'2380','','','<p>Start using version control for YTWO app</p>','2017-05-19 13:32:22',1,0);
 /*!40000 ALTER TABLE `prj_version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,10 +234,11 @@ CREATE TABLE `project` (
   `MARK_DELETE` tinyint(4) NOT NULL DEFAULT '0',
   `TASK_DONE` int(11) NOT NULL DEFAULT '0',
   `TASK_TOTAL` int(11) DEFAULT '0',
+  `CURRENT_D_VERSION` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_UNIQUE` (`ID`),
   UNIQUE KEY `PRJ_NAME_UNIQUE` (`PRJ_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1024 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +247,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES (1020,'YTWO Mobile App fjdlsfj. jlkjljflkd fjkdl',1000,1,'0.1.7',4,'app for YTWO, customers, suppliers',0,0,2),(1021,'YTWO desktop',1000,1,NULL,2,'desktop software service',0,0,2);
+INSERT INTO `project` VALUES (1020,'YTWO test',1000,1,'0.1.9',4,'app for YTWO, customers, suppliers',0,0,2,NULL),(1021,'YTWO desktop',1000,1,NULL,2,'desktop software service',0,0,2,NULL),(1023,'YTWO App for Pad',1000,0,NULL,0,'A YTWO app designed for Pad, including several dashboards and supplier.',0,0,0,'0.1.2');
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,4 +291,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-17 17:14:24
+-- Dump completed on 2017-05-19 17:27:55

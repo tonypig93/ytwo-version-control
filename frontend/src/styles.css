@@ -7,7 +7,7 @@ h1 {
   font-size: 250%;
 }
 body{
-  background-color: #eee;
+    background-color: #fff;
 }
 .mb10{
   margin-bottom: 10px!important;
@@ -207,4 +207,13 @@ hr{
 }
 #project-log .nav-tabs {
     display: block;
+}
+.filter-row {
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-top: 5px;
+}
+.filter-body {
+    padding-top: 0;
 }

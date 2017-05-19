@@ -69,7 +69,7 @@ export class GroupManagementComponent implements OnInit  {
         .debounceTime(500)
         .subscribe((search) => {
             this.management.projects.setSearchFilter((item: any) => {
-                return item.PRJ_NAME.indexOf(search) > -1;
+                return item.PRJ_NAME.toLowerCase().indexOf(search.toLowerCase()) > -1;
             });
             this.management.projects.setViewData();
         });
@@ -77,7 +77,7 @@ export class GroupManagementComponent implements OnInit  {
         .debounceTime(500)
         .subscribe((search) => {
             this.management.users.setSearchFilter((item: any) => {
-                return item.userName.indexOf(search) > -1;
+                return item.userName.toLowerCase().indexOf(search.toLowerCase()) > -1;
             });
             this.management.users.setViewData();
         });

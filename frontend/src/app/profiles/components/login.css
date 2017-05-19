@@ -4,6 +4,8 @@
 }
 .login-main{
   display: flex;
-  height: 100%;
+  min-height: 950px;
   justify-content: center;
+  background-image: url('../../../asserts/image/home-code.svg');
+    background-size: 100% auto;
 }

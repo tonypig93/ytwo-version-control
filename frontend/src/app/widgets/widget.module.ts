@@ -8,12 +8,13 @@ import { DropdownComponent } from './dropdown/dropdown.component';
 import { AddUserModalComponent } from './modal/group-add-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownBasicComponent } from './dropdown/dropdown-basic.component';
+import { InfoModalComponent } from './modal/info-modal.component';
 
 @NgModule({
     imports:      [ ModalModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot(),
                     CommonModule, RouterModule, FormsModule, ReactiveFormsModule ],
-    declarations: [ ModalComponent, NavBarComponent, DropdownComponent, AddUserModalComponent, DropdownBasicComponent ],
-    exports: [ ModalComponent, NavBarComponent, DropdownComponent, AddUserModalComponent, DropdownBasicComponent, 
-                ModalModule, BsDropdownModule, TabsModule ]
+    declarations: [ ModalComponent, NavBarComponent, DropdownComponent, AddUserModalComponent, DropdownBasicComponent, InfoModalComponent ],
+    exports: [ ModalComponent, NavBarComponent, DropdownComponent, AddUserModalComponent, DropdownBasicComponent,
+                ModalModule, BsDropdownModule, TabsModule, InfoModalComponent ]
 })
 export class WidgetModule { }

@@ -5,8 +5,7 @@ import { ProfilesService } from './profiles/services/profiles.service';
 
 @Component({
   selector: 'vc-app',
-  template: `<nav-bar *ngIf="isLoginPage()"></nav-bar>
-  <router-outlet></router-outlet>`,
+  templateUrl: './app.html',
 })
 export class AppComponent implements OnInit  {
   constructor(private router: Router, private ProfilesService: ProfilesService, private http: VcHttpService) {

@@ -10,10 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
+require("rxjs/add/operator/catch");
+require("rxjs/add/observable/throw");
+var vc_global_component_service_1 = require("../services/vc-global-component.service");
 var VcHttpService = (function () {
-    function VcHttpService(http) {
+    function VcHttpService(http, VcGlobalComponentService) {
         this.http = http;
+        this.VcGlobalComponentService = VcGlobalComponentService;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Authorization': '' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
     }
@@ -23,8 +28,25 @@ var VcHttpService = (function () {
     };
     VcHttpService.prototype.post = function (url, body) {
         if (body === void 0) { body = {}; }
+        var modal = this.VcGlobalComponentService.infoModal;
         return this.http.post(url, body, this.options)
-            .map(function (res) { return res.json(); });
+            .map(function (res) {
+            var ret = res.json();
+            if (modal && ret.error) {
+                modal.modalBody = ret.msg;
+                modal.modalTitle = 'Error !';
+                modal.showModal();
+            }
+            return ret;
+        })
+            .catch(function (error) {
+            if (modal) {
+                modal.modalBody = error.status + ": " + error.statusText;
+                modal.modalTitle = 'Error !';
+                modal.showModal();
+            }
+            return Observable_1.Observable.throw(error);
+        });
     };
     VcHttpService.prototype.setAuthHeader = function (token) {
         this.options.headers.set('Authorization', token);
@@ -33,7 +55,7 @@ var VcHttpService = (function () {
 }());
 VcHttpService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http, vc_global_component_service_1.VcGlobalComponentService])
 ], VcHttpService);
 exports.VcHttpService = VcHttpService;
 //# sourceMappingURL=vc-http.service.js.map

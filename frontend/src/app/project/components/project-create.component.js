@@ -20,14 +20,11 @@ var ProjectCreateComponent = (function () {
         this.ProjectDataService = ProjectDataService;
         this.ParamsService = ParamsService;
         this.GroupUserDataService = GroupUserDataService;
-        this.taskId = 0;
         this.userList = [];
         this.formErrors = {
             'projectName': '',
             'description': '',
-            'tasks': '',
             'isPublic': '',
-            'members': ''
         };
         this.validationMessages = {
             'projectName': {
@@ -36,15 +33,9 @@ var ProjectCreateComponent = (function () {
             'description': {
                 'required': 'Description is required.',
             },
-            'tasks': {
-                'notEmpty': 'Task must be listed.'
-            },
             'visibility': {
                 'required': 'Visibility is required.',
             },
-            'members': {
-                'notEmpty': 'Members must be listed.'
-            }
         };
     }
     ProjectCreateComponent.prototype.ngOnInit = function () {
@@ -62,9 +53,7 @@ var ProjectCreateComponent = (function () {
         this.projectForm = this.fb.group({
             projectName: ['', forms_1.Validators.required],
             description: ['', forms_1.Validators.required],
-            tasks: this.fb.array([]),
             visibility: ['0', forms_1.Validators.required],
-            members: [[]]
         });
         this.projectForm.valueChanges
             .subscribe(function (data) { return _this.onValueChanged(data); });
@@ -87,20 +76,6 @@ var ProjectCreateComponent = (function () {
             }
         }
     };
-    Object.defineProperty(ProjectCreateComponent.prototype, "tasks", {
-        get: function () {
-            return this.projectForm.get('tasks');
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ;
-    ProjectCreateComponent.prototype.addTask = function () {
-        this.tasks.push(this.fb.group({
-            content: '',
-            id: this.taskId++
-        }));
-    };
     ProjectCreateComponent.prototype.doSubmit = function () {
         if (this.projectForm.valid) {
             var values = this.projectForm.value;
@@ -112,34 +87,8 @@ var ProjectCreateComponent = (function () {
             });
         }
     };
-    ProjectCreateComponent.prototype.getActions = function (index) {
-        return [
-            {
-                name: 'Delete',
-                fn: function (arr, _index) {
-                    arr.removeAt(_index);
-                },
-                params: [this.tasks, index]
-            }
-        ];
-    };
-    ProjectCreateComponent.prototype.selected = function (value) {
-        var __value = this.projectForm.get('members').value;
-        __value.push(value.id);
-        this.projectForm.get('members').setValue(__value);
-    };
     ProjectCreateComponent.prototype.refreshValue = function (value) {
         this.value = value;
-    };
-    ProjectCreateComponent.prototype.removed = function (value) {
-        var __value = this.projectForm.get('members').value;
-        var tmp = [];
-        for (var i = 0, item = void 0; (item = __value[i]); i++) {
-            if (item !== value.id) {
-                tmp.push(item);
-            }
-        }
-        this.projectForm.get('members').setValue(tmp);
     };
     return ProjectCreateComponent;
 }());

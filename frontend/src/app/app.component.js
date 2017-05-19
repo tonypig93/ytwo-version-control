@@ -31,7 +31,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'vc-app',
-        template: "<nav-bar *ngIf=\"isLoginPage()\"></nav-bar>\n  <router-outlet></router-outlet>",
+        templateUrl: './app.html',
     }),
     __metadata("design:paramtypes", [router_1.Router, profiles_service_1.ProfilesService, vc_http_service_1.VcHttpService])
 ], AppComponent);

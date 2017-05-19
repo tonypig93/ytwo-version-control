@@ -1,16 +1,28 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ParamsService } from '../../group/services/group-data.service';
 import { VcDataService } from '../../services/vc-data.service';
 import { VcListControl } from '../../services/vc-base.service';
 import { ProjectMangementDataService } from '../services/project-data.service';
-
+interface IVersion {
+    ID?: number,
+    major: number,
+    minor: number,
+    patch: number,
+    log: {
+        general: string,
+        feature: string,
+        bug: string
+    },
+    repoCode: string,
+    release?: boolean
+}
 @Component({
   selector: 'vc-project-detail-versions',
   templateUrl: './project-detail-versions.html',
   styleUrls: ['./project-version.css']
 })
-export class ProjectDetailVersionsComponent extends VcListControl implements OnInit  {
+export class ProjectDetailVersionsComponent extends VcListControl implements OnInit, AfterViewChecked  {
     @Input() versions: VcDataService;
     form: FormGroup;
     formErrors = {
@@ -33,8 +45,21 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
             'required': 'Repository code is required.',
         }
     };
+    public filterGroup = {
+        version: {
+            list: [{
+                name: 'Development',
+                type: 0
+            }, {
+                name: 'Production',
+                type: 1
+            }],
+            current: 0,
+            searchText: new FormControl()
+        }
+    };
     selectedVersion = 'New Version';
-    selectedVID: number;
+    selectedV: any = null;
     isReadOnly = false;
     constructor(
       private fb: FormBuilder,
@@ -43,23 +68,43 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
           super();
       }
     ngOnInit() {
-      this.buildForm();
+        this.buildForm();
+        this.versions.setFilter((item: any) => {
+            let __current = this.filterGroup.version.current;
+            return (item.TYPE === __current);
+        });
+        this.filterGroup.version.searchText.valueChanges
+        .debounceTime(500)
+        .subscribe((search) => {
+            this.versions.setSearchFilter((item: any) => {
+                return item.PRJ_NAME.indexOf(search) > -1;
+            });
+            this.versions.setViewData();
+        });
     }
-
+    ngAfterViewChecked() {
+      $('.ui.checkbox')['checkbox']();
+    }
     doSubmit() {
       let payload = {};
       $.fn.extend(payload, this.form.value);
       payload['projectId'] = this.ParamsService.projectId;
+      if (!payload['ID']) {
+        payload['type'] = this.filterGroup.version.current;
+      }
       this.ProjectMangementDataService.updateVersion(payload)
       .subscribe(data => {
+          console.log(data)
           if (data) {
               data = data[0];
               let index = this.versions.findByAttr('ID', data.ID, true);
               if (index >= 0) {
                 this.versions.data[index] = data;
               } else {
-                this.versions.data = [data].concat(this.versions.data);
+                this.versions.data.push(data);
               }
+              this.versions.setViewData();
+              this.setModel(data.ID);
           }
       })
     }
@@ -74,41 +119,62 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
       control.patchValue(++value);
     }
     buildForm(): void {
-        let last = this.versions.data[0];
+        // let last = this.versions.data[this.versions.data.length - 1];
         this.form = this.fb.group({
             ID: [null],
-            major: [last.V_MAJOR, Validators.required],
-            minor: [last.V_MINOR, Validators.required],
-            patch: [last.V_PATCH, Validators.required],
+            major: [undefined, Validators.required],
+            minor: [undefined, Validators.required],
+            patch: [undefined, Validators.required],
             log: this.fb.group({
               general: '',
               feature: '',
               bug: ''
             }),
-            repoCode: ['', Validators.required]
+            repoCode: ['', Validators.required],
+            release: [false]
         });
         this.form.valueChanges
         .subscribe((data: any) => this.onValueChanged(data));
         this.onValueChanged();
+        this.setModel(null);
     }
     setModel(ID: number) {
-        let data = this.versions.findByAttr('ID', ID);
+        let data = ID ? this.versions.findByAttr('ID', ID) : null;
         let last = this.versions.data[this.versions.data.length - 1];
-        this.form.reset({
-            ID: data ? data.ID : null,
-            major: data ? data.V_MAJOR : last.V_MAJOR,
-            minor: data ? data.V_MINOR : last.V_MINOR,
-            patch: data ? data.V_PATCH : last.V_PATCH,
+        let model: IVersion = {
+            ID: null,
+            major: 0,
+            minor: 0,
+            patch: 0,
             log: {
-                general: data ? data.LOG_GENERAL : '',
-                feature: data ? data.LOG_FEATURE : '',
-                bug: data ? data.LOG_BUG : ''
+                general: '',
+                feature: '',
+                bug: ''
             },
-            repoCode: data ? data.REPO_CODE : ''
-        });
+            repoCode: ''
+        };
+        if (last) {
+            if (data) {
+                model.ID = data.ID;
+                model.major = data.V_MAJOR;
+                model.minor = data.V_MINOR;
+                model.patch = data.V_PATCH;
+                model.log = {
+                    general: data.LOG_GENERAL,
+                    feature: data.LOG_FEATURE,
+                    bug: data.LOG_BUG
+                };
+                model.repoCode = data.REPO_CODE;
+            } else {
+                model.major = last.V_MAJOR;
+                model.minor = last.V_MINOR;
+                model.patch = last.V_PATCH;
+            }
+        }
+        this.form.reset(model);
         this.selectedVersion = data ? `${data.V_MAJOR}.${data.V_MINOR}.${data.V_PATCH}` : 'New Version';
         this.isReadOnly = (data && data.STATUS) ? true : false;
-        this.selectedVID = data ? data.ID : undefined;
+        this.selectedV = data ? data : null;
     }
     onValueChanged(data?: any) {
         if (!this.form) { return; }
@@ -128,7 +194,15 @@ export class ProjectDetailVersionsComponent extends VcListControl implements OnI
         }
     }
     isCurrent(id: number) {
-        return this.selectedVID === id;
+        return (this.selectedV === id) || (this.selectedV && this.selectedV.ID === id);
+    }
+    selectVersionFilter (type: number) {
+        let __current = this.filterGroup.version.current;
+        if (__current !== type) {
+            this.filterGroup.version.current = type;
+            this.versions.setViewData();
+        }
+        this.setModel(null);
     }
 }
 

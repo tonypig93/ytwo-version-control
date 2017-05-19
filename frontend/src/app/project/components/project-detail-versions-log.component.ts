@@ -1,7 +1,6 @@
 import { Component, ViewChild, Input, OnInit, ViewEncapsulation, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'project-version-log',

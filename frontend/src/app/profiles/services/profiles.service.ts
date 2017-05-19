@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VcHttpService } from '../../services/vc-http.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { CanActivate, Router } from '@angular/router';
 
 let encrypt = window['CryptoJS'].MD5;

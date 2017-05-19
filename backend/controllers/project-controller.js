@@ -39,33 +39,9 @@ ProjectController.include({
         });
         return defer.promise;
     },
-    add: function ({projectName, description, tasks, visibility, members, groupId}) {
-        let baseSql = {
-            sql: 'insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION) values (?,?,?,?)',
-            params: [projectName, groupId, visibility, description],
-            callback: callback
-        }
-        function callback(insertId) {
-            let sqlList = [];
-            let params = [];
-            for (let i = 0, item; (item = tasks[i]); i ++) {
-                params[i] = [insertId, 'task', item.content, groupId];
-            }
-            sqlList.push({
-                sql: 'insert into PRJ_TASK (PRJ_FK,TASK_TITLE,TASK_DESCRIPTION,GROUP_FK) values ?',
-                params: params
-            });
-            params = [];
-            for (let i = 0, item; (item = members[i]); i ++) {
-                params[i] = [item, insertId];
-            }
-            sqlList.push({
-                sql: 'insert into PRJ_MEMBER (USER_FK,PRJ_FK) values ?',
-                params: params
-            });
-            return sqlList;
-        }
-        return DBController.transaction(baseSql);
+    add: function ({projectName, description, visibility,groupId}) {
+        return DBController.insert('insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION) values (?,?,?,?)',
+        [projectName, groupId, visibility, description]);
     },
     addUser: function ({role, user, projectId}) {
         let defer = q.defer();
@@ -91,20 +67,23 @@ ProjectController.include({
         });
         return defer.promise;
     },
-    updateVersion: function (major, minor, patch, projectId, repoCode, log, userId, ID) {
+    updateVersion: function (major, minor, patch, projectId, repoCode, log, userId, ID, release, type) {
         let defer = q.defer();
         let sql = '';
+        let params;
+        release = Number(release);
         if (ID) {
             sql = `update PRJ_VERSION set 
-            PRJ_FK=?,V_MAJOR=?,V_MINOR=?,V_PATCH=?,USER_FK=?,REPO_CODE=?,LOG_BUG=?,LOG_GENERAL=?,LOG_FEATURE=? 
-            where PRJ_VERSION.ID=?`;
+            PRJ_FK=?,V_MAJOR=?,V_MINOR=?,V_PATCH=?,REPO_CODE=?,LOG_BUG=?,LOG_GENERAL=?,LOG_FEATURE=?,STATUS=?
+            where PRJ_VERSION.ID=? and PRJ_VERSION.STATUS=0`;
+            params = [projectId, major, minor, patch, repoCode, log.bug, log.general, log.feature, release, ID];
         } else {
             sql = `insert into PRJ_VERSION 
-            (PRJ_FK,V_MAJOR,V_MINOR,V_PATCH,USER_FK,REPO_CODE,LOG_BUG,LOG_GENERAL,LOG_FEATURE) 
-            values (?,?,?,?,?,?,?,?,?)`;
+            (PRJ_FK,V_MAJOR,V_MINOR,V_PATCH,USER_FK,REPO_CODE,LOG_BUG,LOG_GENERAL,LOG_FEATURE,STATUS,TYPE) 
+            values (?,?,?,?,?,?,?,?,?,?,?)`;
+            params = [projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature, release, type];
         }
-        DBController.insert(sql,
-            [projectId, major, minor, patch, userId, repoCode, log.bug, log.general, log.feature, ID])
+        DBController.insert(sql, params)
         .then((res) => {
             this.getOneVersion(res.insertId || ID).then( data => {
                 defer.resolve(data);

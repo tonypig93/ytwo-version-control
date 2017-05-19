@@ -12,7 +12,6 @@
                 <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="userInfo.password">
             </div>
             <button type="button" class="btn btn-success btn-block" (click)="login()">Sign In</button>
-            <modal [isModalShown]="showModal" [modalBody]="modalBody" (modalChange)="showModal=false"></modal>
         </form>
     </div>
 </div>

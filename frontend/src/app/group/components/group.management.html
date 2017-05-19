@@ -18,7 +18,7 @@
                 <div class="col-sm-4 col-sm-offset-2">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control input-sm" [formControl]="filterGroup.project.searchText" placeholder="Search for projects">
+                        <input type="text" class="form-control input-sm" [formControl]="filterGroup.project.searchText" placeholder="Search for project">
                     </div>
                 </div>
             </div>
@@ -29,14 +29,12 @@
                             <div class="visible fa" [class.fa-eye-slash]="item.VISIBILITY === 2"></div>
                             <p class="text-center"><b>{{item.PRJ_NAME}}</b></p>
                             <hr>
-                            <div class="text-content pull-side">
-                                <span>Progress: {{item.progress[0] + '/' + item.progress[1]}}</span>
-                                <span>Members: {{item.MEM_NUMBER}}</span>
-                                <span class="label label-success" [class.label-success]="item.CURRENT_VERSION" [class.label-primary]="!item.CURRENT_VERSION">{{item.CURRENT_VERSION || 'new'}}</span>
-                            </div>
+                            <p>Progress: {{item.progress[0] + '/' + item.progress[1]}}</p>
+                            <p>Development: {{item.CURRENT_D_VERSION || 'no release'}}</p>
+                            <p>Production: {{item.CURRENT_VERSION || 'no release'}}</p>
                             <div class="progress progress-striped active">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" *ngIf="item.progress[1] !== 0"
-                                    [ngStyle]="{'width': (item.progress[0] / item.progress[1]) * 100 + '%'}">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                    [ngStyle]="{'width': (item.progress[1] ? ((item.progress[0] / item.progress[1]) * 100) : 100) + '%'}">
                                 </div>
                             </div>
                         </div>

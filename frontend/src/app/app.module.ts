@@ -9,11 +9,12 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { VcHttpService } from './services/vc-http.service';
 import { HttpModule } from '@angular/http';
 import { VcPlatformService } from './services/vc-platform.service';
+import { VcGlobalComponentService } from './services/vc-global-component.service';
 
 @NgModule({
   imports:      [ BrowserModule, AppRoutingModule, ProfilesModule, HttpModule, WidgetModule ],
   declarations: [ AppComponent ],
-  providers:    [ VcHttpService, VcPlatformService ],
+  providers:    [ VcHttpService, VcPlatformService, VcGlobalComponentService ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

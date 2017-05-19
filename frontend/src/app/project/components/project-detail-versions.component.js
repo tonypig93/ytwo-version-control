@@ -46,20 +46,54 @@ var ProjectDetailVersionsComponent = (function (_super) {
                 'required': 'Repository code is required.',
             }
         };
+        _this.filterGroup = {
+            version: {
+                list: [{
+                        name: 'Development',
+                        type: 0
+                    }, {
+                        name: 'Production',
+                        type: 1
+                    }],
+                current: 0,
+                searchText: new forms_1.FormControl()
+            }
+        };
         _this.selectedVersion = 'New Version';
+        _this.selectedV = null;
         _this.isReadOnly = false;
         return _this;
     }
     ProjectDetailVersionsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.buildForm();
+        this.versions.setFilter(function (item) {
+            var __current = _this.filterGroup.version.current;
+            return (item.TYPE === __current);
+        });
+        this.filterGroup.version.searchText.valueChanges
+            .debounceTime(500)
+            .subscribe(function (search) {
+            _this.versions.setSearchFilter(function (item) {
+                return item.PRJ_NAME.indexOf(search) > -1;
+            });
+            _this.versions.setViewData();
+        });
+    };
+    ProjectDetailVersionsComponent.prototype.ngAfterViewChecked = function () {
+        $('.ui.checkbox')['checkbox']();
     };
     ProjectDetailVersionsComponent.prototype.doSubmit = function () {
         var _this = this;
         var payload = {};
         $.fn.extend(payload, this.form.value);
         payload['projectId'] = this.ParamsService.projectId;
+        if (!payload['ID']) {
+            payload['type'] = this.filterGroup.version.current;
+        }
         this.ProjectMangementDataService.updateVersion(payload)
             .subscribe(function (data) {
+            console.log(data);
             if (data) {
                 data = data[0];
                 var index = _this.versions.findByAttr('ID', data.ID, true);
@@ -67,8 +101,10 @@ var ProjectDetailVersionsComponent = (function (_super) {
                     _this.versions.data[index] = data;
                 }
                 else {
-                    _this.versions.data = [data].concat(_this.versions.data);
+                    _this.versions.data.push(data);
                 }
+                _this.versions.setViewData();
+                _this.setModel(data.ID);
             }
         });
     };
@@ -84,41 +120,63 @@ var ProjectDetailVersionsComponent = (function (_super) {
     };
     ProjectDetailVersionsComponent.prototype.buildForm = function () {
         var _this = this;
-        var last = this.versions.data[0];
+        // let last = this.versions.data[this.versions.data.length - 1];
         this.form = this.fb.group({
             ID: [null],
-            major: [last.V_MAJOR, forms_1.Validators.required],
-            minor: [last.V_MINOR, forms_1.Validators.required],
-            patch: [last.V_PATCH, forms_1.Validators.required],
+            major: [undefined, forms_1.Validators.required],
+            minor: [undefined, forms_1.Validators.required],
+            patch: [undefined, forms_1.Validators.required],
             log: this.fb.group({
                 general: '',
                 feature: '',
                 bug: ''
             }),
-            repoCode: ['', forms_1.Validators.required]
+            repoCode: ['', forms_1.Validators.required],
+            release: [false]
         });
         this.form.valueChanges
             .subscribe(function (data) { return _this.onValueChanged(data); });
         this.onValueChanged();
+        this.setModel(null);
     };
     ProjectDetailVersionsComponent.prototype.setModel = function (ID) {
-        var data = this.versions.findByAttr('ID', ID);
+        var data = ID ? this.versions.findByAttr('ID', ID) : null;
         var last = this.versions.data[this.versions.data.length - 1];
-        this.form.reset({
-            ID: data ? data.ID : null,
-            major: data ? data.V_MAJOR : last.V_MAJOR,
-            minor: data ? data.V_MINOR : last.V_MINOR,
-            patch: data ? data.V_PATCH : last.V_PATCH,
+        var model = {
+            ID: null,
+            major: 0,
+            minor: 0,
+            patch: 0,
             log: {
-                general: data ? data.LOG_GENERAL : '',
-                feature: data ? data.LOG_FEATURE : '',
-                bug: data ? data.LOG_BUG : ''
+                general: '',
+                feature: '',
+                bug: ''
             },
-            repoCode: data ? data.REPO_CODE : ''
-        });
+            repoCode: ''
+        };
+        if (last) {
+            if (data) {
+                model.ID = data.ID;
+                model.major = data.V_MAJOR;
+                model.minor = data.V_MINOR;
+                model.patch = data.V_PATCH;
+                model.log = {
+                    general: data.LOG_GENERAL,
+                    feature: data.LOG_FEATURE,
+                    bug: data.LOG_BUG
+                };
+                model.repoCode = data.REPO_CODE;
+            }
+            else {
+                model.major = last.V_MAJOR;
+                model.minor = last.V_MINOR;
+                model.patch = last.V_PATCH;
+            }
+        }
+        this.form.reset(model);
         this.selectedVersion = data ? data.V_MAJOR + "." + data.V_MINOR + "." + data.V_PATCH : 'New Version';
         this.isReadOnly = (data && data.STATUS) ? true : false;
-        this.selectedVID = data ? data.ID : undefined;
+        this.selectedV = data ? data : null;
     };
     ProjectDetailVersionsComponent.prototype.onValueChanged = function (data) {
         if (!this.form) {
@@ -138,7 +196,15 @@ var ProjectDetailVersionsComponent = (function (_super) {
         }
     };
     ProjectDetailVersionsComponent.prototype.isCurrent = function (id) {
-        return this.selectedVID === id;
+        return (this.selectedV === id) || (this.selectedV && this.selectedV.ID === id);
+    };
+    ProjectDetailVersionsComponent.prototype.selectVersionFilter = function (type) {
+        var __current = this.filterGroup.version.current;
+        if (__current !== type) {
+            this.filterGroup.version.current = type;
+            this.versions.setViewData();
+        }
+        this.setModel(null);
     };
     return ProjectDetailVersionsComponent;
 }(vc_base_service_1.VcListControl));

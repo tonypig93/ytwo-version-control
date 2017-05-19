@@ -68,7 +68,7 @@ var GroupManagementComponent = (function () {
             .debounceTime(500)
             .subscribe(function (search) {
             _this.management.projects.setSearchFilter(function (item) {
-                return item.PRJ_NAME.indexOf(search) > -1;
+                return item.PRJ_NAME.toLowerCase().indexOf(search.toLowerCase()) > -1;
             });
             _this.management.projects.setViewData();
         });
@@ -76,7 +76,7 @@ var GroupManagementComponent = (function () {
             .debounceTime(500)
             .subscribe(function (search) {
             _this.management.users.setSearchFilter(function (item) {
-                return item.userName.indexOf(search) > -1;
+                return item.userName.toLowerCase().indexOf(search.toLowerCase()) > -1;
             });
             _this.management.users.setViewData();
         });
