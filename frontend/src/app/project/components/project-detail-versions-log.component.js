@@ -34,8 +34,7 @@ var ProjectDetailVersionsLogComponent = (function () {
     ProjectDetailVersionsLogComponent.prototype.ngOnInit = function () {
         for (var i = 0, item = void 0; (item = this.group.controls[i]); i++) {
             item.valueChanges
-                .debounceTime(500)
-                .distinctUntilChanged();
+                .debounceTime(500);
         }
     };
     return ProjectDetailVersionsLogComponent;

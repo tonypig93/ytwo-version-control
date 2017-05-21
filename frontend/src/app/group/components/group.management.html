@@ -29,9 +29,11 @@
                             <div class="visible fa" [class.fa-eye-slash]="item.VISIBILITY === 2"></div>
                             <p class="text-center"><b>{{item.PRJ_NAME}}</b></p>
                             <hr>
+                            <p class="pull-side" style="margin-bottom: 5px;">
+                                <span>Dev: <label class="label label-success">{{item.CURRENT_D_VERSION || 'no release'}}</label></span>
+                                <span>Prod: <label class="label label-primary">{{item.CURRENT_VERSION || 'no release'}}</label></span>
+                            </p>
                             <p>Progress: {{item.progress[0] + '/' + item.progress[1]}}</p>
-                            <p>Development: {{item.CURRENT_D_VERSION || 'no release'}}</p>
-                            <p>Production: {{item.CURRENT_VERSION || 'no release'}}</p>
                             <div class="progress progress-striped active">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
                                     [ngStyle]="{'width': (item.progress[1] ? ((item.progress[0] / item.progress[1]) * 100) : 100) + '%'}">

@@ -2,6 +2,7 @@ import { Component, ViewChild, Input, OnInit, ViewEncapsulation, forwardRef } fr
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap';
 
+
 @Component({
   selector: 'project-version-log',
   templateUrl: './project-detail-versions-log.html',
@@ -34,8 +35,7 @@ export class ProjectDetailVersionsLogComponent implements OnInit {
   ngOnInit() {
       for (let i = 0, item; (item = this.group.controls[i]); i ++) {
           item.valueChanges
-          .debounceTime(500)
-          .distinctUntilChanged();
+          .debounceTime(500);
       }
   }
 }
