@@ -68,6 +68,9 @@ body{
 .navbar {
     margin-bottom: 0;
 }
+.modal-open {
+    overflow: auto;
+}
 /**/
 .fa-6x{
   font-size: 6em;
@@ -216,4 +219,9 @@ hr{
 }
 .filter-body {
     padding-top: 0;
+}
+footer {
+    text-align: center;
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
 }

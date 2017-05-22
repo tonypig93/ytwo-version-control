@@ -4,7 +4,7 @@
 }
 .login-main{
   display: flex;
-  min-height: 950px;
+  min-height: 900px;
   justify-content: center;
   background-image: url('../../../asserts/image/home-code.svg');
     background-size: 100% auto;

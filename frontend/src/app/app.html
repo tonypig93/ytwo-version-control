@@ -1,6 +1,7 @@
 <nav-bar *ngIf="isLoginPage()"></nav-bar>
 <router-outlet></router-outlet>
 <info-modal></info-modal>
-    <footer class="footer">
-        123
-    </footer>
+<footer class="container">
+<span>© {{thisYear}} Tony Zhu.</span>
+<a href="javascript:;" (click)="showContact()"> Contact</a>
+</footer>

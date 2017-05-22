@@ -12,11 +12,13 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var vc_http_service_1 = require("./services/vc-http.service");
 var profiles_service_1 = require("./profiles/services/profiles.service");
+var vc_global_component_service_1 = require("./services/vc-global-component.service");
 var AppComponent = (function () {
-    function AppComponent(router, ProfilesService, http) {
+    function AppComponent(router, ProfilesService, http, VcGlobalComponentService) {
         this.router = router;
         this.ProfilesService = ProfilesService;
         this.http = http;
+        this.VcGlobalComponentService = VcGlobalComponentService;
         var userInfo = this.ProfilesService.getUserInfo();
         if (userInfo) {
             this.http.setAuthHeader(userInfo.$hash);
@@ -25,7 +27,15 @@ var AppComponent = (function () {
     AppComponent.prototype.isLoginPage = function () {
         return (this.router.url !== '/login') && (this.router.url !== '/');
     };
-    AppComponent.prototype.ngOnInit = function () { };
+    AppComponent.prototype.ngOnInit = function () {
+        this.thisYear = (new Date()).getFullYear();
+    };
+    AppComponent.prototype.showContact = function () {
+        var modal = this.VcGlobalComponentService.infoModal;
+        modal.modalTitle = 'Contact';
+        modal.modalBody = 'Email: tony98370@qq.com';
+        modal.showModal();
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
@@ -33,7 +43,10 @@ AppComponent = __decorate([
         selector: 'vc-app',
         templateUrl: './app.html',
     }),
-    __metadata("design:paramtypes", [router_1.Router, profiles_service_1.ProfilesService, vc_http_service_1.VcHttpService])
+    __metadata("design:paramtypes", [router_1.Router,
+        profiles_service_1.ProfilesService,
+        vc_http_service_1.VcHttpService,
+        vc_global_component_service_1.VcGlobalComponentService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
