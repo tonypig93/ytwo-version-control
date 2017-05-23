@@ -65,6 +65,7 @@ export class ProjectAddRoleModalComponent implements OnInit {
                 for (let i = 0, item; (item = this.roleInfo.powerList[i]); i ++) {
                     item.checked = false;
                 }
+                this.hideModal();
             });
         }
     }

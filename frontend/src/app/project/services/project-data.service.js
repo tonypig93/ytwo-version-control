@@ -22,14 +22,14 @@ var ProjectDataService = (function () {
     };
     ProjectDataService.prototype.getList = function () {
         var _this = this;
-        return this.http.get('http://localhost:8000/project/list')
+        return this.http.get('project/list')
             .map(function (res) {
             _this.masterData = res.data;
             return _this.masterData;
         });
     };
     ProjectDataService.prototype.addProject = function (data) {
-        return this.http.post('http://localhost:8000/project/add', data)
+        return this.http.post('project/add', data)
             .map(function (res) { return res.data; });
     };
     return ProjectDataService;
@@ -45,7 +45,7 @@ var ProjectUserDataService = (function () {
         this.ParamsService = ParamsService;
     }
     ProjectUserDataService.prototype.getRoleList = function () {
-        return this.http.get('http://localhost:8000/project/role/list?id=' + this.ParamsService.projectId)
+        return this.http.get('project/role/list?id=' + this.ParamsService.projectId)
             .map(function (res) { return res.data; });
     };
     return ProjectUserDataService;
@@ -63,34 +63,34 @@ var ProjectMangementDataService = (function () {
     ProjectMangementDataService.prototype.resolve = function (route) {
         var _this = this;
         this.ParamsService.projectId = route.params['id'];
-        return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
+        return this.http.get('project/manage?id=' + route.params['id'])
             .map(function (res) {
             _this.management = res.data;
             return res.data;
         });
     };
     ProjectMangementDataService.prototype.addUser = function (data) {
-        return this.http.post('http://localhost:8000/project/user/add', data)
+        return this.http.post('project/user/add', data)
             .map(function (res) { return res.data; });
     };
     ProjectMangementDataService.prototype.deleteUser = function (userId, projectId) {
-        return this.http.post('http://localhost:8000/project/user/delete', { userId: userId, projectId: projectId })
+        return this.http.post('project/user/delete', { userId: userId, projectId: projectId })
             .map(function (res) { return res.data; });
     };
     ProjectMangementDataService.prototype.updateRole = function (roleId, value) {
-        return this.http.post('http://localhost:8000/project/role/update', { roleId: roleId, value: value })
+        return this.http.post('project/role/update', { roleId: roleId, value: value })
             .map(function (res) { return res.data; });
     };
     ProjectMangementDataService.prototype.deleteRole = function (roleId, projectId) {
-        return this.http.post('http://localhost:8000/project/role/delete', { roleId: roleId, projectId: projectId })
+        return this.http.post('project/role/delete', { roleId: roleId, projectId: projectId })
             .map(function (res) { return res.data; });
     };
     ProjectMangementDataService.prototype.addRole = function (data) {
-        return this.http.post('http://localhost:8000/project/role/add', data)
+        return this.http.post('project/role/add', data)
             .map(function (res) { return res.data; });
     };
     ProjectMangementDataService.prototype.updateVersion = function (data) {
-        return this.http.post('http://localhost:8000/project/version/update', data)
+        return this.http.post('project/version/update', data)
             .map(function (res) { return res.data; });
     };
     return ProjectMangementDataService;

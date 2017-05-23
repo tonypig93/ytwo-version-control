@@ -12,6 +12,9 @@ body{
 .mb10{
   margin-bottom: 10px!important;
 }
+.mr5{ 
+    margin-right: 5px;
+}
 /* bootstrap override */
 .form-control{
       -moz-border-radius: 3px;
@@ -201,6 +204,10 @@ hr{
 }
 #project .nav-tabs>li>a {
     color: #586069;
+    border-top: 2px solid transparent;
+}
+#project .nav-tabs>li>a.active {
+    border-top-color: #e36209;
 }
 #project .nav-tabs>li>a.active, #project .nav-tabs>li>a:hover {
     color: #24292e;

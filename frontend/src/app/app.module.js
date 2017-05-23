@@ -24,7 +24,7 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, app_routing_module_1.AppRoutingModule, profiles_module_1.ProfilesModule, http_1.HttpModule, widget_module_1.WidgetModule],
         declarations: [app_component_1.AppComponent],
-        providers: [vc_http_service_1.VcHttpService, vc_platform_service_1.VcPlatformService, vc_global_component_service_1.VcGlobalComponentService],
+        providers: [vc_http_service_1.VcHttpService, vc_platform_service_1.VcPlatformService, vc_global_component_service_1.VcGlobalComponentService, vc_platform_service_1.VcAuthService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

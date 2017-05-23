@@ -20,7 +20,7 @@ var ProfilesService = (function () {
     ProfilesService.prototype.login = function (account) {
         var params = account;
         params.password = encrypt(params.password).toString();
-        return this.http.post('http://localhost:8000/login', params);
+        return this.http.post('login', params);
         // .subscribe(function (data) {
         //     if (data) {
         //         console.log('login successful');
@@ -32,7 +32,7 @@ var ProfilesService = (function () {
         // })
     };
     ProfilesService.prototype.logout = function () {
-        return this.http.post('http://localhost:8000/logout', {});
+        return this.http.post('logout', {});
     };
     ProfilesService.prototype.setUserInfo = function (userInfo) {
         this.userInfo = userInfo;

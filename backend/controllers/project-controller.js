@@ -12,8 +12,23 @@ ProjectController.include({
     getRoleList: function (id) {
         return DBController.query('select * from PRJ_ROLE where PRJ_FK=?', [id]);
     },
-    updateRole: function (roleId, value) {
-        return DBController.query('update PRJ_ROLE set POWER=? where ID=?', [value, roleId]);
+    updateRole: function (roleId, value, __user) {
+        let defer = q.defer();
+        DBController.query('update PRJ_ROLE set POWER=? where ID=?', [value, roleId])
+        .then(function() {
+            DBController.query('select POWER from PRJ_ROLE where ID=?', [roleId])
+            .then(function (data) {
+                if (data && data.length > 0) {
+                    __user.projectAccess.power = data[0].POWER;
+                }
+                defer.resolve(true);
+            }, err => {
+                defer.reject(err);
+            })
+        }, err => {
+            defer.reject(err);
+        });
+        return defer.promise;
     },
     deleteRole: function (roleId, projectId) {
         let defer = q.defer();
@@ -39,9 +54,10 @@ ProjectController.include({
         });
         return defer.promise;
     },
-    add: function ({projectName, description, visibility,groupId}) {
-        return DBController.insert('insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION) values (?,?,?,?)',
-        [projectName, groupId, visibility, description]);
+    add: function ({projectName, description, visibility,groupId, $hash}) {
+        let userId = UserController.getUserIDFromHash($hash);
+        return DBController.insert('insert into project (PRJ_NAME,GROUP_FK,VISIBILITY,DESCRIPTION,USER_FK) values (?,?,?,?,?)',
+        [projectName, groupId, visibility, description,userId]);
     },
     addUser: function ({role, user, projectId}) {
         let defer = q.defer();

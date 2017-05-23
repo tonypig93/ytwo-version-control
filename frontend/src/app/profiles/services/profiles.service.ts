@@ -18,7 +18,7 @@ export class ProfilesService {
     public login(account: any): Observable<any> {
         let params = account;
         params.password = encrypt(params.password).toString();
-        return this.http.post('http://localhost:8000/login', params);
+        return this.http.post('login', params);
         // .subscribe(function (data) {
         //     if (data) {
         //         console.log('login successful');
@@ -30,7 +30,7 @@ export class ProfilesService {
         // })
     }
     public logout(): Observable<any> {
-        return this.http.post('http://localhost:8000/logout', {});
+        return this.http.post('logout', {});
     }
     public setUserInfo(userInfo: IUserInfo) {
         this.userInfo = userInfo;

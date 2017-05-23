@@ -12,6 +12,7 @@ var project_data_service_1 = require("./services/project-data.service");
 var project_create_component_1 = require("./components/project-create.component");
 var project_detail_component_1 = require("./components/project-detail.component");
 var group_data_service_1 = require("../group/services/group-data.service");
+var vc_platform_service_1 = require("../services/vc-platform.service");
 var routes = [
     {
         path: '',
@@ -26,6 +27,7 @@ var routes = [
             }, {
                 path: ':id',
                 component: project_detail_component_1.ProjectDetailComponent,
+                canActivate: [vc_platform_service_1.VcAuthService],
                 resolve: {
                     management: project_data_service_1.ProjectMangementDataService
                 }

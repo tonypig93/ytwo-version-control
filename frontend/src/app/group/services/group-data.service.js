@@ -21,7 +21,7 @@ var GroupDataService = (function () {
     };
     GroupDataService.prototype.getList = function () {
         var _this = this;
-        return this.http.get('http://localhost:8000/group/list')
+        return this.http.get('group/list')
             .map(function (res) {
             _this.masterData = res.data;
             return _this.masterData;
@@ -48,15 +48,15 @@ var GroupUserDataService = (function () {
         });
     };
     GroupUserDataService.prototype.getList = function (groupId) {
-        return this.http.get('http://localhost:8000/user/list?groupId=' + groupId)
+        return this.http.get('user/list?groupId=' + groupId)
             .map(function (res) { return res.data; });
     };
     GroupUserDataService.prototype.addUser = function (data) {
-        return this.http.post('http://localhost:8000/user/add', data)
+        return this.http.post('user/add', data)
             .map(function (res) { return res.data; });
     };
     GroupUserDataService.prototype.deleteUser = function (userId) {
-        return this.http.post('http://localhost:8000/user/delete', { id: userId })
+        return this.http.post('user/delete', { id: userId })
             .map(function (res) { return res.data; });
     };
     return GroupUserDataService;
@@ -72,7 +72,7 @@ var GroupMangementDataService = (function () {
         this.router = router;
     }
     GroupMangementDataService.prototype.resolve = function (route) {
-        return this.http.get('http://localhost:8000/group/manage?id=' + route.params['id'])
+        return this.http.get('group/manage?id=' + route.params['id'])
             .map(function (res) { return res.data; });
     };
     return GroupMangementDataService;

@@ -36,7 +36,9 @@ var ProjectDetailMembersComponent = (function (_super) {
         var _this = this;
         this.ProjectMangementDataService.deleteUser(this.selected, this.ParamsService.projectId)
             .subscribe(function (data) {
-            _this.members.data = data;
+            if (data) {
+                _this.members.data = data;
+            }
         });
     };
     return ProjectDetailMembersComponent;

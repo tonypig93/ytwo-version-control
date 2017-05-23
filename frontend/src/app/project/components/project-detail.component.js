@@ -34,6 +34,12 @@ var ProjectDetailComponent = (function () {
         //       this.userList = _data;
         // });
     };
+    ProjectDetailComponent.prototype.ngAfterViewInit = function () {
+        var icons = ['fa-book', 'fa-folder-open', 'fa-tasks', 'fa-address-book', 'fa-suitcase'];
+        $('#project ul.nav:first > li.nav-item').each(function (index) {
+            $(this).find('a.nav-link > span').prepend('<i class="fa ' + icons[index] + ' mr5"></i>');
+        });
+    };
     return ProjectDetailComponent;
 }());
 ProjectDetailComponent = __decorate([

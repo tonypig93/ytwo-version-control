@@ -43,20 +43,23 @@ export class ProjectDetailRolesComponent extends VcListControl implements OnInit
       }
       this.ProjectMangementDataService.updateRole(role.ID, sum)
       .subscribe(data => {
-        console.log(data)
       });
     }
     deleteRole(roleId: number) {
       this.ProjectMangementDataService.deleteRole(roleId, this.ParamsService.projectId)
       .subscribe(data => {
-        this.roles.data = data;
-        this.ngOnInit();
+        if (data) {
+          this.roles.data = data;
+          this.ngOnInit();
+        }
       })
     }
     refresh(data: any) {
-      this.roles.data = data;
-      for (let i = 0, item; (item = this.roles.data[i]); i ++) {
-        item.powerList = this.getPowerList(item.POWER);
+      if (data) {
+        this.roles.data = data;
+        for (let i = 0, item; (item = this.roles.data[i]); i ++) {
+          item.powerList = this.getPowerList(item.POWER);
+        }
       }
     }
 }

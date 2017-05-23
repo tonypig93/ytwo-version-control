@@ -21,15 +21,16 @@ var VcHttpService = (function () {
         this.VcGlobalComponentService = VcGlobalComponentService;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Authorization': '' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
+        this.baseUrl = 'http://192.168.3.183:8000/';
     }
     VcHttpService.prototype.get = function (url) {
-        return this.http.get(url, this.options)
+        return this.http.get(this.baseUrl + url, this.options)
             .map(function (res) { return res.json(); });
     };
     VcHttpService.prototype.post = function (url, body) {
         if (body === void 0) { body = {}; }
         var modal = this.VcGlobalComponentService.infoModal;
-        return this.http.post(url, body, this.options)
+        return this.http.post(this.baseUrl + url, body, this.options)
             .map(function (res) {
             var ret = res.json();
             if (modal && ret.error) {

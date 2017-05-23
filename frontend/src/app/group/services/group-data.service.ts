@@ -11,7 +11,7 @@ export class GroupDataService implements Resolve<any> {
         return this.getList();
     }
     public getList() {
-        return this.http.get('http://localhost:8000/group/list')
+        return this.http.get('group/list')
         .map(res => {
             this.masterData = res.data;
             return this.masterData;
@@ -30,15 +30,15 @@ export class GroupUserDataService implements Resolve<any> {
         });
     }
     public getList(groupId: number) {
-        return this.http.get('http://localhost:8000/user/list?groupId=' + groupId)
+        return this.http.get('user/list?groupId=' + groupId)
         .map(res => res.data);
     }
     public addUser(data: any) {
-        return this.http.post('http://localhost:8000/user/add', data)
+        return this.http.post('user/add', data)
         .map(res => res.data);
     }
     public deleteUser(userId: number) {
-        return this.http.post('http://localhost:8000/user/delete', {id: userId})
+        return this.http.post('user/delete', {id: userId})
         .map(res => res.data);
     }
 }
@@ -46,7 +46,7 @@ export class GroupUserDataService implements Resolve<any> {
 export class GroupMangementDataService implements Resolve<any> {
     constructor(private http: VcHttpService, private router: Router) { }
     public resolve(route: ActivatedRouteSnapshot) {
-        return this.http.get('http://localhost:8000/group/manage?id=' + route.params['id'])
+        return this.http.get('group/manage?id=' + route.params['id'])
         .map(res => res.data);
     }
 }

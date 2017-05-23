@@ -54,21 +54,24 @@ var ProjectDetailRolesComponent = (function (_super) {
         }
         this.ProjectMangementDataService.updateRole(role.ID, sum)
             .subscribe(function (data) {
-            console.log(data);
         });
     };
     ProjectDetailRolesComponent.prototype.deleteRole = function (roleId) {
         var _this = this;
         this.ProjectMangementDataService.deleteRole(roleId, this.ParamsService.projectId)
             .subscribe(function (data) {
-            _this.roles.data = data;
-            _this.ngOnInit();
+            if (data) {
+                _this.roles.data = data;
+                _this.ngOnInit();
+            }
         });
     };
     ProjectDetailRolesComponent.prototype.refresh = function (data) {
-        this.roles.data = data;
-        for (var i = 0, item = void 0; (item = this.roles.data[i]); i++) {
-            item.powerList = this.getPowerList(item.POWER);
+        if (data) {
+            this.roles.data = data;
+            for (var i = 0, item = void 0; (item = this.roles.data[i]); i++) {
+                item.powerList = this.getPowerList(item.POWER);
+            }
         }
     };
     return ProjectDetailRolesComponent;

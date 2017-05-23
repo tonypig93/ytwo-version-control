@@ -65,6 +65,7 @@ var ProjectAddRoleModalComponent = (function () {
                 for (var i = 0, item = void 0; (item = _this.roleInfo.powerList[i]); i++) {
                     item.checked = false;
                 }
+                _this.hideModal();
             });
         }
     };

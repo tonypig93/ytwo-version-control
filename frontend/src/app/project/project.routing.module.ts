@@ -5,6 +5,7 @@ import { ProjectDataService, ProjectUserDataService, ProjectMangementDataService
 import { ProjectCreateComponent } from './components/project-create.component';
 import { ProjectDetailComponent } from './components/project-detail.component';
 import { GroupUserDataService } from '../group/services/group-data.service';
+import { VcAuthService } from '../services/vc-platform.service';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
         }, {
             path: ':id',
             component: ProjectDetailComponent,
+            canActivate: [VcAuthService],
             resolve: {
                 management: ProjectMangementDataService
             }

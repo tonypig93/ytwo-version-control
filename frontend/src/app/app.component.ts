@@ -32,4 +32,10 @@ export class AppComponent implements OnInit  {
     modal.modalBody = 'Email: tony98370@qq.com';
     modal.showModal();
   }
+  showAbout() {
+    let modal = this.VcGlobalComponentService.infoModal;
+    modal.modalTitle = 'About';
+    modal.modalBody = 'Version Control is a rough personal website, which is still in developing (maybe 40% completed I guess). It provides a simple control system for software versions, and more features will be added into VC to make it powerful as long as I got continuous ideas. If you want to join me and commit your codes, feel free to contact me.';
+    modal.showModal();
+  }
  }

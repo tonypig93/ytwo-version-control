@@ -25,7 +25,9 @@ export class ProjectDetailMembersComponent extends VcListControl implements OnIn
     deleteUser() {
       this.ProjectMangementDataService.deleteUser(this.selected, this.ParamsService.projectId)
       .subscribe(data => {
-        this.members.data = data;
+        if (data) {
+          this.members.data = data;
+        }
       })
     }
 }

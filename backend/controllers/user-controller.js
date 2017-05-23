@@ -42,7 +42,7 @@ UserController.include({
         let defer = q.defer();
         DBController.query('select * from USER where USER_NAME=? limit 0,1', [name])
         .then(function (data) {
-            if (data) {
+            if (data && data.length > 0) {
                 // console.log(data)
                 defer.resolve(data[0]);
             }
@@ -75,12 +75,9 @@ UserController.include({
         });
         return defer.promise;
     },
-    checkLogin: function ({$hash: $hash, IP: IP}) {
+    checkLogin: function ({__user, IP}) {
         let defer = q.defer();
-        let userID = this.getUserIDFromHash($hash);
-        let __user = this.loginUser.findByAttr('ID', userID);
-
-        if (__user && (__user.$hash === $hash)) {
+        if (__user) {
             if (__user.expireTime > (new Date().getTime())) {
                 defer.resolve(true);
             } else {
@@ -93,24 +90,33 @@ UserController.include({
         }
         
         return defer.promise;
-        // let defer = q.defer();
-        // this.findByName(userName).then(user => {
-        //     if(user && (this.getMD5(user.USER_NAME + user.PASSWORD + IP) === $hash)
-        //     && (user.expireTime && user.expireTime > (new Date().getTime())) ) {
-        //         defer.resolve(this.basicInfo(user));
-        //     } else {
-        //         defer.reject(false);
-        //     }
-        // }, err => {
-        //     defer.reject(false);
-        // });
-        // return defer.promise;
     },
-    logout: function ($hash) {
-        if (!$hash) {
-            return false;
+    checkProjectAuth: function(projectId, __user) {
+        let defer = q.defer();
+        if (__user) {
+            DBController.query('select ROLE_NAME,POWER from PRJ_MEMBER as a left join PRJ_ROLE as b on b.ID = a.ROLE_FK where a.PRJ_FK=? and a.USER_FK=? limit 0,1', [projectId, __user.ID])
+            .then(function(data) {
+                if (data && data.length > 0) {
+                    __user.projectAccess = {
+                        projectId: projectId,
+                        power: data[0].POWER
+                    };
+                    defer.resolve(data);
+                } else {
+                    defer.reject('Current user is not a member of this project');
+                }
+            }, err => {
+                console.log(err);
+                defer.reject(err);
+            });
+        } else {
+            defer.reject(false);
         }
-        let userID = this.getUserIDFromHash($hash);
+        
+        return defer.promise;
+    },
+    logout: function (__user) {
+        let userID = __user.ID;
         let res = this.loginUser.deleteByAttr('ID', userID);
         return res ? true : false;
     },

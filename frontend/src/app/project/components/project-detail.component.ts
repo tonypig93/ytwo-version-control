@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ParamsService } from '../../group/services/group-data.service';
 import { ProjectUserDataService, ProjectMangementDataService } from '../services/project-data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { VcDataService } from '../../services/vc-data.service';
   templateUrl: './project-detail.html',
   styleUrls: ['./project.css']
 })
-export class ProjectDetailComponent implements OnInit  {
+export class ProjectDetailComponent implements OnInit, AfterViewInit  {
       public management: any;
       public userList: any [];
 
@@ -31,6 +31,12 @@ export class ProjectDetailComponent implements OnInit  {
         // this.ProjectUserDataService.userList.subscribe(_data => {
         //       this.userList = _data;
         // });
+      }
+      ngAfterViewInit() {
+        let icons = ['fa-book', 'fa-folder-open', 'fa-tasks', 'fa-address-book', 'fa-suitcase'];
+        $('#project ul.nav:first > li.nav-item').each(function(index) {
+          $(this).find('a.nav-link > span').prepend('<i class="fa ' + icons[index] + ' mr5"></i>');
+        });
       }
 }
 

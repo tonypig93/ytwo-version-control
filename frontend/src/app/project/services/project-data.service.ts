@@ -12,14 +12,14 @@ export class ProjectDataService implements Resolve<any> {
         return this.getList();
     }
     public getList() {
-        return this.http.get('http://localhost:8000/project/list')
+        return this.http.get('project/list')
         .map(res => {
             this.masterData = res.data;
             return this.masterData
         });
     }
     public addProject(data: any) {
-        return this.http.post('http://localhost:8000/project/add', data)
+        return this.http.post('project/add', data)
         .map(res => res.data);
     }
 }
@@ -27,7 +27,7 @@ export class ProjectDataService implements Resolve<any> {
 export class ProjectUserDataService {
     constructor(private http: VcHttpService, private ParamsService: ParamsService) { }
     getRoleList(): Observable<any> {
-        return this.http.get('http://localhost:8000/project/role/list?id=' + this.ParamsService.projectId)
+        return this.http.get('project/role/list?id=' + this.ParamsService.projectId)
         .map(res => res.data);
     }
 }
@@ -37,34 +37,34 @@ export class ProjectMangementDataService implements Resolve<any> {
     constructor(private http: VcHttpService, private ParamsService: ParamsService) { }
     public resolve(route: ActivatedRouteSnapshot) {
         this.ParamsService.projectId = route.params['id'];
-        return this.http.get('http://localhost:8000/project/manage?id=' + route.params['id'])
+        return this.http.get('project/manage?id=' + route.params['id'])
         .map(res => {
             this.management = res.data;
             return res.data;
         });
     }
     public addUser(data: any) {
-        return this.http.post('http://localhost:8000/project/user/add', data)
+        return this.http.post('project/user/add', data)
         .map(res => res.data);
     }
     public deleteUser(userId: number, projectId: number) {
-        return this.http.post('http://localhost:8000/project/user/delete', {userId: userId, projectId: projectId})
+        return this.http.post('project/user/delete', {userId: userId, projectId: projectId})
         .map(res => res.data);
     }
     public updateRole(roleId: number, value: number) {
-        return this.http.post('http://localhost:8000/project/role/update', {roleId: roleId, value: value})
+        return this.http.post('project/role/update', {roleId: roleId, value: value})
         .map(res => res.data);
     }
     public deleteRole(roleId: number, projectId: number) {
-        return this.http.post('http://localhost:8000/project/role/delete', {roleId: roleId, projectId: projectId})
+        return this.http.post('project/role/delete', {roleId: roleId, projectId: projectId})
         .map(res => res.data);
     }
     public addRole(data: any) {
-        return this.http.post('http://localhost:8000/project/role/add', data)
+        return this.http.post('project/role/add', data)
         .map(res => res.data);
     }
     public updateVersion(data: any) {
-        return this.http.post('http://localhost:8000/project/version/update', data)
+        return this.http.post('project/version/update', data)
         .map(res => res.data);
     }
 }
