@@ -11,8 +11,6 @@ export class LoginComponent  {
         userName: '',
         password: ''
     };
-    public showModal = false;
-    public modalBody = 'Invalid user name or password.';
     constructor(private profilesService: ProfilesService, private router: Router) { }
     public login(): void {
         let self = this;
@@ -20,10 +18,8 @@ export class LoginComponent  {
         .subscribe(data => {
             if (!data.error) {
                 this.profilesService.setUserInfo(data.data);
-                console.log('login successful');
                 this.router.navigate(['/group']);
             } else {
-                this.showModal = true;
                 this.userInfo.password = '';
             }
         });

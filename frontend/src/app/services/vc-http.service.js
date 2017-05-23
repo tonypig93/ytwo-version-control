@@ -21,7 +21,7 @@ var VcHttpService = (function () {
         this.VcGlobalComponentService = VcGlobalComponentService;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json', 'Authorization': '' });
         this.options = new http_1.RequestOptions({ headers: this.headers });
-        this.baseUrl = 'http://192.168.3.183:8000/';
+        this.baseUrl = 'http://localhost:8000/';
     }
     VcHttpService.prototype.get = function (url) {
         return this.http.get(this.baseUrl + url, this.options)

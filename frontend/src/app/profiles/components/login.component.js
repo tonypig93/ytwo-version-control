@@ -19,8 +19,6 @@ var LoginComponent = (function () {
             userName: '',
             password: ''
         };
-        this.showModal = false;
-        this.modalBody = 'Invalid user name or password.';
     }
     LoginComponent.prototype.login = function () {
         var _this = this;
@@ -29,11 +27,9 @@ var LoginComponent = (function () {
             .subscribe(function (data) {
             if (!data.error) {
                 _this.profilesService.setUserInfo(data.data);
-                console.log('login successful');
                 _this.router.navigate(['/group']);
             }
             else {
-                _this.showModal = true;
                 _this.userInfo.password = '';
             }
         });

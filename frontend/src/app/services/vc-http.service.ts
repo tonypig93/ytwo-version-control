@@ -11,7 +11,7 @@ import { VcGlobalComponentService } from '../services/vc-global-component.servic
 export class VcHttpService {
     private headers = new Headers({'Content-Type': 'application/json', 'Authorization': ''});
     public options = new RequestOptions({headers: this.headers});
-    private baseUrl = 'http://192.168.3.183:8000/';
+    private baseUrl = 'http://localhost:8000/';
     constructor(private http: Http, private VcGlobalComponentService: VcGlobalComponentService) {}
     get(url: string) {
         return this.http.get(this.baseUrl + url, this.options)
